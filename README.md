@@ -1,4 +1,4 @@
-# 🛡️ FinGuard 3.0 — Multi-Layer Financial Audit Engine
+# 🛡️ FinGuard — Multi-Layer Financial Audit Engine
 
 Production-grade forensic financial auditor with a **3-layer modular architecture**.
 
