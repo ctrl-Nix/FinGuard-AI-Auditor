@@ -6,6 +6,15 @@
     <title>FinGuard 3.0 — AI Financial Risk Auditor</title>
     <meta name="description" content="AI-powered forensic financial auditor. Detect hidden fees, manipulation tactics, legal risks, and fraud signals instantly." />
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>" />
+    <script>
+      window.onerror = function(msg, url, line, col, error) {
+        alert("CRITICAL ERROR: " + msg + "\nAt: " + url + ":" + line);
+        return false;
+      };
+      window.onunhandledrejection = function(event) {
+        alert("PROMISE ERROR: " + event.reason);
+      };
+    </script>
   </head>
   <body>
     <div id="root"></div>

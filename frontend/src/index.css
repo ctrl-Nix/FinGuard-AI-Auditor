@@ -5,10 +5,10 @@
 @tailwind utilities;
 
 :root {
-  --bg-main: #050608;
-  --bg-surface: rgba(255, 255, 255, 0.03);
-  --bg-surface-elevated: rgba(255, 255, 255, 0.06);
-  --border-glass: rgba(255, 255, 255, 0.08);
+  --bg-main: #0a0b0f;
+  --bg-surface: rgba(255, 255, 255, 0.04);
+  --bg-surface-elevated: rgba(255, 255, 255, 0.07);
+  --border-glass: rgba(255, 255, 255, 0.1);
   --risk-red: #ff3b30; /* iOS Red */
   --risk-blue: #007aff; /* iOS Blue */
   --risk-green: #34c759; /* iOS Green */
