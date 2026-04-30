@@ -31,7 +31,7 @@ try:
 except ImportError:
     _RL = False
 
-from ..engine.panic_engine import run_panic_check, enrich_with_llm
+from panic_engine import run_panic_check, enrich_with_llm
 
 _VERSION = "1.0.0"
 
