@@ -95,19 +95,6 @@ export default function App() {
       {/* Finvera Light Header */}
       <nav className="sticky top-0 z-[100] bg-white/80 backdrop-blur-xl border-b border-slate-100 px-8 py-5">
         <div className="max-w-[1400px] mx-auto flex items-center justify-between">
-          <div 
-            className="flex items-center gap-4 cursor-pointer group"
-            onClick={() => setShowWelcome(true)}
-          >
-            <div className="w-12 h-12 rounded-[14px] bg-white flex items-center justify-center shadow-lg shadow-slate-200 transition-transform group-hover:scale-105 border border-slate-100">
-              <img src={logo} alt="FinGuard" className="w-8 h-8" />
-            </div>
-            <div>
-              <h1 className="text-[26px] font-[800] tracking-tight leading-none text-[#0F172A]">FinGuard</h1>
-              <div className="text-[10px] font-[800] text-emerald-600 uppercase tracking-[0.2em] mt-1">Audit Protocol</div>
-            </div>
-          </div>
-          
           <div className="hidden md:flex items-center gap-10">
             <button 
               onClick={() => setShowWelcome(true)}
@@ -119,6 +106,19 @@ export default function App() {
             <div className="flex items-center gap-3">
               <div className="w-2 h-2 rounded-full bg-emerald-500"></div>
               <span className="text-[12px] font-bold text-slate-500 uppercase tracking-widest">System Online</span>
+            </div>
+          </div>
+
+          <div 
+            className="flex items-center gap-4 cursor-pointer group"
+            onClick={() => setShowWelcome(true)}
+          >
+            <div>
+              <h1 className="text-[26px] font-[800] tracking-tight leading-none text-[#0F172A] text-right">FinGuard</h1>
+              <div className="text-[10px] font-[800] text-emerald-600 uppercase tracking-[0.2em] mt-1 text-right">Audit Protocol</div>
+            </div>
+            <div className="w-12 h-12 rounded-[14px] bg-white flex items-center justify-center shadow-lg shadow-slate-200 transition-transform group-hover:scale-105 border border-slate-100">
+              <img src={logo} alt="FinGuard" className="w-8 h-8" />
             </div>
           </div>
         </div>

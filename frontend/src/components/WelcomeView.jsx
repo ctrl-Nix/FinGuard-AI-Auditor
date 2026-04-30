@@ -29,6 +29,14 @@ export default function WelcomeView({ onEnter }) {
       
       {/* 1. HERO SECTION */}
       <section className="relative min-h-screen flex flex-col items-center justify-center p-10 text-center">
+        {/* Branding top right */}
+        <div className="absolute top-10 right-10 flex items-center gap-4 z-[100]">
+           <span className="text-[20px] font-[800] tracking-tight text-[#0F172A]">FinGuard</span>
+           <div className="w-10 h-10 rounded-[12px] bg-white border border-slate-100 shadow-md flex items-center justify-center">
+              <img src={logo} alt="FinGuard" className="w-6 h-6" />
+           </div>
+        </div>
+
         {/* Soft Emerald Glows */}
         <div className="absolute inset-0 z-0 overflow-hidden">
           <div className="absolute top-[-10%] left-[-5%] w-[60%] h-[60%] bg-emerald-50 rounded-full blur-[120px] opacity-60" />
@@ -58,7 +66,7 @@ export default function WelcomeView({ onEnter }) {
           
           <p className="text-[20px] md:text-[26px] text-slate-500 font-medium max-w-[800px] mx-auto leading-relaxed mb-16 tracking-tight">
             Stop fraud and structural vulnerabilities before they impact your bottom line. <br className="hidden md:block" />
-            Professional-grade forensics, built for modern business.
+            Professional-grade forensics, built for everyone.
           </p>
 
           <div className="flex flex-col md:flex-row items-center justify-center gap-6">
@@ -69,7 +77,10 @@ export default function WelcomeView({ onEnter }) {
               Start Secure Audit
               <ArrowRight size={26} />
             </button>
-            <button className="finvera-btn-secondary !px-14 !py-7 !text-[20px] border border-slate-200 shadow-sm">
+            <button 
+              onClick={() => document.getElementById('features').scrollIntoView({ behavior: 'smooth' })}
+              className="finvera-btn-secondary !px-14 !py-7 !text-[20px] border border-slate-200 shadow-sm"
+            >
               View Capabilities
             </button>
           </div>
@@ -95,6 +106,7 @@ export default function WelcomeView({ onEnter }) {
 
       {/* 3. VALUE PROPOSITION */}
       <motion.section 
+        id="features"
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: "-100px" }}
