@@ -47,7 +47,7 @@ export default function WelcomeView({ onEnter }) {
             </div>
             <div className="inline-flex items-center gap-3 px-6 py-2.5 rounded-full bg-emerald-50 border border-emerald-100 shadow-sm">
               <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></div>
-              <span className="text-[12px] font-[800] uppercase tracking-[0.4em] text-emerald-700">Enterprise Forensic Protocol</span>
+              <span className="text-[12px] font-[800] uppercase tracking-[0.4em] text-emerald-700">Advanced Forensic Protocol</span>
             </div>
           </div>
           
@@ -66,7 +66,7 @@ export default function WelcomeView({ onEnter }) {
               onClick={onEnter}
               className="finvera-btn-primary !px-14 !py-7 !text-[20px] flex items-center gap-4 shadow-xl shadow-emerald-200"
             >
-              Start Enterprise Audit
+              Start Secure Audit
               <ArrowRight size={26} />
             </button>
             <button className="finvera-btn-secondary !px-14 !py-7 !text-[20px] border border-slate-200 shadow-sm">
@@ -227,13 +227,13 @@ export default function WelcomeView({ onEnter }) {
             onClick={onEnter}
             className="finvera-btn-primary !px-20 !py-8 !text-[24px] shadow-2xl shadow-emerald-200"
           >
-            Launch Enterprise Studio
+            Launch Studio Protocol
           </button>
           
           <div className="pt-24 flex items-center justify-center gap-16 text-[11px] font-bold text-slate-400 uppercase tracking-[0.5em]">
             <span>Privacy First</span>
             <span>Local Processing</span>
-            <span>Enterprise Grade</span>
+            <span>Standard Audit</span>
           </div>
         </motion.div>
       </section>

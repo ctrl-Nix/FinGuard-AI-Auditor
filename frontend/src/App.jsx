@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
-import { ShieldCheck, Zap, Bell, User, LayoutGrid, ArrowRight } from "lucide-react";
+import { ShieldCheck, Zap, Bell, User, LayoutGrid, Globe, ArrowRight } from "lucide-react";
+import { motion } from "framer-motion";
 import { useAnalysis } from "./hooks/useAnalysis.js";
 import { DEMOS } from "./engine/analyzer.js";
 
