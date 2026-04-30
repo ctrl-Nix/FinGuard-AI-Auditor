@@ -11,6 +11,7 @@ import { useAnalysis }    from "./hooks/useAnalysis.js";
 import { DEMOS }          from "./engine/analyzer.js";
 import VerdictHeader      from "./components/VerdictHeader.jsx";
 import SummaryCard        from "./components/SummaryCard.jsx";
+import NegotiationPanel   from "./components/NegotiationPanel.jsx";
 
 export default function App() {
   const { result, isRunning, apiResult, apiLoading, runKey, analyze, analyzeFile, exportAudit } = useAnalysis();
@@ -78,7 +79,10 @@ export default function App() {
 
         {/* Main dashboard grid */}
         <div className="grid grid-cols-1 lg:grid-cols-[340px_1fr] gap-4 items-start">
-          <ScorePanel key={`score-${runKey}`} result={result} />
+          <div className="space-y-4">
+            <ScorePanel key={`score-${runKey}`} result={result} />
+            <NegotiationPanel negotiation={result.negotiation} />
+          </div>
           
           <div className="space-y-4">
             {/* Heatmap Section */}

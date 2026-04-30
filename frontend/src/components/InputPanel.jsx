@@ -1,9 +1,11 @@
 import { useState, useRef } from "react";
-import { Play, FileText, MessageSquare, AlertTriangle, CheckCircle, Upload, Paperclip } from "lucide-react";
+import { Play, FileText, MessageSquare, AlertTriangle, CheckCircle, Upload, Paperclip, Camera } from "lucide-react";
 import { DEMOS } from "../engine/analyzer.js";
+import CameraModal from "./CameraModal.jsx";
 
 export default function InputPanel({ onAnalyze, onAnalyzeFile, isAnalyzing }) {
   const [text, setText] = useState(DEMOS.bad_contract.text);
+  const [isCameraOpen, setIsCameraOpen] = useState(false);
   const fileInputRef = useRef(null);
 
   const handleDemo = (key) => {
@@ -41,11 +43,11 @@ export default function InputPanel({ onAnalyze, onAnalyzeFile, isAnalyzing }) {
           Document or Message
         </div>
         <button 
-          onClick={() => fileInputRef.current?.click()}
-          className="flex items-center gap-1.5 text-risk-blue hover:text-blue-400 text-[11px] font-medium transition-colors"
+          onClick={() => setIsCameraOpen(true)}
+          className="flex items-center gap-1.5 text-risk-blue hover:text-blue-400 text-[11px] font-bold transition-colors"
         >
-          <Paperclip size={12} />
-          Upload PDF/Image
+          <Camera size={12} />
+          Scan with Camera
         </button>
         <input 
           type="file" 
@@ -107,6 +109,15 @@ export default function InputPanel({ onAnalyze, onAnalyzeFile, isAnalyzing }) {
           ⌘↵ to run
         </span>
       </div>
+
+      <CameraModal 
+        isOpen={isCameraOpen} 
+        onClose={() => setIsCameraOpen(false)} 
+        onCapture={(blob) => {
+          const file = new File([blob], "camera_capture.jpg", { type: "image/jpeg" });
+          onAnalyzeFile(file);
+        }}
+      />
     </div>
   );
 }

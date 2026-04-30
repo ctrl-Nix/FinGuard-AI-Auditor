@@ -40,12 +40,23 @@ function sigmoid(raw) {
   return Math.min(100, Math.round(100 * (1 - Math.exp(-raw / 60))));
 }
 
-function verdictFromScore(score) {
+export function verdictFromScore(score) {
   if (score >= 85) return { label: "Critical",    color: "#ef4444", bg: "rgba(239,68,68,0.12)",  border: "rgba(239,68,68,0.30)"  };
   if (score >= 60) return { label: "High Risk",   color: "#f97316", bg: "rgba(249,115,22,0.12)", border: "rgba(249,115,22,0.30)" };
   if (score >= 30) return { label: "Medium Risk", color: "#f59e0b", bg: "rgba(245,158,11,0.12)", border: "rgba(245,158,11,0.30)" };
   if (score >= 10) return { label: "Low Risk",    color: "#22c55e", bg: "rgba(34,197,94,0.12)",  border: "rgba(34,197,94,0.30)"  };
   return               { label: "Safe",         color: "#22c55e", bg: "rgba(34,197,94,0.12)",  border: "rgba(34,197,94,0.30)"  };
+}
+
+export function generateNegotiation(matches) {
+  const hasHiddenFees = matches.some(m => m.type === "hidden_fee");
+  const hasRenewals   = matches.some(m => m.type === "auto_renewal_trap");
+  
+  return {
+    soft: `Hi, I've reviewed the terms. I noticed some extra ${hasHiddenFees ? 'fees' : 'clauses'} that I'm not comfortable with. Can we remove the ${hasHiddenFees ? 'processing/handling charges' : 'automatic renewal'} before I sign?`,
+    firm: `I cannot agree to these terms as currently drafted. The ${hasHiddenFees ? 'hidden fees' : 'auto-renewal clauses'} appear to violate standard consumer fairness guidelines. Please provide a version with these removed.`,
+    exit: `Due to the ${hasHiddenFees ? 'undisclosed fees' : 'restrictive renewal terms'} found in this document, I will not be proceeding with this agreement. Please consider this my formal rejection.`
+  };
 }
 
 function meterColor(score) {
@@ -119,6 +130,7 @@ export function analyzeText(text) {
     rawScore: raw,
     isEmpty: false,
     highlights, // New: Public-friendly summary
+    negotiation: generateNegotiation(matches),
   };
 }
 

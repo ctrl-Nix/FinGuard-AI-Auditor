@@ -9,7 +9,7 @@
  * This gives instant feedback with an optional richer server confirmation.
  */
 import { useState, useCallback, useRef } from "react";
-import { analyzeText } from "../engine/analyzer.js";
+import { analyzeText, verdictFromScore, generateNegotiation } from "../engine/analyzer.js";
 
 const API_URL = import.meta.env.VITE_API_URL || "";
 
@@ -89,13 +89,32 @@ export function useAnalysis() {
       if (!ctrl.signal.aborted) {
         // Map server result back to client format if possible, 
         // or just use server result as the main result
+        const serverMatches = (serverData.heatmap || []).map((h, i) => ({
+          ...h,
+          id: `svr-${i}`,
+          index: h.start,
+          text: h.text,
+          type: h.type || "suspicious_pattern",
+          severity: h.severity || "medium"
+        }));
+
         setApiResult(serverData);
         setResult({
           score: serverData.confidence,
-          verdict: { label: serverData.verdict, color: "#ef4444" }, // simplified
-          matches: [], 
+          verdict: verdictFromScore(serverData.confidence),
+          matches: serverMatches,
           byType: {},
-          severityCounts: { high: 0, medium: 0, low: 0 }
+          severityCounts: { 
+            high: serverMatches.filter(m => m.severity === "high").length, 
+            medium: serverMatches.filter(m => m.severity === "medium").length, 
+            low: serverMatches.filter(m => m.severity === "low").length 
+          },
+          highlights: {
+            topRisk: serverData.reasons?.[0] || "Critical signal detected in file.",
+            hiddenCost: serverMatches.find(m => m.type === "hidden_fee")?.reason || "Check for buried charges.",
+            exitPlan: serverMatches.find(m => m.type === "auto_renewal_trap")?.reason || "Check cancellation clauses."
+          },
+          negotiation: generateNegotiation(serverMatches)
         });
         setRunKey(k => k + 1);
       }
