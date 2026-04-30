@@ -11,7 +11,7 @@ export default function ProfileView({ message }) {
   const [history, setHistory] = useState([]);
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState("");
+  const [authMessage, setAuthMessage] = useState("");
 
   useEffect(() => {
     checkUser();
@@ -36,7 +36,7 @@ export default function ProfileView({ message }) {
   async function handleLogin(e) {
     e.preventDefault();
     setLoading(true);
-    setMessage("");
+    setAuthMessage("");
     
     // Magic Link Login — Easiest for beginners!
     const { error } = await supabase.auth.signInWithOtp({
@@ -47,9 +47,9 @@ export default function ProfileView({ message }) {
     });
 
     if (error) {
-      setMessage("Error: " + error.message);
+      setAuthMessage("Error: " + error.message);
     } else {
-      setMessage("Check your email for the login link!");
+      setAuthMessage("Check your email for the login link!");
     }
     setLoading(false);
   }
@@ -94,9 +94,9 @@ export default function ProfileView({ message }) {
             >
               {loading ? "Sending..." : "Send Login Link"}
             </button>
-            {message && (
+            {authMessage && (
               <p className="mt-4 text-center text-[13px] text-ink-secondary font-medium bg-white/5 p-3 rounded-xl border border-white/5">
-                {message}
+                {authMessage}
               </p>
             )}
           </form>
