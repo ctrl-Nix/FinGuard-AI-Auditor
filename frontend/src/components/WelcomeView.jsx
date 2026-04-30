@@ -204,26 +204,97 @@ export default function WelcomeView({ onEnter }) {
         </div>
       </motion.section>
 
-      {/* 4. FOOTER CTA */}
-      <section className="py-60 relative z-10 text-center">
+      {/* 4. FOOTER CTA — IMMERSIVE 3D EXPERIENCE */}
+      <section className="py-60 relative z-10 text-center overflow-hidden">
+        {/* Holographic Network Background */}
+        <div className="absolute inset-0 z-0 pointer-events-none opacity-40">
+           <motion.div 
+              animate={{ 
+                rotate: 360,
+                scale: [1, 1.1, 1]
+              }}
+              transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] border border-blue-100 rounded-full blur-[2px]"
+           />
+           <motion.div 
+              animate={{ 
+                rotate: -360,
+                scale: [1, 1.2, 1]
+              }}
+              transition={{ duration: 50, repeat: Infinity, ease: "linear" }}
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] border border-emerald-100 rounded-full opacity-50"
+           />
+           
+           {/* Floating Particles/Signals */}
+           {[...Array(12)].map((_, i) => (
+             <motion.div
+               key={i}
+               animate={{
+                 y: [0, -100, 0],
+                 x: [0, Math.random() * 50 - 25, 0],
+                 opacity: [0, 1, 0]
+               }}
+               transition={{
+                 duration: 4 + Math.random() * 4,
+                 repeat: Infinity,
+                 delay: Math.random() * 5
+               }}
+               className="absolute w-1.5 h-1.5 bg-emerald-400 rounded-full blur-[1px]"
+               style={{
+                 top: `${Math.random() * 100}%`,
+                 left: `${Math.random() * 100}%`
+               }}
+             />
+           ))}
+        </div>
+
         <motion.div 
           initial={{ opacity: 0, scale: 0.9 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
-          className="max-w-[1000px] mx-auto px-10 space-y-16"
+          className="max-w-[1000px] mx-auto px-10 space-y-16 relative z-10"
         >
-          <h2 className="text-[64px] md:text-[110px] font-[900] tracking-[-0.05em] leading-[0.85] text-[#0F172A]">
-            Audit with <br/>
-            Precision.
-          </h2>
-          <motion.button 
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-            onClick={onEnter}
-            className="!bg-[#0F172A] text-white px-20 py-8 rounded-[24px] font-bold text-[24px] shadow-2xl shadow-slate-300"
-          >
-            Launch Studio
-          </motion.button>
+          <div className="relative inline-block">
+             <h2 className="text-[64px] md:text-[120px] font-[900] tracking-[-0.06em] leading-[0.8] text-[#0F172A] relative">
+               Audit with <br/>
+               <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 via-emerald-600 to-blue-500 animate-gradient-x">Precision.</span>
+             </h2>
+             {/* Micro-interaction: Pulsing Aura behind text */}
+             <div className="absolute inset-0 -z-10 bg-blue-50 rounded-full blur-[100px] opacity-30"></div>
+          </div>
+
+          <div className="relative inline-block group">
+            {/* 3D-like Button Interaction */}
+            <motion.button 
+              whileHover={{ 
+                scale: 1.1, 
+                rotateY: 10,
+                rotateX: -10,
+                boxShadow: "0 25px 50px -12px rgba(15, 23, 42, 0.3)"
+              }}
+              whileTap={{ scale: 0.95 }}
+              onClick={onEnter}
+              className="!bg-[#0F172A] text-white px-24 py-10 rounded-[28px] font-bold text-[28px] shadow-2xl relative overflow-hidden transition-all duration-300"
+            >
+              <span className="relative z-10">Launch Studio</span>
+              {/* Shimmer effect */}
+              <motion.div 
+                animate={{ x: ["-100%", "100%"] }}
+                transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-12"
+              />
+            </motion.button>
+            
+            {/* Orbits around button */}
+            <div className="absolute inset-[-40px] border border-slate-100 rounded-full pointer-events-none group-hover:border-emerald-200 transition-colors" />
+            <div className="absolute inset-[-80px] border border-dashed border-slate-100 rounded-full pointer-events-none opacity-40 animate-spin-slow" />
+          </div>
+          
+          <div className="pt-24 flex items-center justify-center gap-12 text-[11px] font-black text-slate-400 uppercase tracking-[0.6em]">
+            <span className="flex items-center gap-2"><div className="w-1.5 h-1.5 bg-emerald-500 rounded-full"></div> SOURCED PRIVACY</span>
+            <span className="flex items-center gap-2"><div className="w-1.5 h-1.5 bg-blue-500 rounded-full"></div> SECURE DEPLOY</span>
+            <span className="flex items-center gap-2"><div className="w-1.5 h-1.5 bg-slate-300 rounded-full"></div> v3.0</span>
+          </div>
         </motion.div>
       </section>
     </div>
