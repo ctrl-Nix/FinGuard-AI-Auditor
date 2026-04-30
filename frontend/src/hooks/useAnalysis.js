@@ -107,7 +107,27 @@ export function useAnalysis() {
         setIsRunning(false);
       }
     }
+  const exportAudit = useCallback(async (text) => {
+    try {
+      const res = await fetch(`${API_URL}/api/v1/panic/export`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text, use_llm: true }),
+      });
+      if (!res.ok) throw new Error("Export failed");
+      
+      const blob = await res.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `FinGuard_Audit_${Date.now()}.pdf`;
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+    } catch (e) {
+      alert("Export failed: " + e.message);
+    }
   }, []);
 
-  return { result, isRunning, apiResult, apiError, apiLoading, runKey, analyze, analyzeFile };
+  return { result, isRunning, apiResult, apiError, apiLoading, runKey, analyze, analyzeFile, exportAudit };
 }

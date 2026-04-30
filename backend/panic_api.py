@@ -17,7 +17,7 @@ from __future__ import annotations
 import time, os
 from typing import List, Optional
 
-from fastapi import FastAPI, Request, HTTPException, Security, File, UploadFile
+from fastapi import FastAPI, Request, HTTPException, Security, File, UploadFile, Response
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from fastapi.security.api_key import APIKeyHeader
@@ -33,6 +33,7 @@ except ImportError:
 
 from panic_engine import run_panic_check, enrich_with_llm, analyze_image
 from file_utils import extract_text_from_pdf, extract_text_from_docx, is_image, is_pdf, is_docx
+from pdf_export import generate_legal_bundle
 
 _VERSION = "1.0.0"
 
@@ -93,6 +94,7 @@ class PanicResponse(BaseModel):
     latency_ms: int
     llm_enriched: bool
     timestamp: float
+    heatmap: List[dict] = []
 
 
 class BatchItem(BaseModel):
@@ -132,6 +134,7 @@ def _to_response(result) -> PanicResponse:
         latency_ms=result.latency_ms,
         llm_enriched=result.llm_enriched,
         timestamp=time.time(),
+        heatmap=result.heatmap,
     )
 
 
@@ -252,6 +255,36 @@ async def upload_file(
             result = enrich_with_llm(result, text, key)
     
     return _to_response(result)
+
+
+@app.post("/api/v1/panic/export", tags=["Panic"])
+async def export_audit(req: PanicRequest, _=Security(verify_api_key)):
+    """
+    Generate and download a Forensic PDF Legal Bundle.
+    """
+    result = run_panic_check(req.text)
+    key = req.api_key or os.getenv("GEMINI_API_KEY", "")
+    
+    if key:
+        result = enrich_with_llm(result, req.text, key)
+        # Also enrich URLs for the report
+        if result.extracted_urls:
+            from panic_engine import enrich_urls_with_reputation
+            result.extracted_urls = enrich_urls_with_reputation(result.extracted_urls, key)
+
+    # Convert to dict for the PDF generator
+    import dataclasses
+    result_dict = dataclasses.asdict(result)
+    
+    pdf_bytes = generate_legal_bundle(result_dict, req.text)
+    
+    return Response(
+        content=pdf_bytes,
+        media_type="application/pdf",
+        headers={
+            "Content-Disposition": f"attachment; filename=FinGuard_Audit_{int(time.time())}.pdf"
+        }
+    )
 
 
 @app.exception_handler(Exception)

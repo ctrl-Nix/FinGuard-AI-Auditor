@@ -6,21 +6,45 @@ const URL_RISK_CONFIG = {
   suspicious: { color: "#ef4444", label: "Suspicious", Icon: ShieldOff    },
 };
 
-function UrlCard({ url, risk, domain }) {
+function UrlCard({ url, risk, domain, reputation }) {
   const cfg = URL_RISK_CONFIG[risk] || URL_RISK_CONFIG.suspicious;
   return (
-    <div className="flex items-start gap-2.5 bg-surface-deep border border-surface-border rounded-[9px] p-2.5 hover:border-surface-hover transition-colors">
-      <cfg.Icon size={13} className="mt-0.5 shrink-0" style={{ color: cfg.color }} />
-      <div className="flex-1 min-w-0">
-        <div className="font-mono text-[11px] truncate text-ink-secondary">{url}</div>
-        <div className="text-[11px] text-ink-muted mt-0.5">{domain}</div>
+    <div className="flex flex-col gap-2 bg-surface-deep border border-surface-border rounded-[9px] p-2.5 hover:border-surface-hover transition-colors">
+      <div className="flex items-start gap-2.5">
+        <cfg.Icon size={13} className="mt-0.5 shrink-0" style={{ color: cfg.color }} />
+        <div className="flex-1 min-w-0">
+          <div className="font-mono text-[11px] truncate text-ink-secondary">{url}</div>
+          <div className="text-[11px] text-ink-muted mt-0.5">{domain}</div>
+        </div>
+        <span
+          className="shrink-0 text-[10px] font-medium px-2 py-0.5 rounded-full"
+          style={{ background: `${cfg.color}18`, color: cfg.color }}
+        >
+          {cfg.label}
+        </span>
       </div>
-      <span
-        className="shrink-0 text-[10px] font-medium px-2 py-0.5 rounded-full"
-        style={{ background: `${cfg.color}18`, color: cfg.color }}
-      >
-        {cfg.label}
-      </span>
+      
+      {reputation && (
+        <div className="mt-1 pt-2 border-t border-surface-border/50 grid grid-cols-2 gap-y-1.5 text-[10px]">
+          <div className="flex flex-col">
+            <span className="text-ink-faint uppercase tracking-tighter">Domain Age</span>
+            <span className="text-ink-secondary font-medium">{reputation.age || "Unknown"}</span>
+          </div>
+          <div className="flex flex-col">
+            <span className="text-ink-faint uppercase tracking-tighter">Trust Score</span>
+            <span className="text-risk-red font-bold">{reputation.score}/100</span>
+          </div>
+          <div className="flex flex-col">
+            <span className="text-ink-faint uppercase tracking-tighter">Origin</span>
+            <span className="text-ink-secondary">{reputation.origin || "Global"}</span>
+          </div>
+          {reputation.warning && (
+            <div className="col-span-2 text-risk-red italic leading-tight mt-1">
+              {reputation.warning}
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }

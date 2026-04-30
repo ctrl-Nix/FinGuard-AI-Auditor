@@ -273,9 +273,10 @@ class PanicResult:
     raw_score: int = 0
     latency_ms: int = 0
     llm_enriched: bool = False
-    extracted_urls: List[dict] = field(default_factory=list)   # {"url", "risk", "domain"}
-    extracted_phones: List[str] = field(default_factory=list)  # phone numbers found
-    sender_flags: List[str] = field(default_factory=list)      # spoofing indicators
+    extracted_urls: List[dict] = field(default_factory=list)   # {"url", "risk", "domain", "reputation"}
+    extracted_phones: List[str] = field(default_factory=list)
+    sender_flags: List[str] = field(default_factory=list)
+    heatmap: List[dict] = field(default_factory=list)          # [{"start", "end", "text", "severity"}]
 
 
 def _normalise(raw: int) -> int:
@@ -304,10 +305,20 @@ def run_panic_check(text: str) -> PanicResult:
     reasons: List[str] = []
     seen_reasons: set = set()
 
+    heatmap = []
+
     # Positive signals
     for pattern, weight, reason in _SIGNALS:
-        if re.search(pattern, text_lower, re.IGNORECASE):
+        for match in re.finditer(pattern, text_lower, re.IGNORECASE):
             raw_score += weight
+            severity = "high" if weight >= 30 else "medium" if weight >= 15 else "low"
+            heatmap.append({
+                "start": match.start(),
+                "end": match.end(),
+                "text": match.group(0),
+                "severity": severity,
+                "reason": reason
+            })
             if reason not in seen_reasons:
                 reasons.append(reason)
                 seen_reasons.add(reason)
@@ -364,6 +375,7 @@ def run_panic_check(text: str) -> PanicResult:
         extracted_urls=urls,
         extracted_phones=phones,
         sender_flags=spoofs,
+        heatmap=heatmap,
     )
 
 
@@ -455,6 +467,49 @@ MESSAGE:
         # LLM failure is silent — return original result
         return result
 
+def enrich_urls_with_reputation(urls: List[dict], api_key: str) -> List[dict]:
+    """
+    Uses Gemini to perform reputation checks on suspicious domains.
+    """
+    if not api_key or not urls:
+        return urls
+    
+    suspicious_urls = [u["url"] for u in urls if u["risk"] != "safe"]
+    if not suspicious_urls:
+        return urls
+
+    prompt = f"""
+    Analyze these URLs for security risk. For each, provide:
+    1. Estimated domain age (new vs established).
+    2. Reputation score (0-100).
+    3. Country of origin.
+    4. Warning (if any).
+
+    URLs: {suspicious_urls}
+
+    Reply ONLY in this JSON format:
+    {{"reputation": [
+      {{"url": "...", "score": 10, "origin": "...", "age": "...", "warning": "..."}}
+    ]}}
+    """
+
+    try:
+        from google import genai as _genai
+        client = _genai.Client(api_key=api_key)
+        response = client.models.generate_content(model="gemini-2.0-flash", contents=prompt)
+        
+        import json
+        clean = response.text.strip().lstrip("```json").lstrip("```").rstrip("```").strip()
+        data = json.loads(clean)
+        rep_map = {item["url"]: item for item in data.get("reputation", [])}
+
+        for u in urls:
+            if u["url"] in rep_map:
+                u["reputation"] = rep_map[u["url"]]
+        return urls
+    except Exception:
+        return urls
+
 def analyze_image(image_bytes: bytes, api_key: str) -> PanicResult:
     """
     Multimodal analysis for screenshots of scams.
@@ -471,6 +526,7 @@ def analyze_image(image_bytes: bytes, api_key: str) -> PanicResult:
     3. Provide a risk score (0-100) and a verdict (SAFE, SUSPICIOUS, SCAM).
     4. List clear reasons for your verdict.
     5. List what the user should do next.
+    6. Provide a heatmap of dangerous words (offsets in the extracted text).
 
     Reply ONLY in this JSON format (no markdown):
     {
@@ -481,7 +537,8 @@ def analyze_image(image_bytes: bytes, api_key: str) -> PanicResult:
       "what_to_do": ["action 1", "action 2"],
       "extracted_urls": [{"url": "...", "risk": "...", "domain": "..."}],
       "extracted_phones": ["..."],
-      "sender_flags": ["..."]
+      "sender_flags": ["..."],
+      "heatmap": [{"start": 0, "end": 10, "text": "...", "severity": "high"}]
     }
     """
 
@@ -498,7 +555,7 @@ def analyze_image(image_bytes: bytes, api_key: str) -> PanicResult:
             ],
             config=_types.GenerateContentConfig(
                 temperature=0.1,
-                max_output_tokens=1000,
+                max_output_tokens=1500,
             ),
         )
         
@@ -508,6 +565,11 @@ def analyze_image(image_bytes: bytes, api_key: str) -> PanicResult:
 
         latency_ms = round((time.perf_counter() - t0) * 1000)
 
+        # Enrich URLs if found
+        urls = parsed.get("extracted_urls", [])
+        if urls:
+            urls = enrich_urls_with_reputation(urls, api_key)
+
         return PanicResult(
             verdict=parsed.get("verdict", "SUSPICIOUS"),
             confidence=parsed.get("confidence", 50),
@@ -515,9 +577,10 @@ def analyze_image(image_bytes: bytes, api_key: str) -> PanicResult:
             what_to_do=parsed.get("what_to_do", []),
             latency_ms=latency_ms,
             llm_enriched=True,
-            extracted_urls=parsed.get("extracted_urls", []),
+            extracted_urls=urls,
             extracted_phones=parsed.get("extracted_phones", []),
             sender_flags=parsed.get("sender_flags", []),
+            heatmap=parsed.get("heatmap", []),
         )
     except Exception as e:
         return run_panic_check(f"Error during image analysis: {str(e)}")
