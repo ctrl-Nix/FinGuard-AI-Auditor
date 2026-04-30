@@ -22,17 +22,17 @@ export default function InputPanel({ onAnalyze, onAnalyzeFile, isAnalyzing }) {
   };
 
   return (
-    <div className="finvera-card !p-0 overflow-hidden group">
+    <div className="finvera-card !p-0 overflow-hidden group shadow-xl shadow-slate-200/40">
       <div className="relative">
-        {/* Finvera Toolbar */}
-        <div className="flex items-center justify-between px-10 py-8 border-b border-white/5 relative z-10 bg-slate-900/20">
+        {/* Finvera Light Toolbar */}
+        <div className="flex items-center justify-between px-10 py-8 border-b border-slate-100 relative z-10 bg-slate-50/50">
           <div className="flex items-center gap-4">
-            <div className="w-10 h-10 rounded-2xl bg-blue-600/10 flex items-center justify-center border border-blue-600/20">
-              <Zap size={18} className="text-blue-500" fill="currentColor" />
+            <div className="w-10 h-10 rounded-2xl bg-emerald-600/10 flex items-center justify-center border border-emerald-600/20">
+              <Zap size={18} className="text-emerald-600" fill="currentColor" />
             </div>
             <div>
-              <span className="text-[14px] font-bold tracking-tight">Audit Engine</span>
-              <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mt-0.5">Local Protocol</div>
+              <span className="text-[14px] font-bold tracking-tight text-[#0F172A]">Forensic Protocol</span>
+              <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">Secure Instance</div>
             </div>
           </div>
 
@@ -41,7 +41,7 @@ export default function InputPanel({ onAnalyze, onAnalyzeFile, isAnalyzing }) {
               <button 
                 key={key}
                 onClick={() => handleDemo(key)}
-                className="text-[10px] font-bold px-5 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 transition-all uppercase tracking-widest"
+                className="text-[10px] font-bold px-5 py-2.5 rounded-xl bg-white hover:bg-slate-50 border border-slate-200 transition-all uppercase tracking-widest text-slate-600 shadow-sm"
               >
                 {key.replace("_", " ")}
               </button>
@@ -50,28 +50,28 @@ export default function InputPanel({ onAnalyze, onAnalyzeFile, isAnalyzing }) {
         </div>
 
         {/* Editor Area */}
-        <div className="relative p-10 bg-slate-900/10">
+        <div className="relative p-10 bg-white">
           <textarea 
             value={text}
             onChange={(e) => setText(e.target.value)}
-            placeholder="Paste raw documentation for deep forensic audit..."
-            className="w-full h-[240px] bg-transparent border-none outline-none resize-none text-[18px] font-medium leading-relaxed text-white/90 placeholder:text-slate-600 custom-scrollbar"
+            placeholder="Input documentation for forensic analysis..."
+            className="w-full h-[240px] bg-transparent border-none outline-none resize-none text-[18px] font-medium leading-relaxed text-[#0F172A] placeholder:text-slate-300 custom-scrollbar"
           />
         </div>
 
         {/* Controls */}
-        <div className="px-10 py-8 border-t border-white/5 bg-slate-900/40 flex items-center justify-between relative z-10">
+        <div className="px-10 py-8 border-t border-slate-100 bg-slate-50/30 flex items-center justify-between relative z-10">
           <div className="flex items-center gap-8">
             <button 
               onClick={() => setIsCameraOpen(true)}
-              className="flex items-center gap-3 text-blue-500 hover:text-blue-400 transition-colors group/btn"
+              className="flex items-center gap-3 text-emerald-600 hover:text-emerald-700 transition-colors group/btn"
             >
               <Camera size={22} />
               <span className="text-[13px] font-bold uppercase tracking-widest">Optical Scan</span>
             </button>
             <button 
               onClick={() => fileInputRef.current?.click()}
-              className="flex items-center gap-3 text-slate-400 hover:text-slate-200 transition-colors group/btn"
+              className="flex items-center gap-3 text-slate-400 hover:text-slate-600 transition-colors group/btn"
             >
               <Paperclip size={20} />
               <span className="text-[13px] font-bold uppercase tracking-widest">Evidence</span>
@@ -83,7 +83,7 @@ export default function InputPanel({ onAnalyze, onAnalyzeFile, isAnalyzing }) {
             onClick={() => onAnalyze(text)}
             className={`finvera-btn-primary ${isAnalyzing || !text.trim() ? 'opacity-30' : ''}`}
           >
-            {isAnalyzing ? "Processing Signal..." : "Begin Forensic Audit"}
+            {isAnalyzing ? "Analyzing Signal..." : "Verify Forensic Pattern"}
           </button>
         </div>
       </div>

@@ -5,81 +5,51 @@
 @tailwind utilities;
 
 :root {
-  /* Finvera Palette */
-  --bg-dark: #020617;
-  --bg-card: rgba(15, 23, 42, 0.4);
-  --accent-blue: #2563EB;
-  --accent-blue-glow: rgba(37, 99, 235, 0.15);
-  --ink-primary: #FFFFFF;
-  --ink-secondary: #94A3B8;
-  --ink-muted: #475569;
+  /* Finvera Emerald Light Palette */
+  --bg-main: #FFFFFF;
+  --bg-surface: #F8FAFC;
+  --bg-card: #FFFFFF;
+  --accent-primary: #059669; /* Emerald Green */
+  --accent-secondary: #0F172A; /* Brand Navy */
+  --border-light: #E2E8F0;
+  --ink-primary: #0F172A;
+  --ink-secondary: #475569;
+  --ink-muted: #94A3B8;
   
-  --risk-red: #EF4444;
-  --risk-amber: #F59E0B;
-  --risk-green: #10B981;
+  --risk-red: #DC2626;
+  --risk-amber: #D97706;
+  --risk-green: #059669;
 }
 
 body {
   margin: 0;
   padding: 0;
-  background-color: var(--bg-dark);
+  background-color: var(--bg-main);
   color: var(--ink-primary);
   font-family: 'Manrope', sans-serif;
   -webkit-font-smoothing: antialiased;
   min-height: 100vh;
-  overflow-x: hidden;
-}
-
-/* Background Atmospheric Glows */
-body::before {
-  content: "";
-  position: fixed;
-  top: -10%;
-  right: -10%;
-  width: 60%;
-  height: 60%;
-  background: radial-gradient(circle, var(--accent-blue-glow) 0%, transparent 70%);
-  pointer-events: none;
-  z-index: 0;
-}
-
-body::after {
-  content: "";
-  position: fixed;
-  bottom: -10%;
-  left: -10%;
-  width: 50%;
-  height: 50%;
-  background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
-  pointer-events: none;
-  z-index: 0;
 }
 
 @layer components {
   .finvera-card {
-    @apply bg-slate-900/40 backdrop-blur-3xl border border-white/5 rounded-[40px] p-10 transition-all duration-500 hover:border-white/10;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    @apply bg-white border border-slate-200 rounded-[32px] p-10 transition-all duration-300 hover:shadow-xl hover:shadow-emerald-900/5;
   }
 
   .finvera-btn-primary {
-    @apply bg-blue-600 hover:bg-blue-500 text-white px-8 py-4 rounded-[16px] font-bold text-[15px] transition-all active:scale-95 shadow-[0_8px_20px_rgba(37,99,235,0.3)];
+    @apply bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-4 rounded-[16px] font-bold text-[15px] transition-all active:scale-95 shadow-lg shadow-emerald-600/20;
   }
 
   .finvera-btn-secondary {
-    @apply bg-white/5 hover:bg-white/10 text-white px-8 py-4 rounded-[16px] font-bold text-[15px] border border-white/10 transition-all active:scale-95;
+    @apply bg-slate-100 hover:bg-slate-200 text-slate-900 px-8 py-4 rounded-[16px] font-bold text-[15px] transition-all active:scale-95;
   }
 
   .finvera-input {
-    @apply bg-white/5 border border-white/10 rounded-[24px] px-8 py-6 text-[17px] font-medium focus:outline-none focus:border-blue-500/50 transition-all placeholder:text-slate-500;
+    @apply bg-slate-50 border border-slate-200 rounded-[24px] px-8 py-6 text-[17px] font-medium focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/50 transition-all placeholder:text-slate-400;
   }
 
   .finvera-badge {
-    @apply px-4 py-1.5 rounded-full text-[11px] font-bold uppercase tracking-widest border;
-  }
-
-  .bento-grid {
-    @apply grid gap-8;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    @apply px-4 py-1.5 rounded-full text-[11px] font-bold uppercase tracking-widest border border-slate-200 bg-white text-slate-600;
   }
 }
 
@@ -94,15 +64,15 @@ body::after {
   background: transparent;
 }
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.05);
   border-radius: 10px;
 }
 
 @keyframes fade-in-up {
-  from { opacity: 0; transform: translateY(30px); }
+  from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
 .animate-finvera {
-  animation: fade-in-up 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  animation: fade-in-up 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
 }
