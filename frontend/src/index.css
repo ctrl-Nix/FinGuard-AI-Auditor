@@ -5,12 +5,17 @@
 @tailwind utilities;
 
 :root {
-  /* Finvera Emerald Light Palette */
+  /* FinGuard Aura Palette (Blue to Emerald) */
   --bg-main: #FFFFFF;
   --bg-surface: #F8FAFC;
   --bg-card: #FFFFFF;
-  --accent-primary: #059669; /* Emerald Green */
-  --accent-secondary: #0F172A; /* Brand Navy */
+  
+  --brand-blue: #2563EB;
+  --brand-emerald: #059669;
+  --aura-gradient: linear-gradient(135deg, #2563EB 0%, #059669 100%);
+  
+  --accent-primary: #059669; 
+  --accent-secondary: #0F172A;
   --border-light: #E2E8F0;
   --ink-primary: #0F172A;
   --ink-secondary: #475569;

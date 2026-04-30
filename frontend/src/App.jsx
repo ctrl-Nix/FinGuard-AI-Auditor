@@ -104,8 +104,8 @@ export default function App() {
             </button>
             <div className="h-4 w-px bg-slate-200" />
             <div className="flex items-center gap-3">
-              <div className="w-2 h-2 rounded-full bg-emerald-500"></div>
-              <span className="text-[12px] font-bold text-slate-500 uppercase tracking-widest">System Online</span>
+              <div className="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></div>
+              <span className="text-[12px] font-bold text-slate-500 uppercase tracking-widest">Live Protocol</span>
             </div>
           </div>
 
@@ -115,7 +115,7 @@ export default function App() {
           >
             <div>
               <h1 className="text-[26px] font-[800] tracking-tight leading-none text-[#0F172A] text-right">FinGuard</h1>
-              <div className="text-[10px] font-[800] text-emerald-600 uppercase tracking-[0.2em] mt-1 text-right">Audit Protocol</div>
+              <div className="text-[10px] font-[800] bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-emerald-600 uppercase tracking-[0.2em] mt-1 text-right">Audit Protocol</div>
             </div>
             <div className="w-12 h-12 rounded-[14px] bg-white flex items-center justify-center shadow-lg shadow-slate-200 transition-transform group-hover:scale-105 border border-slate-100">
               <img src={logo} alt="FinGuard" className="w-8 h-8" />
@@ -133,15 +133,15 @@ export default function App() {
               animate={{ opacity: 1, y: 0 }}
               className="max-w-[900px] space-y-8"
             >
-               <div className="inline-flex items-center gap-3 px-5 py-2 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-100 text-[11px] font-black uppercase tracking-widest">
+               <div className="inline-flex items-center gap-3 px-5 py-2 rounded-full bg-blue-50 text-blue-700 border border-blue-100 text-[11px] font-black uppercase tracking-widest">
                  <Zap size={14} fill="currentColor" /> Neural Forensic Engine
                </div>
                <h2 className="text-[64px] lg:text-[84px] font-[800] tracking-[-0.04em] leading-[0.9] text-[#0F172A]">
                  Protecting your <br/>
-                 <span className="text-emerald-600">Financial Future.</span>
+                 <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-emerald-600">Financial Future.</span>
                </h2>
                <p className="text-[20px] text-slate-500 max-w-[600px] leading-relaxed font-medium">
-                 Professional-grade AI auditing for contracts and financial documents. Clean, precise, and entirely private.
+                 Professional-grade AI auditing for everyone. Clean, precise, and entirely private.
                </p>
                
                <div className="pt-8">
