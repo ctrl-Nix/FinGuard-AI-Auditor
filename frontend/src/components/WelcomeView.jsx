@@ -7,80 +7,69 @@ import { ShieldCheck, Zap, Globe, ArrowRight, MousePointer2, Smartphone } from "
  */
 export default function WelcomeView({ onEnter }) {
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-6 text-center animate-fade-in relative overflow-hidden">
+    <div className="min-h-screen flex flex-col items-center justify-center p-8 text-center relative overflow-hidden bg-[#020305]">
       {/* Background Aura */}
-      <div className="absolute inset-0 z-[-1]">
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-blue-600/10 rounded-full blur-[120px]" />
-        <div className="absolute bottom-1/4 left-1/3 w-[400px] h-[400px] bg-red-600/5 rounded-full blur-[100px]" />
+      <div className="absolute inset-0 z-0">
+        <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-blue-600/5 rounded-full blur-[160px]" />
+        <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-purple-600/5 rounded-full blur-[160px]" />
       </div>
 
       {/* Hero */}
-      <div className="max-w-[900px] mb-16">
-        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/[0.04] border border-white/10 mb-8 animate-bento">
-          <Zap size={14} className="text-blue-500" />
-          <span className="text-[11px] font-extrabold uppercase tracking-[0.2em] text-white/60">Version 3.0 Live</span>
+      <div className="max-w-[1000px] mb-24 relative z-10 animate-in fade-in zoom-in duration-1000">
+        <div className="inline-flex items-center gap-2.5 px-5 py-2 rounded-full bg-blue-500/5 border border-blue-500/10 mb-10">
+          <div className="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></div>
+          <span className="text-[11px] font-black uppercase tracking-[0.3em] text-blue-400/80">Intelligence Protocol 3.0</span>
         </div>
         
-        <h1 className="text-[56px] md:text-[84px] font-black tracking-tighter leading-[0.95] mb-8">
-          The Citizen’s <br />
-          <span className="text-blue-500">Financial Shield.</span>
+        <h1 className="text-[64px] md:text-[100px] font-black tracking-tighter leading-[0.85] mb-10 glow-text">
+          Audit Everything. <br />
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 italic">Trust Nothing.</span>
         </h1>
         
-        <p className="text-[18px] md:text-[22px] text-white/60 font-medium max-w-[600px] mx-auto leading-relaxed mb-12">
-          Stop scams, hidden fees, and legal traps before they hit your wallet. <br className="hidden md:block" />
-          Professional-grade forensics for everyone.
+        <p className="text-[19px] md:text-[23px] text-white/40 font-medium max-w-[700px] mx-auto leading-relaxed mb-14 tracking-tight">
+          The ultimate forensic barrier between you and financial fraud. <br className="hidden md:block" />
+          Professional-grade intelligence for the modern citizen.
         </p>
 
         <button 
           onClick={onEnter}
-          className="group relative inline-flex items-center gap-3 bg-blue-600 hover:bg-blue-500 text-white px-10 py-5 rounded-[24px] font-black text-[18px] transition-all shadow-[0_20px_50px_rgba(0,122,255,0.3)] active:scale-95"
+          className="btn-primary"
         >
-          Initialize Auditor
-          <ArrowRight className="group-hover:translate-x-1 transition-transform" />
+          <span className="flex items-center gap-4 px-4">
+             Initialize Audit Engine
+             <ArrowRight size={20} />
+          </span>
         </button>
       </div>
 
-      {/* Feature Bento Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-[1000px] w-full">
-        <div className="bg-white/[0.03] border border-white/10 rounded-[32px] p-8 text-left hover:bg-white/[0.05] transition-all">
-          <div className="w-12 h-12 rounded-[16px] bg-blue-600/20 flex items-center justify-center mb-6">
-            <MousePointer2 size={24} className="text-blue-500" />
+      {/* Feature Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-[1100px] w-full relative z-10">
+        {[
+          { icon: <MousePointer2 />, title: "Deep Forensics", desc: "Identify hidden fees and legal traps buried in fine print with neural scanning.", color: "text-blue-400", bg: "bg-blue-400/5" },
+          { icon: <Smartphone />, title: "Capture & Scan", desc: "Instantly digitize and audit paper contracts using advanced OCR tech.", color: "text-purple-400", bg: "bg-purple-400/5" },
+          { icon: <Globe />, title: "Intel Vault", desc: "Access the global database of reported scams and fraudulent patterns.", color: "text-emerald-400", bg: "bg-emerald-400/5" }
+        ].map((f, i) => (
+          <div key={i} className="cyber-card p-10 text-left hover:scale-[1.02]">
+            <div className={`w-14 h-14 rounded-2xl ${f.bg} flex items-center justify-center mb-8 border border-white/5`}>
+              <div className={f.color}>{f.icon}</div>
+            </div>
+            <h3 className="text-[22px] font-black mb-3 tracking-tighter glow-text uppercase">{f.title}</h3>
+            <p className="text-[15px] text-white/30 leading-relaxed font-medium">
+              {f.desc}
+            </p>
           </div>
-          <h3 className="text-[20px] font-bold mb-2">Deep Forensics</h3>
-          <p className="text-[14px] text-white/50 leading-relaxed font-medium">
-            AI-powered pattern matching detects hidden costs buried in legal jargon.
-          </p>
-        </div>
-
-        <div className="bg-white/[0.03] border border-white/10 rounded-[32px] p-8 text-left hover:bg-white/[0.05] transition-all">
-          <div className="w-12 h-12 rounded-[16px] bg-red-600/20 flex items-center justify-center mb-6">
-            <Smartphone size={24} className="text-red-500" />
-          </div>
-          <h3 className="text-[20px] font-bold mb-2">Snap-to-Audit</h3>
-          <p className="text-[14px] text-white/50 leading-relaxed font-medium">
-            Point your camera at any paper contract to reveal its secrets instantly.
-          </p>
-        </div>
-
-        <div className="bg-white/[0.03] border border-white/10 rounded-[32px] p-8 text-left hover:bg-white/[0.05] transition-all">
-          <div className="w-12 h-12 rounded-[16px] bg-green-600/20 flex items-center justify-center mb-6">
-            <Globe size={24} className="text-green-500" />
-          </div>
-          <h3 className="text-[20px] font-bold mb-2">Global Vault</h3>
-          <p className="text-[14px] text-white/50 leading-relaxed font-medium">
-            Real-time intelligence synced from a community of thousands.
-          </p>
-        </div>
+        ))}
       </div>
 
       {/* Footer Info */}
-      <div className="mt-20 flex items-center gap-8 text-[11px] font-bold text-white/20 uppercase tracking-widest">
-        <span>Military Grade Encryption</span>
-        <div className="w-1 h-1 rounded-full bg-white/10" />
-        <span>Open Source Integrity</span>
-        <div className="w-1 h-1 rounded-full bg-white/10" />
-        <span>Zero Data Mining</span>
+      <div className="mt-24 flex items-center gap-10 text-[10px] font-black text-white/10 uppercase tracking-[0.3em] relative z-10">
+        <span>Sovereign Security</span>
+        <div className="w-1.5 h-1.5 rounded-full bg-white/5" />
+        <span>End-to-End Privacy</span>
+        <div className="w-1.5 h-1.5 rounded-full bg-white/5" />
+        <span>Open Intelligence</span>
       </div>
+    </div>
     </div>
   );
 }
