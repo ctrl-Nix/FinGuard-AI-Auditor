@@ -2,9 +2,6 @@
 
 > **Professional-grade forensic financial auditor powered by AI.** Detect hidden fees, manipulation tactics, legal risks, and fraud signals instantly.
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new)
-[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy)
-
 ---
 
 ## 🚀 Overview
@@ -62,7 +59,3 @@ The backend is designed to run as a Docker container or a Web Service on Render.
 ## 🔒 Security & Privacy
 
 FinGuard is built with privacy-first principles. The local JS engine analyzes documents instantly without sending data to any server unless "Full Audit" is requested.
-
-## ⚖️ License
-
-MIT License. Built with ❤️ by the FinGuard Team.
