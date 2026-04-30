@@ -1,128 +1,116 @@
-import { Link, Phone, AlertOctagon, CheckCircle, ShieldAlert, ShieldOff } from "lucide-react";
+import React from "react";
+import { Link, Phone, AlertOctagon, CheckCircle, ShieldAlert, ShieldOff, Globe } from "lucide-react";
 
 const URL_RISK_CONFIG = {
-  safe:       { color: "#22c55e", label: "Safe",       Icon: CheckCircle  },
-  shortened:  { color: "#f59e0b", label: "Shortened",  Icon: ShieldAlert  },
-  suspicious: { color: "#ef4444", label: "Suspicious", Icon: ShieldOff    },
+  safe:       { color: "#34c759", label: "Safe",       Icon: CheckCircle  },
+  shortened:  { color: "#ff9500", label: "Shortened",  Icon: ShieldAlert  },
+  suspicious: { color: "#ff3b30", label: "Suspicious", Icon: ShieldOff    },
 };
 
 function UrlCard({ url, risk, domain, reputation }) {
   const cfg = URL_RISK_CONFIG[risk] || URL_RISK_CONFIG.suspicious;
   return (
-    <div className="flex flex-col gap-2 bg-surface-deep border border-surface-border rounded-[9px] p-2.5 hover:border-surface-hover transition-colors">
-      <div className="flex items-start gap-2.5">
-        <cfg.Icon size={13} className="mt-0.5 shrink-0" style={{ color: cfg.color }} />
+    <div className="bg-white/[0.03] border border-white/[0.05] rounded-[20px] p-4 hover:border-white/[0.1] transition-all">
+      <div className="flex items-start gap-3">
+        <div 
+          className="w-10 h-10 rounded-[12px] flex items-center justify-center shrink-0"
+          style={{ backgroundColor: `${cfg.color}15` }}
+        >
+          <cfg.Icon size={18} style={{ color: cfg.color }} />
+        </div>
         <div className="flex-1 min-w-0">
-          <div className="font-mono text-[11px] truncate text-ink-secondary">{url}</div>
-          <div className="text-[11px] text-ink-muted mt-0.5">{domain}</div>
+          <div className="ios-label !mb-0">{domain}</div>
+          <div className="font-mono text-[12px] truncate text-ink-primary mt-1">{url}</div>
         </div>
         <span
-          className="shrink-0 text-[10px] font-medium px-2 py-0.5 rounded-full"
-          style={{ background: `${cfg.color}18`, color: cfg.color }}
+          className="shrink-0 text-[10px] font-black uppercase px-3 py-1 rounded-full border"
+          style={{ borderColor: `${cfg.color}33`, color: cfg.color, backgroundColor: `${cfg.color}11` }}
         >
           {cfg.label}
         </span>
       </div>
       
       {reputation && (
-        <div className="mt-1 pt-2 border-t border-surface-border/50 grid grid-cols-2 gap-y-1.5 text-[10px]">
+        <div className="mt-4 pt-4 border-t border-white/[0.05] grid grid-cols-2 gap-4">
           <div className="flex flex-col">
-            <span className="text-ink-faint uppercase tracking-tighter">Domain Age</span>
-            <span className="text-ink-secondary font-medium">{reputation.age || "Unknown"}</span>
+            <span className="text-[10px] font-bold text-ink-muted uppercase tracking-tight">Trust Score</span>
+            <span className="text-[15px] font-black" style={{ color: reputation.score < 50 ? "#ff3b30" : "#34c759" }}>
+              {reputation.score}/100
+            </span>
           </div>
           <div className="flex flex-col">
-            <span className="text-ink-faint uppercase tracking-tighter">Trust Score</span>
-            <span className="text-risk-red font-bold">{reputation.score}/100</span>
+            <span className="text-[10px] font-bold text-ink-muted uppercase tracking-tight">Origin</span>
+            <span className="text-[15px] font-bold text-ink-primary flex items-center gap-1">
+              <Globe size={12} /> {reputation.origin || "Global"}
+            </span>
           </div>
-          <div className="flex flex-col">
-            <span className="text-ink-faint uppercase tracking-tighter">Origin</span>
-            <span className="text-ink-secondary">{reputation.origin || "Global"}</span>
-          </div>
-          {reputation.warning && (
-            <div className="col-span-2 text-risk-red italic leading-tight mt-1">
-              {reputation.warning}
-            </div>
-          )}
         </div>
       )}
     </div>
   );
 }
 
-function PhoneChip({ phone }) {
-  return (
-    <div className="flex items-center gap-2 bg-surface-deep border border-surface-border rounded-[9px] px-3 py-2">
-      <Phone size={11} style={{ color: "#ef4444" }} />
-      <span className="font-mono text-[12px] text-risk-red">{phone}</span>
-    </div>
-  );
-}
-
-function SpoofChip({ flag }) {
-  return (
-    <div className="flex items-start gap-2 bg-[rgba(239,68,68,0.08)] border border-[rgba(239,68,68,0.2)] rounded-[9px] p-2.5">
-      <AlertOctagon size={12} className="mt-0.5 shrink-0 text-risk-red" />
-      <span className="text-[12px] text-ink-secondary leading-relaxed">{flag}</span>
-    </div>
-  );
-}
-
-/**
- * Shows extracted URLs, phone numbers, and sender-spoofing flags.
- * Receives data either from the client-side analyzer or the API response.
- */
 export default function ForensicsPanel({ urls = [], phones = [], senderFlags = [] }) {
-  const hasUrls   = urls.length > 0;
-  const hasPhones = phones.length > 0;
-  const hasSpoof  = senderFlags.length > 0;
+  const hasUrls   = urls && urls.length > 0;
+  const hasPhones = phones && phones.length > 0;
+  const hasSpoof  = senderFlags && senderFlags.length > 0;
 
   if (!hasUrls && !hasPhones && !hasSpoof) return null;
 
   return (
-    <div className="bg-surface-card border border-surface-border rounded-[16px] p-5 animate-fade-in">
-      <div className="flex items-center gap-2 mb-4">
-        <Link size={13} className="text-ink-muted" />
-        <div className="text-[11px] font-medium tracking-[1.2px] uppercase text-ink-muted">
-          Forensics
+    <div className="glass-card animate-bento">
+      <div className="bento-inner">
+        <span className="ios-label">Deep Forensics</span>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {hasUrls && (
+            <div className="space-y-4">
+              <div className="flex items-center gap-2 text-ink-muted">
+                <Link size={14} />
+                <span className="text-[11px] font-extrabold uppercase tracking-widest">URLs ({urls.length})</span>
+              </div>
+              <div className="space-y-3">
+                {urls.map((u, i) => <UrlCard key={i} {...(typeof u === "string" ? { url: u, risk: "suspicious", domain: u } : u)} />)}
+              </div>
+            </div>
+          )}
+
+          <div className="space-y-6">
+            {hasPhones && (
+              <div className="space-y-4">
+                <div className="flex items-center gap-2 text-ink-muted">
+                  <Phone size={14} />
+                  <span className="text-[11px] font-extrabold uppercase tracking-widest">Phone Numbers ({phones.length})</span>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {phones.map((p, i) => (
+                    <div key={i} className="bg-white/[0.04] border border-white/[0.05] rounded-[14px] px-4 py-2 flex items-center gap-2">
+                      <Phone size={12} className="text-risk-red" />
+                      <span className="font-mono text-[14px] font-bold text-ink-primary">{p}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {hasSpoof && (
+              <div className="space-y-4">
+                <div className="flex items-center gap-2 text-ink-muted">
+                  <AlertOctagon size={14} />
+                  <span className="text-[11px] font-extrabold uppercase tracking-widest">Spoofing Detection</span>
+                </div>
+                <div className="space-y-3">
+                  {senderFlags.map((f, i) => (
+                    <div key={i} className="bg-risk-red/5 border border-risk-red/10 rounded-[18px] p-4 flex items-start gap-3">
+                      <AlertOctagon size={18} className="text-risk-red shrink-0" />
+                      <span className="text-[14px] font-medium text-ink-primary leading-snug">{f}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
         </div>
-      </div>
-
-      <div className={`grid gap-4 ${[hasUrls, hasPhones, hasSpoof].filter(Boolean).length > 1 ? "md:grid-cols-2" : "grid-cols-1"}`}>
-        {hasUrls && (
-          <div>
-            <div className="text-[11px] text-ink-muted uppercase tracking-widest mb-2 flex items-center gap-1.5">
-              <Link size={10} />
-              URLs ({urls.length})
-            </div>
-            <div className="flex flex-col gap-1.5">
-              {urls.map((u, i) => <UrlCard key={i} {...(typeof u === "string" ? { url: u, risk: "suspicious", domain: u } : u)} />)}
-            </div>
-          </div>
-        )}
-
-        {hasPhones && (
-          <div>
-            <div className="text-[11px] text-ink-muted uppercase tracking-widest mb-2 flex items-center gap-1.5">
-              <Phone size={10} />
-              Numbers ({phones.length})
-            </div>
-            <div className="flex flex-col gap-1.5">
-              {phones.map((p, i) => <PhoneChip key={i} phone={p} />)}
-            </div>
-          </div>
-        )}
-
-        {hasSpoof && (
-          <div className={hasUrls || hasPhones ? "md:col-span-2" : ""}>
-            <div className="text-[11px] text-ink-muted uppercase tracking-widest mb-2 flex items-center gap-1.5">
-              <AlertOctagon size={10} />
-              Spoofing Detected
-            </div>
-            <div className="flex flex-col gap-1.5">
-              {senderFlags.map((f, i) => <SpoofChip key={i} flag={f} />)}
-            </div>
-          </div>
-        )}
       </div>
     </div>
   );

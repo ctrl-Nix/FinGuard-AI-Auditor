@@ -1,83 +1,61 @@
 import React from "react";
 
 /**
- * ForensicHeatmap — High-performance text highlighting component.
- * Renders the original text with overlaps from the engine's match data.
+ * ForensicHeatmap — Bento Glass Style
+ * iPhone-inspired text highlighting with glowing markers.
  */
 export default function ForensicHeatmap({ text, matches = [] }) {
   if (!text) return null;
 
-  // Sort matches by start position
+  // Sort matches by start index to avoid overlapping issues
   const sortedMatches = [...matches].sort((a, b) => a.start - b.start);
 
-  // Filter out overlapping matches (keep the longest or first)
-  const nonOverlapping = [];
-  let lastEnd = -1;
-  for (const m of sortedMatches) {
-    if (m.start >= lastEnd) {
-      nonOverlapping.push(m);
-      lastEnd = m.end;
-    }
-  }
+  const elements = [];
+  let lastIndex = 0;
 
-  // Segment the text into plain and highlighted chunks
-  const segments = [];
-  let currentPos = 0;
-
-  nonOverlapping.forEach((match, idx) => {
+  sortedMatches.forEach((match, i) => {
     // Add plain text before match
-    if (match.start > currentPos) {
-      segments.push({ 
-        type: "plain", 
-        content: text.slice(currentPos, match.start) 
-      });
+    if (match.start > lastIndex) {
+      elements.push(text.slice(lastIndex, match.start));
     }
 
-    // Add highlighted match
-    segments.push({
-      type: "highlight",
-      content: text.slice(match.start, match.end),
-      severity: match.severity,
-      reason: match.reason
-    });
+    const color = 
+      match.severity === "high"   ? "#ff3b30" : 
+      match.severity === "medium" ? "#ff9500" : "#007aff";
 
-    currentPos = match.end;
+    // Add highlighted text
+    elements.push(
+      <span
+        key={i}
+        className="relative group cursor-help inline-block px-0.5 rounded-[4px] transition-all"
+        style={{ 
+          backgroundColor: `${color}22`, 
+          borderBottom: `2px solid ${color}`,
+          color: "#fff"
+        }}
+      >
+        {text.slice(match.start, match.end)}
+        
+        {/* iOS Style Tooltip */}
+        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-[200px] p-3 glass-card bg-[#1c1c1e] text-[12px] font-medium leading-snug opacity-0 group-hover:opacity-100 pointer-events-none transition-all z-[60] shadow-2xl">
+          <div className="ios-label !mb-1 !text-white/40">Risk Signal</div>
+          {match.reason}
+          <div className="absolute top-full left-1/2 -translate-x-1/2 border-[6px] border-transparent border-t-[#1c1c1e]" />
+        </div>
+      </span>
+    );
+
+    lastIndex = match.end;
   });
 
   // Add remaining plain text
-  if (currentPos < text.length) {
-    segments.push({ 
-      type: "plain", 
-      content: text.slice(currentPos) 
-    });
+  if (lastIndex < text.length) {
+    elements.push(text.slice(lastIndex));
   }
 
   return (
-    <div className="bg-surface-deep border border-surface-border rounded-[12px] p-4 font-mono text-[13px] leading-[1.8] text-ink-secondary whitespace-pre-wrap break-words overflow-auto max-h-[400px]">
-      {segments.map((seg, idx) => {
-        if (seg.type === "plain") {
-          return <span key={idx}>{seg.content}</span>;
-        }
-
-        const colorClass = 
-          seg.severity === "high"   ? "bg-risk-red/20 text-risk-red border-b-2 border-risk-red" :
-          seg.severity === "medium" ? "bg-risk-orange/20 text-risk-orange border-b-2 border-risk-orange" :
-                                      "bg-risk-blue/20 text-risk-blue border-b-2 border-risk-blue";
-
-        return (
-          <span 
-            key={idx} 
-            className={`${colorClass} px-0.5 rounded-sm cursor-help transition-all hover:brightness-110 group relative`}
-            title={seg.reason}
-          >
-            {seg.content}
-            {/* Tooltip */}
-            <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 bg-ink-primary text-white text-[10px] rounded opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity whitespace-nowrap z-50">
-              {seg.reason}
-            </span>
-          </span>
-        );
-      })}
+    <div className="bg-white/[0.02] border border-white/[0.05] rounded-[22px] p-6 font-serif text-[18px] leading-[1.8] text-ink-secondary/90 whitespace-pre-wrap select-text max-h-[500px] overflow-auto custom-scrollbar">
+      {elements}
     </div>
   );
 }

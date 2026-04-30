@@ -1,52 +1,66 @@
-import { CheckCircle, Search } from "lucide-react";
+import React from "react";
 import SectionBar from "./SectionBar.jsx";
-import { SECTION_ORDER } from "../engine/analyzer.js";
 
+/**
+ * BreakdownPanel — Bento Glass Style
+ * Modular risk breakdown.
+ */
 export default function BreakdownPanel({ result }) {
-  if (!result) {
-    return (
-      <div className="bg-surface-card border border-surface-border rounded-[16px] p-6 h-full flex items-center justify-center">
-        <div className="text-center text-ink-faint">
-          <Search size={32} className="mx-auto mb-3 opacity-30" />
-          <div className="text-[14px]">Run analysis to see risk breakdown</div>
-        </div>
-      </div>
-    );
-  }
+  if (!result) return null;
 
-  if (result.isEmpty || result.matches.length === 0) {
-    return (
-      <div className="bg-surface-card border border-surface-border rounded-[16px] p-6 h-full flex items-center justify-center">
-        <div className="text-center">
-          <CheckCircle size={36} className="mx-auto mb-3" style={{ color: "#22c55e" }} />
-          <div className="text-[15px] font-medium text-ink-primary mb-1">No risks detected</div>
-          <div className="text-[13px] text-ink-muted">This document appears clean</div>
-        </div>
-      </div>
-    );
-  }
-
-  const sections = SECTION_ORDER.filter(k => result.byType[k]?.length > 0);
+  const matches = result.matches || [];
+  const high   = matches.filter(m => m.severity === "high");
+  const medium = matches.filter(m => m.severity === "medium");
+  const low    = matches.filter(m => m.severity === "low");
 
   return (
-    <div className="bg-surface-card border border-surface-border rounded-[16px] p-6">
-      <div className="text-[11px] font-medium tracking-[1.2px] uppercase text-ink-muted mb-5">
-        Risk Breakdown
-      </div>
+    <div className="glass-card animate-bento">
+      <div className="bento-inner">
+        <span className="ios-label">Evidence Breakdown</span>
+        
+        <div className="space-y-8">
+          {high.length > 0 && (
+            <div>
+              <div className="flex items-center gap-2 mb-4">
+                <div className="w-2 h-2 rounded-full bg-risk-red shadow-[0_0_8px_rgba(255,59,48,0.6)]" />
+                <span className="text-[13px] font-bold uppercase tracking-widest text-risk-red">High Severity</span>
+              </div>
+              <div className="space-y-4">
+                {high.map((item, i) => <SectionBar key={i} item={item} />)}
+              </div>
+            </div>
+          )}
 
-      <div className="flex flex-col gap-5 stagger-children">
-        {sections.map((typeKey, i) => (
-          <div key={typeKey}>
-            <SectionBar
-              typeKey={typeKey}
-              items={result.byType[typeKey]}
-              animDelay={i * 70}
-            />
-            {i < sections.length - 1 && (
-              <div className="border-t border-surface-border mt-5" />
-            )}
-          </div>
-        ))}
+          {medium.length > 0 && (
+            <div>
+              <div className="flex items-center gap-2 mb-4">
+                <div className="w-2 h-2 rounded-full bg-risk-amber shadow-[0_0_8px_rgba(255,149,0,0.6)]" />
+                <span className="text-[13px] font-bold uppercase tracking-widest text-risk-amber">Warning Signs</span>
+              </div>
+              <div className="space-y-4">
+                {medium.map((item, i) => <SectionBar key={i} item={item} />)}
+              </div>
+            </div>
+          )}
+
+          {low.length > 0 && (
+            <div>
+              <div className="flex items-center gap-2 mb-4">
+                <div className="w-2 h-2 rounded-full bg-risk-blue shadow-[0_0_8px_rgba(0,122,255,0.6)]" />
+                <span className="text-[13px] font-bold uppercase tracking-widest text-risk-blue">Minor Notes</span>
+              </div>
+              <div className="space-y-4">
+                {low.map((item, i) => <SectionBar key={i} item={item} />)}
+              </div>
+            </div>
+          )}
+
+          {matches.length === 0 && (
+            <div className="py-8 text-center">
+              <p className="text-ink-muted text-[14px]">No specific patterns detected in this scan.</p>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

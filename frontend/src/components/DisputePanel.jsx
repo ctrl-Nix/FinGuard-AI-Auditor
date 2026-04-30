@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { ShieldAlert, Copy, Check, FileText } from "lucide-react";
 
 /**
- * DisputePanel — Offensive Protection (The "Shield").
- * Shows the AI-generated dispute letter for bank/police use.
+ * DisputePanel — Bento Glass Style
+ * iPhone-inspired legal document widget.
  */
 export default function DisputePanel({ letter }) {
   const [copied, setCopied] = useState(false);
@@ -17,32 +17,35 @@ export default function DisputePanel({ letter }) {
   };
 
   return (
-    <div className="bg-[#1a1c24] border border-risk-red/30 rounded-[16px] p-6 animate-fade-in">
-      <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center gap-2">
-          <ShieldAlert size={16} className="text-risk-red" />
-          <div className="text-[12px] font-bold tracking-[1px] uppercase text-risk-red">
-            Offensive Protection: Automated Dispute
+    <div className="glass-card animate-bento">
+      <div className="bento-inner">
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 rounded-[10px] bg-risk-red/20 flex items-center justify-center">
+              <ShieldAlert size={16} className="text-risk-red" />
+            </div>
+            <span className="ios-label !mb-0">Automated Dispute</span>
           </div>
+          
+          <button
+            onClick={handleCopy}
+            className={`iphone-btn !px-4 !py-2 !rounded-full text-[12px] ${copied ? 'bg-risk-green text-white' : 'bg-white/10 text-ink-primary hover:bg-white/20'}`}
+          >
+            {copied ? <Check size={14} /> : <Copy size={14} />}
+            {copied ? "Copied" : "Copy Letter"}
+          </button>
         </div>
-        <button
-          onClick={handleCopy}
-          className="flex items-center gap-1.5 text-ink-muted hover:text-ink-secondary text-[11px] font-medium transition-colors"
-        >
-          {copied ? <Check size={12} className="text-green-400" /> : <Copy size={12} />}
-          {copied ? "Copied!" : "Copy Letter"}
-        </button>
-      </div>
 
-      <div className="bg-surface-deep border border-surface-border rounded-[10px] p-4 font-serif text-[14px] leading-relaxed text-ink-secondary max-h-[300px] overflow-auto whitespace-pre-wrap select-text">
-        {letter}
-      </div>
+        <div className="bg-white/[0.02] border border-white/[0.05] rounded-[22px] p-6 font-serif text-[15px] leading-relaxed text-ink-secondary/90 max-h-[300px] overflow-auto custom-scrollbar whitespace-pre-wrap select-text italic">
+          {letter}
+        </div>
 
-      <div className="mt-4 flex items-start gap-2.5 text-[11px] text-ink-faint italic leading-snug">
-        <FileText size={14} className="mt-0.5 shrink-0" />
-        <div>
-          This letter is pre-filled with evidence from this audit. 
-          Fill in your details ([USER_NAME], etc.) and send it to your bank's fraud department immediately.
+        <div className="mt-6 flex items-start gap-3 p-4 bg-white/[0.03] rounded-[18px] border border-white/[0.05]">
+          <FileText size={18} className="text-ink-muted mt-0.5 shrink-0" />
+          <p className="text-[12px] text-ink-muted leading-snug">
+            This letter is pre-filled with evidence from this audit. 
+            Fill in your details ([USER_NAME], etc.) and send it to your bank's fraud department immediately.
+          </p>
         </div>
       </div>
     </div>

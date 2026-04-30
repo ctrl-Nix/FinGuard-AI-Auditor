@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { MessageSquare, Copy, Check, ShieldAlert, Send } from "lucide-react";
+import { MessageSquare, Copy, Check, Send } from "lucide-react";
 
 /**
- * NegotiationPanel — "Negotiate for Me"
- * Provides ready-to-use responses for the user to handle scammers/shady sales.
+ * NegotiationPanel — Bento Glass Style
+ * iPhone-inspired response widget.
  */
 export default function NegotiationPanel({ negotiation }) {
   const [copiedType, setCopiedType] = useState(null);
@@ -19,73 +19,62 @@ export default function NegotiationPanel({ negotiation }) {
   const options = [
     { 
       id: "soft", 
-      title: "The Polite Reject", 
-      desc: "Best for WhatsApp or friendly sales agents.", 
+      title: "Soft Pushback", 
       text: negotiation.soft,
-      color: "text-blue-400"
+      color: "#007aff"
     },
     { 
       id: "firm", 
-      title: "The Firm Legal", 
-      desc: "Use this if they keep pushing or ignore you.", 
+      title: "Firm Legal", 
       text: negotiation.firm,
-      color: "text-amber-400"
+      color: "#ff9500"
     },
     { 
       id: "exit", 
-      title: "The Exit Option", 
-      desc: "The 'Nuclear' message to end the conversation.", 
+      title: "Exit Option", 
       text: negotiation.exit,
-      color: "text-risk-red"
+      color: "#ff3b30"
     }
   ];
 
   return (
-    <div className="bg-surface-card border border-surface-border rounded-[16px] p-5 animate-fade-in">
-      <div className="flex items-center gap-2 mb-4">
-        <MessageSquare size={14} className="text-risk-blue" />
-        <div className="text-[11px] font-bold tracking-[1.2px] uppercase text-ink-muted">
-          Negotiate for Me: Ready Responses
+    <div className="glass-card animate-bento h-full">
+      <div className="bento-inner">
+        <div className="flex items-center gap-2 mb-6">
+          <div className="w-8 h-8 rounded-[10px] bg-risk-blue/20 flex items-center justify-center">
+            <MessageSquare size={16} className="text-risk-blue" />
+          </div>
+          <span className="ios-label !mb-0">Action Scripts</span>
         </div>
-      </div>
 
-      <div className="space-y-3">
-        {options.map((opt) => (
-          <div 
-            key={opt.id} 
-            className="group bg-surface border border-surface-border rounded-[12px] p-4 hover:border-risk-blue/40 transition-all"
-          >
-            <div className="flex items-center justify-between mb-2">
-              <div>
-                <span className={`text-[12px] font-bold uppercase tracking-tight ${opt.color}`}>
+        <div className="space-y-3 flex-1 overflow-auto custom-scrollbar pr-1">
+          {options.map((opt) => (
+            <button 
+              key={opt.id} 
+              onClick={() => handleCopy(opt.text, opt.id)}
+              className="w-full text-left bg-white/[0.04] border border-white/[0.05] rounded-[20px] p-4 hover:bg-white/[0.08] transition-all active:scale-[0.98] group"
+            >
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-[12px] font-bold uppercase tracking-widest" style={{ color: opt.color }}>
                   {opt.title}
                 </span>
-                <p className="text-[10px] text-ink-faint italic">{opt.desc}</p>
+                {copiedType === opt.id ? (
+                  <Check size={14} className="text-risk-green" />
+                ) : (
+                  <Copy size={14} className="text-ink-muted group-hover:text-ink-secondary" />
+                )}
               </div>
-              <button 
-                onClick={() => handleCopy(opt.text, opt.id)}
-                className="p-2 hover:bg-surface-deep rounded-lg text-ink-muted transition-colors flex items-center gap-1.5"
-              >
-                {copiedType === opt.id ? <Check size={14} className="text-green-400" /> : <Copy size={14} />}
-                <span className="text-[11px] font-medium">{copiedType === opt.id ? "Copied!" : "Copy"}</span>
-              </button>
-            </div>
-            <div className="text-[13px] text-ink-secondary leading-relaxed bg-surface-deep/50 p-3 rounded-lg font-medium italic border border-white/5">
-              "{opt.text}"
-            </div>
-            <div className="mt-3 flex items-center gap-2 text-[10px] text-ink-faint">
-              <Send size={10} />
-              <span>Perfect for WhatsApp, Email, or SMS</span>
-            </div>
-          </div>
-        ))}
-      </div>
-      
-      <div className="mt-4 p-3 bg-risk-blue/5 border border-risk-blue/10 rounded-lg flex items-start gap-2">
-        <ShieldAlert size={12} className="text-risk-blue mt-0.5 shrink-0" />
-        <p className="text-[11px] text-ink-muted italic leading-snug">
-          <strong>Tip:</strong> Don't be afraid to walk away. These messages are designed to put the pressure back on the sender.
-        </p>
+              <p className="text-[14px] text-ink-secondary leading-snug line-clamp-2 italic">
+                "{opt.text}"
+              </p>
+            </button>
+          ))}
+        </div>
+
+        <div className="mt-6 flex items-center gap-2 px-2">
+          <Send size={12} className="text-ink-muted" />
+          <span className="text-[11px] text-ink-muted font-medium">Tap to copy response</span>
+        </div>
       </div>
     </div>
   );
