@@ -3,6 +3,9 @@ import { ShieldCheck, Zap, Bell, User, LayoutGrid, ArrowRight } from "lucide-rea
 import { useAnalysis } from "./hooks/useAnalysis.js";
 import { DEMOS } from "./engine/analyzer.js";
 
+// Assets
+import logo from "./assets/logo.svg";
+
 // Components
 import InputPanel from "./components/InputPanel.jsx";
 import ScorePanel from "./components/ScorePanel.jsx";
@@ -95,8 +98,8 @@ export default function App() {
             className="flex items-center gap-4 cursor-pointer group"
             onClick={() => setShowWelcome(true)}
           >
-            <div className="w-12 h-12 rounded-[14px] bg-gradient-to-br from-[#0F172A] to-[#334155] flex items-center justify-center shadow-lg shadow-slate-200 transition-transform group-hover:scale-105">
-              <ShieldCheck size={26} className="text-white" />
+            <div className="w-12 h-12 rounded-[14px] bg-white flex items-center justify-center shadow-lg shadow-slate-200 transition-transform group-hover:scale-105 border border-slate-100">
+              <img src={logo} alt="FinGuard" className="w-8 h-8" />
             </div>
             <div>
               <h1 className="text-[26px] font-[800] tracking-tight leading-none text-[#0F172A]">FinGuard</h1>

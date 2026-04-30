@@ -1,6 +1,7 @@
 import React from "react";
-import { ShieldCheck, Zap, Globe, ArrowRight, MousePointer2, Smartphone, BarChart3, Lock, Cpu, CheckCircle2 } from "lucide-react";
+import { Zap, Globe, ArrowRight, MousePointer2, Smartphone, BarChart3, Lock, Cpu, CheckCircle2 } from "lucide-react";
 import { motion } from "framer-motion";
+import logo from "../assets/logo.svg";
 
 /**
  * WelcomeView — Realistic Professional Landing Page
@@ -40,9 +41,14 @@ export default function WelcomeView({ onEnter }) {
           variants={sectionVariants}
           className="max-w-[1200px] relative z-10"
         >
-          <div className="inline-flex items-center gap-3 px-6 py-2.5 rounded-full bg-emerald-50 border border-emerald-100 mb-12 shadow-sm">
-            <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></div>
-            <span className="text-[12px] font-[800] uppercase tracking-[0.4em] text-emerald-700">Enterprise Forensic Protocol</span>
+          <div className="flex flex-col items-center mb-12">
+            <div className="w-20 h-20 rounded-[24px] bg-white border border-slate-100 shadow-xl flex items-center justify-center mb-6">
+               <img src={logo} alt="FinGuard" className="w-12 h-12" />
+            </div>
+            <div className="inline-flex items-center gap-3 px-6 py-2.5 rounded-full bg-emerald-50 border border-emerald-100 shadow-sm">
+              <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></div>
+              <span className="text-[12px] font-[800] uppercase tracking-[0.4em] text-emerald-700">Enterprise Forensic Protocol</span>
+            </div>
           </div>
           
           <h1 className="text-[72px] md:text-[120px] font-[800] tracking-[-0.05em] leading-[0.82] mb-12 text-[#0F172A]">
