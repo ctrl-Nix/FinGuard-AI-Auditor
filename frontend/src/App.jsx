@@ -20,6 +20,7 @@ import { supabase }       from "./lib/supabase.js";
 
 export default function App() {
   const { result, isRunning, apiResult, apiLoading, runKey, analyze, analyzeFile } = useAnalysis();
+  const heatmap = result?.matches || [];
   const [currentText, setCurrentText] = useState("");
   const [currentTab, setCurrentTab] = useState("audit");
   const [user, setUser] = useState(null);

@@ -151,13 +151,10 @@ app = FastAPI(
     redoc_url="/redoc",
 )
 
-# ── CORS — lock this down once you have a real domain ─────────────────────────
-# For local dev: leave CORS_ORIGINS unset (defaults to localhost only).
-# For production: set CORS_ORIGINS=https://yourapp.com in your .env
-_default_origins = "http://localhost:5173,http://localhost:8501,http://localhost:3000"
+# ── CORS — Allow all for easy deployment ──────────────────────────────────────
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=os.getenv("CORS_ORIGINS", _default_origins).split(","),
+    allow_origins=["*"],
     allow_methods=["GET", "POST"],
     allow_headers=["*"],
 )
