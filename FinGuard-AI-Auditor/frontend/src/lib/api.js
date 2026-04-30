@@ -3,22 +3,22 @@
  *
  * All functions return the raw JSON on success, or throw with
  * a human-readable message on failure.
- *
- * Usage:
- *   import { checkInstant, checkFull, checkBatch, healthCheck } from "../lib/api.js";
- *
- *   const result = await checkInstant("Share your OTP now!");
- *   // result.verdict === "SCAM"
- *   // result.extracted_urls === [{url, risk, domain}]
  */
 
-const BASE = import.meta.env.VITE_API_URL || "";
+const BASE = import.meta.env.VITE_API_URL || "https://finguard-api-9l4o.onrender.com";
 const TIMEOUT_MS = 8000;
+
+function buildHeaders() {
+  const headers = { "Content-Type": "application/json" };
+  const key = import.meta.env.VITE_FINGUARD_API_KEY || "";
+  if (key) headers["X-API-Key"] = key;
+  return headers;
+}
 
 async function post(path, body) {
   const res = await fetch(`${BASE}${path}`, {
     method:  "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: buildHeaders(),
     body:    JSON.stringify(body),
     signal:  AbortSignal.timeout(TIMEOUT_MS),
   });
@@ -29,21 +29,10 @@ async function post(path, body) {
   return res.json();
 }
 
-/**
- * Instant rules-only check. < 10ms on the server.
- * @param {string} text
- * @returns {Promise<PanicResponse>}
- */
 export async function checkInstant(text) {
   return post("/api/v1/panic/check", { text });
 }
 
-/**
- * Full check with optional LLM enrichment.
- * @param {string} text
- * @param {string} [apiKey]  Gemini API key — omit to skip LLM
- * @returns {Promise<PanicResponse>}
- */
 export async function checkFull(text, apiKey = "") {
   return post("/api/v1/panic/check-full", {
     text,
@@ -52,19 +41,10 @@ export async function checkFull(text, apiKey = "") {
   });
 }
 
-/**
- * Batch check up to 50 messages.
- * @param {string[]} messages
- * @returns {Promise<BatchResponse>}
- */
 export async function checkBatch(messages) {
   return post("/api/v1/panic/batch", { messages });
 }
 
-/**
- * Server health check.
- * @returns {Promise<HealthResponse>}
- */
 export async function healthCheck() {
   const res = await fetch(`${BASE}/api/v1/health`, {
     signal: AbortSignal.timeout(3000),
