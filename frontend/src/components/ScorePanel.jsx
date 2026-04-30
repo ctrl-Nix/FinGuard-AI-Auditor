@@ -49,29 +49,48 @@ export default function ScorePanel({ result }) {
 
       {/* Total flags */}
       {result && !result.isEmpty && (
-        <div
-          className="bg-surface-card border border-surface-border rounded-[16px] p-4 animate-fade-in"
-          key={result.score}
-        >
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2 text-[13px] text-ink-muted">
-              <Shield size={14} />
-              Total flags
+        <>
+          <div
+            className="bg-surface-card border border-surface-border rounded-[16px] p-4 animate-fade-in"
+            key={result.score}
+          >
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2 text-[13px] text-ink-muted">
+                <Shield size={14} />
+                Total flags
+              </div>
+              <span className="font-mono text-[20px] font-medium text-ink-primary">
+                {result.matches.length}
+              </span>
             </div>
-            <span className="font-mono text-[20px] font-medium text-ink-primary">
-              {result.matches.length}
-            </span>
+            <div className="mt-3 h-[3px] bg-surface-hover rounded-full overflow-hidden">
+              <div
+                className="h-full rounded-full transition-all duration-1000"
+                style={{
+                  width:      `${Math.min(100, result.matches.length * 8)}%`,
+                  background: color,
+                }}
+              />
+            </div>
           </div>
-          <div className="mt-3 h-[3px] bg-surface-hover rounded-full overflow-hidden">
-            <div
-              className="h-full rounded-full transition-all duration-1000"
-              style={{
-                width:      `${Math.min(100, result.matches.length * 8)}%`,
-                background: color,
-              }}
-            />
-          </div>
-        </div>
+
+          <button
+            onClick={() => {
+              const pattern = prompt("Enter the suspicious word or domain to flag for the community:");
+              const reason = prompt("Why is this suspicious?");
+              if (pattern && reason) {
+                fetch(`${import.meta.env.VITE_API_URL || ""}/api/v1/panic/report`, {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({ pattern, reason }),
+                }).then(() => alert("Thank you! This pattern has been added to Global Intelligence."));
+              }
+            }}
+            className="w-full mt-2 py-3 bg-surface-hover hover:bg-[#20242e] border border-surface-border rounded-[12px] text-[11px] font-bold tracking-[1px] uppercase text-ink-muted hover:text-risk-blue transition-all"
+          >
+            Report as New Scam
+          </button>
+        </>
       )}
     </div>
   );

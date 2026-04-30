@@ -257,6 +257,21 @@ async def upload_file(
     return _to_response(result)
 
 
+class ReportRequest(BaseModel):
+    pattern: str = Field(..., min_length=3, max_length=100)
+    reason: str = Field(..., min_length=3, max_length=100)
+
+@app.post("/api/v1/panic/report", tags=["Meta"])
+async def report_scam(req: ReportRequest, _=Security(verify_api_key)):
+    """
+    Crowdsource a new scam signal. 
+    Updates the Layer 1 rules for everyone in real-time.
+    """
+    from scam_vault import VAULT
+    VAULT.add_rule(req.pattern, req.reason)
+    return {"status": "success", "message": "Scam signal added to Global Intelligence."}
+
+
 @app.post("/api/v1/panic/export", tags=["Panic"])
 async def export_audit(req: PanicRequest, _=Security(verify_api_key)):
     """

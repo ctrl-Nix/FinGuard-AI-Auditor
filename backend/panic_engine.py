@@ -277,6 +277,7 @@ class PanicResult:
     extracted_phones: List[str] = field(default_factory=list)
     sender_flags: List[str] = field(default_factory=list)
     heatmap: List[dict] = field(default_factory=list)          # [{"start", "end", "text", "severity"}]
+    dispute_letter: str = ""
 
 
 def _normalise(raw: int) -> int:
@@ -307,8 +308,12 @@ def run_panic_check(text: str) -> PanicResult:
 
     heatmap = []
 
+    # 1. Static signals + Crowdsourced signals
+    from scam_vault import VAULT
+    all_signals = _SIGNALS + VAULT.get_signals()
+
     # Positive signals
-    for pattern, weight, reason in _SIGNALS:
+    for pattern, weight, reason in all_signals:
         for match in re.finditer(pattern, text_lower, re.IGNORECASE):
             raw_score += weight
             severity = "high" if weight >= 30 else "medium" if weight >= 15 else "low"
@@ -394,16 +399,18 @@ def enrich_with_llm(result: PanicResult, text: str, api_key: str) -> PanicResult
 
     t0 = time.perf_counter()
 
-    prompt = f"""You are a scam detection assistant. Analyse this message in under 3 sentences.
-Reply ONLY in this JSON (no markdown):
-{{"extra_reason": "<one new insight not already in the list, or empty string>", "confidence_adjustment": <integer -15 to +15>}}
+    prompt = f"""You are a global scam detection assistant. 
+    Analyze this message in any language (Hindi, Spanish, Arabic, etc.).
+    Translate key suspicious phrases if needed and determine the risk.
+    Reply ONLY in this JSON (no markdown):
+    {{"extra_reason": "<one new insight or translation summary>", "confidence_adjustment": <integer -15 to +15>}}
 
-Already detected signals: {result.reasons}
-Current verdict: {result.verdict} ({result.confidence}% confidence)
+    Already detected signals: {result.reasons}
+    Current verdict: {result.verdict} ({result.confidence}% confidence)
 
-MESSAGE:
-\"\"\"{text[:800]}\"\"\"
-"""
+    MESSAGE:
+    \"\"\"{text[:800]}\"\"\"
+    """
 
     try:
         # Try new SDK first

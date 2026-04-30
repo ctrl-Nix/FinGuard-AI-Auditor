@@ -5,6 +5,7 @@ import ScorePanel       from "./components/ScorePanel.jsx";
 import BreakdownPanel   from "./components/BreakdownPanel.jsx";
 import ForensicsPanel   from "./components/ForensicsPanel.jsx";
 import ForensicHeatmap  from "./components/ForensicHeatmap.jsx";
+import DisputePanel     from "./components/DisputePanel.jsx";
 import { FileDown, ShieldCheck } from "lucide-react";
 import { useAnalysis }    from "./hooks/useAnalysis.js";
 import { DEMOS }          from "./engine/analyzer.js";
@@ -81,6 +82,11 @@ export default function App() {
             )}
             
             <BreakdownPanel key={`breakdown-${runKey}`} result={result} />
+            
+            {/* Dispute Letter (Offensive Shield) */}
+            {apiResult?.dispute_letter && (
+              <DisputePanel letter={apiResult.dispute_letter} />
+            )}
           </div>
         </div>
 
