@@ -20,6 +20,8 @@ import NegotiationPanel from "./components/NegotiationPanel.jsx";
 import VaultView from "./components/VaultView.jsx";
 import ProfileView from "./components/ProfileView.jsx";
 import WelcomeView from "./components/WelcomeView.jsx";
+import KeySettingsModal from "./components/KeySettingsModal.jsx";
+import { Key as KeyIcon } from "lucide-react";
 
 const springTransition = {
   type: "spring",
@@ -41,6 +43,7 @@ export default function App() {
   const [currentTab, setCurrentTab] = useState("audit");
   const [user, setUser] = useState(null);
   const [showWelcome, setShowWelcome] = useState(true);
+  const [isKeyModalOpen, setIsKeyModalOpen] = useState(false);
 
   useEffect(() => {
     try {
@@ -125,6 +128,13 @@ export default function App() {
               className="text-[12px] font-bold text-slate-500 hover:text-emerald-600 uppercase tracking-widest transition-colors"
             >
               Home
+            </button>
+            <div className="h-4 w-px bg-slate-200" />
+            <button 
+              onClick={() => setIsKeyModalOpen(true)}
+              className="flex items-center gap-2 text-[12px] font-bold text-blue-600 hover:text-blue-700 uppercase tracking-widest transition-colors"
+            >
+              <KeyIcon size={14} /> BYOK Configuration
             </button>
             <div className="h-4 w-px bg-slate-200" />
             <div className="flex items-center gap-3">
@@ -299,5 +309,9 @@ export default function App() {
         </button>
       </div>
     </div>
-  );
-}
+      
+      <KeySettingsModal 
+        isOpen={isKeyModalOpen} 
+        onClose={() => setIsKeyModalOpen(false)} 
+      />
+    </div>

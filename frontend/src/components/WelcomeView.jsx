@@ -1,5 +1,5 @@
 import React from "react";
-import { Zap, Globe, ArrowRight, MousePointer2, Smartphone, BarChart3, Lock, Cpu, CheckCircle2 } from "lucide-react";
+import { Zap, Globe, ArrowRight, MousePointer2, Smartphone, BarChart3, Lock, Cpu, CheckCircle2, Key as KeyIcon } from "lucide-react";
 import { motion } from "framer-motion";
 import logo from "../assets/logo.svg";
 
@@ -98,10 +98,16 @@ export default function WelcomeView({ onEnter }) {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 1.8, duration: 0.8 }}
-            className="inline-flex items-center gap-3 px-6 py-2.5 rounded-full bg-slate-50 border border-slate-100 shadow-sm mb-16"
+            className="inline-flex flex-wrap items-center justify-center gap-4 mb-16"
           >
-            <div className="w-2.5 h-2.5 rounded-full bg-blue-500 animate-pulse"></div>
-            <span className="text-[12px] font-[800] uppercase tracking-[0.4em] text-slate-500">System Ready for Public Audit</span>
+            <div className="inline-flex items-center gap-3 px-6 py-2.5 rounded-full bg-slate-50 border border-slate-100 shadow-sm">
+              <div className="w-2.5 h-2.5 rounded-full bg-blue-500 animate-pulse"></div>
+              <span className="text-[12px] font-[800] uppercase tracking-[0.4em] text-slate-500">System Ready for Public Audit</span>
+            </div>
+            <div className="inline-flex items-center gap-3 px-6 py-2.5 rounded-full bg-blue-50/50 border border-blue-100 shadow-sm">
+              <KeyIcon size={14} className="text-blue-600" />
+              <span className="text-[12px] font-[800] uppercase tracking-[0.4em] text-blue-700">BYOK Protocol Supported</span>
+            </div>
           </motion.div>
           
           <div className="overflow-hidden mb-12">
