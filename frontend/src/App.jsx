@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { ShieldCheck, Zap, Bell, User, LayoutGrid, Globe, ArrowRight } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useAnalysis } from "./hooks/useAnalysis.js";
 import { DEMOS } from "./engine/analyzer.js";
 
@@ -20,6 +20,18 @@ import NegotiationPanel from "./components/NegotiationPanel.jsx";
 import VaultView from "./components/VaultView.jsx";
 import ProfileView from "./components/ProfileView.jsx";
 import WelcomeView from "./components/WelcomeView.jsx";
+
+const springTransition = {
+  type: "spring",
+  stiffness: 260,
+  damping: 20
+};
+
+const fadeVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0 },
+  exit: { opacity: 0, y: -20 }
+};
 import { supabase } from "./lib/supabase.js";
 
 export default function App() {
@@ -87,7 +99,19 @@ export default function App() {
   };
 
   if (showWelcome) {
-    return <WelcomeView onEnter={() => setShowWelcome(false)} />;
+    return (
+      <AnimatePresence mode="wait">
+        <motion.div
+          key="welcome"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.8 }}
+        >
+          <WelcomeView onEnter={() => setShowWelcome(false)} />
+        </motion.div>
+      </AnimatePresence>
+    );
   }
 
   return (
