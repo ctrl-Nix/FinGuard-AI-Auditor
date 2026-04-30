@@ -107,6 +107,8 @@ export function useAnalysis() {
         setIsRunning(false);
       }
     }
+  }, []);
+
   const exportAudit = useCallback(async (text) => {
     try {
       const res = await fetch(`${API_URL}/api/v1/panic/export`, {
