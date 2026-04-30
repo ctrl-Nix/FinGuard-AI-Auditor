@@ -7,54 +7,52 @@ import { ShieldCheck, Zap, Globe, ArrowRight, MousePointer2, Smartphone } from "
  */
 export default function WelcomeView({ onEnter }) {
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-8 text-center relative overflow-hidden bg-[#020305]">
-      {/* Background Aura */}
+    <div className="min-h-screen flex flex-col items-center justify-center p-10 text-center relative overflow-hidden bg-[#020617] text-white font-['Manrope']">
+      {/* Finvera Background Glows */}
       <div className="absolute inset-0 z-0">
-        <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-blue-600/5 rounded-full blur-[160px]" />
-        <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-purple-600/5 rounded-full blur-[160px]" />
+        <div className="absolute top-[-20%] left-[-10%] w-[70%] h-[70%] bg-blue-600/10 rounded-full blur-[160px]" />
+        <div className="absolute bottom-[-10%] right-[-10%] w-[60%] h-[60%] bg-blue-500/5 rounded-full blur-[160px]" />
       </div>
 
-      {/* Hero */}
-      <div className="max-w-[1000px] mb-24 relative z-10 animate-in fade-in zoom-in duration-1000">
-        <div className="inline-flex items-center gap-2.5 px-5 py-2 rounded-full bg-blue-500/5 border border-blue-500/10 mb-10">
-          <div className="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></div>
-          <span className="text-[11px] font-black uppercase tracking-[0.3em] text-blue-400/80">Intelligence Protocol 3.0</span>
+      {/* Hero Section */}
+      <div className="max-w-[1100px] mb-28 relative z-10 animate-finvera">
+        <div className="inline-flex items-center gap-3 px-6 py-2.5 rounded-full bg-blue-600/10 border border-blue-600/20 mb-12">
+          <div className="w-2.5 h-2.5 rounded-full bg-blue-500 animate-pulse"></div>
+          <span className="text-[12px] font-extrabold uppercase tracking-[0.3em] text-blue-400">Institutional Grade Auditing</span>
         </div>
         
-        <h1 className="text-[64px] md:text-[100px] font-black tracking-tighter leading-[0.85] mb-10 glow-text">
-          Audit Everything. <br />
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 italic">Trust Nothing.</span>
+        <h1 className="text-[72px] md:text-[110px] font-[800] tracking-[-0.05em] leading-[0.85] mb-12">
+          Audit everything. <br />
+          <span className="text-blue-600 italic">Trust nothing.</span>
         </h1>
         
-        <p className="text-[19px] md:text-[23px] text-white/40 font-medium max-w-[700px] mx-auto leading-relaxed mb-14 tracking-tight">
-          The ultimate forensic barrier between you and financial fraud. <br className="hidden md:block" />
-          Professional-grade intelligence for the modern citizen.
+        <p className="text-[20px] md:text-[24px] text-slate-400 font-medium max-w-[700px] mx-auto leading-relaxed mb-16 tracking-tight">
+          Secure your financial future with professional-grade AI forensics. <br className="hidden md:block" />
+          Detected scams, hidden fees, and legal traps in seconds.
         </p>
 
         <button 
           onClick={onEnter}
-          className="btn-primary"
+          className="finvera-btn-primary !px-12 !py-6 !text-[18px] flex items-center gap-4 mx-auto"
         >
-          <span className="flex items-center gap-4 px-4">
-             Initialize Audit Engine
-             <ArrowRight size={20} />
-          </span>
+          Initialize Protocol
+          <ArrowRight size={24} />
         </button>
       </div>
 
-      {/* Feature Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-[1100px] w-full relative z-10">
+      {/* Finvera Bento Grid Features */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-10 max-w-[1200px] w-full relative z-10">
         {[
-          { icon: <MousePointer2 />, title: "Deep Forensics", desc: "Identify hidden fees and legal traps buried in fine print with neural scanning.", color: "text-blue-400", bg: "bg-blue-400/5" },
-          { icon: <Smartphone />, title: "Capture & Scan", desc: "Instantly digitize and audit paper contracts using advanced OCR tech.", color: "text-purple-400", bg: "bg-purple-400/5" },
-          { icon: <Globe />, title: "Intel Vault", desc: "Access the global database of reported scams and fraudulent patterns.", color: "text-emerald-400", bg: "bg-emerald-400/5" }
+          { icon: <MousePointer2 size={32} />, title: "Deep Scan", desc: "Identify architectural vulnerabilities and hidden financial clauses with neural audit tech.", color: "text-blue-500", bg: "bg-blue-600/5" },
+          { icon: <Smartphone size={32} />, title: "Snap Forensic", desc: "Digitize and analyze any paper contract instantly with zero-latency OCR processing.", color: "text-blue-400", bg: "bg-sky-500/5" },
+          { icon: <Globe size={32} />, title: "Global Vault", desc: "Real-time sync with the collective security intelligence of the global community.", color: "text-emerald-400", bg: "bg-emerald-500/5" }
         ].map((f, i) => (
-          <div key={i} className="cyber-card p-10 text-left hover:scale-[1.02]">
-            <div className={`w-14 h-14 rounded-2xl ${f.bg} flex items-center justify-center mb-8 border border-white/5`}>
+          <div key={i} className="finvera-card !p-12 text-left hover:scale-[1.02] hover:bg-slate-900/60 transition-all cursor-default">
+            <div className={`w-16 h-16 rounded-[24px] ${f.bg} flex items-center justify-center mb-10 border border-white/5`}>
               <div className={f.color}>{f.icon}</div>
             </div>
-            <h3 className="text-[22px] font-black mb-3 tracking-tighter glow-text uppercase">{f.title}</h3>
-            <p className="text-[15px] text-white/30 leading-relaxed font-medium">
+            <h3 className="text-[26px] font-[800] mb-4 tracking-tighter uppercase">{f.title}</h3>
+            <p className="text-[16px] text-slate-400 leading-relaxed font-medium">
               {f.desc}
             </p>
           </div>
@@ -62,14 +60,15 @@ export default function WelcomeView({ onEnter }) {
       </div>
 
       {/* Footer Info */}
-      <div className="mt-24 flex items-center gap-10 text-[10px] font-black text-white/10 uppercase tracking-[0.3em] relative z-10">
+      <div className="mt-32 flex items-center gap-12 text-[11px] font-bold text-slate-600 uppercase tracking-[0.4em] relative z-10">
         <span>Sovereign Security</span>
-        <div className="w-1.5 h-1.5 rounded-full bg-white/5" />
+        <div className="w-1.5 h-1.5 rounded-full bg-slate-800" />
         <span>End-to-End Privacy</span>
-        <div className="w-1.5 h-1.5 rounded-full bg-white/5" />
-        <span>Open Intelligence</span>
+        <div className="w-1.5 h-1.5 rounded-full bg-slate-800" />
+        <span>Zero-Trust Protocol</span>
       </div>
     </div>
     </div>
+    </div >
   );
 }

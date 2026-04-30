@@ -1,102 +1,94 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --bg-main: #020305;
-  --bg-surface: rgba(10, 12, 18, 0.6);
-  --bg-surface-elevated: rgba(20, 24, 35, 0.8);
-  --border-glass: rgba(255, 255, 255, 0.08);
-  --accent-primary: #3b82f6; /* Electric Blue */
-  --accent-secondary: #8b5cf6; /* Cyber Purple */
-  --risk-red: #ff2d55; 
-  --risk-amber: #ff9f0a;
-  --risk-green: #30d158;
-  --ink-primary: #ffffff;
-  --ink-secondary: rgba(255, 255, 255, 0.65);
-  --ink-muted: rgba(255, 255, 255, 0.35);
-  --glow-blue: rgba(59, 130, 246, 0.25);
+  /* Finvera Palette */
+  --bg-dark: #020617;
+  --bg-card: rgba(15, 23, 42, 0.4);
+  --accent-blue: #2563EB;
+  --accent-blue-glow: rgba(37, 99, 235, 0.15);
+  --ink-primary: #FFFFFF;
+  --ink-secondary: #94A3B8;
+  --ink-muted: #475569;
+  
+  --risk-red: #EF4444;
+  --risk-amber: #F59E0B;
+  --risk-green: #10B981;
 }
 
 body {
   margin: 0;
   padding: 0;
-  background-color: var(--bg-main);
-  /* Cyber Grid Background */
-  background-image: 
-    linear-gradient(rgba(59, 130, 246, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(59, 130, 246, 0.03) 1px, transparent 1px),
-    radial-gradient(circle at 50% 0%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 100% 100%, rgba(139, 92, 246, 0.05) 0%, transparent 40%);
-  background-size: 40px 40px, 40px 40px, 100% 100%, 100% 100%;
+  background-color: var(--bg-dark);
   color: var(--ink-primary);
-  font-family: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family: 'Manrope', sans-serif;
   -webkit-font-smoothing: antialiased;
   min-height: 100vh;
   overflow-x: hidden;
 }
 
-@layer components {
-  .cyber-card {
-    @apply bg-opacity-60 backdrop-blur-3xl border border-white/10 rounded-[32px] shadow-[0_0_40px_rgba(0,0,0,0.6)];
-    background: linear-gradient(145deg, rgba(15, 18, 25, 0.8) 0%, rgba(5, 6, 8, 0.9) 100%);
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  
-  .cyber-card:hover {
-    @apply border-white/20 shadow-[0_0_60px_rgba(59,130,246,0.15)];
-    transform: translateY(-4px);
-  }
-
-  .cyber-input {
-    @apply bg-black/40 border border-white/10 rounded-[24px] px-8 py-6 text-[17px] focus:outline-none focus:border-blue-500/50 transition-all placeholder:text-white/20;
-    box-shadow: inset 0 2px 4px rgba(0,0,0,0.4);
-  }
-
-  .glow-text {
-    text-shadow: 0 0 20px var(--glow-blue);
-  }
-
-  .mono-data {
-    font-family: 'JetBrains Mono', monospace;
-    letter-spacing: -0.02em;
-  }
-
-  .btn-primary {
-    @apply relative overflow-hidden px-8 py-4 rounded-full font-black text-[13px] uppercase tracking-widest transition-all active:scale-95;
-    background: linear-gradient(90deg, #3b82f6, #6366f1);
-    box-shadow: 0 10px 30px rgba(59, 130, 246, 0.4);
-  }
-
-  .btn-primary:hover {
-    box-shadow: 0 15px 40px rgba(59, 130, 246, 0.6);
-    filter: brightness(1.1);
-  }
-
-  .status-tag {
-    @apply px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest border;
-  }
+/* Background Atmospheric Glows */
+body::before {
+  content: "";
+  position: fixed;
+  top: -10%;
+  right: -10%;
+  width: 60%;
+  height: 60%;
+  background: radial-gradient(circle, var(--accent-blue-glow) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
 }
 
-/* Custom Scanline Effect */
 body::after {
   content: "";
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.02), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.02));
-  background-size: 100% 4px, 3px 100%;
+  bottom: -10%;
+  left: -10%;
+  width: 50%;
+  height: 50%;
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
   pointer-events: none;
-  z-index: 9999;
-  opacity: 0.1;
+  z-index: 0;
+}
+
+@layer components {
+  .finvera-card {
+    @apply bg-slate-900/40 backdrop-blur-3xl border border-white/5 rounded-[40px] p-10 transition-all duration-500 hover:border-white/10;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+  }
+
+  .finvera-btn-primary {
+    @apply bg-blue-600 hover:bg-blue-500 text-white px-8 py-4 rounded-[16px] font-bold text-[15px] transition-all active:scale-95 shadow-[0_8px_20px_rgba(37,99,235,0.3)];
+  }
+
+  .finvera-btn-secondary {
+    @apply bg-white/5 hover:bg-white/10 text-white px-8 py-4 rounded-[16px] font-bold text-[15px] border border-white/10 transition-all active:scale-95;
+  }
+
+  .finvera-input {
+    @apply bg-white/5 border border-white/10 rounded-[24px] px-8 py-6 text-[17px] font-medium focus:outline-none focus:border-blue-500/50 transition-all placeholder:text-slate-500;
+  }
+
+  .finvera-badge {
+    @apply px-4 py-1.5 rounded-full text-[11px] font-bold uppercase tracking-widest border;
+  }
+
+  .bento-grid {
+    @apply grid gap-8;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  }
+}
+
+.mono-data {
+  font-family: 'JetBrains Mono', monospace;
 }
 
 .custom-scrollbar::-webkit-scrollbar {
-  width: 4px;
+  width: 6px;
 }
 .custom-scrollbar::-webkit-scrollbar-track {
   background: transparent;
@@ -104,4 +96,13 @@ body::after {
 .custom-scrollbar::-webkit-scrollbar-thumb {
   background: rgba(255, 255, 255, 0.1);
   border-radius: 10px;
+}
+
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-finvera {
+  animation: fade-in-up 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
 }
