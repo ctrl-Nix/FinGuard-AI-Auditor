@@ -6,7 +6,7 @@ import { supabase } from "../lib/supabase";
  * ProfileView — Bento Glass Style
  * User's Audit History and Security Profile.
  */
-export default function ProfileView() {
+export default function ProfileView({ message }) {
   const [user, setUser] = useState(null);
   const [history, setHistory] = useState([]);
   const [email, setEmail] = useState("");
@@ -68,7 +68,9 @@ export default function ProfileView() {
             <User size={40} className="text-white" />
           </div>
           <h2 className="text-[32px] font-black tracking-tighter mb-2">Secure Login</h2>
-          <p className="text-[15px] text-ink-secondary font-medium">Log in to save your audit history and sync across devices.</p>
+          <p className="text-[15px] text-ink-secondary font-medium">
+            {message || "Log in to save your audit history and sync across devices."}
+          </p>
         </div>
 
         <div className="glass-card">

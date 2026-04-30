@@ -105,8 +105,9 @@ export default function App() {
               <h2 className="text-[42px] font-black tracking-tighter mb-4 leading-tight">Professional Contract Audit.</h2>
               <InputPanel 
                 onAnalyze={handleAnalyze} 
-                onAnalyzeFile={handleAnalyzeFile}
+                onAnalyzeFile={user ? handleAnalyzeFile : () => setCurrentTab("profile")}
                 isAnalyzing={isAnalyzing}
+                isLoggedIn={!!user}
               />
             </div>
 
@@ -141,7 +142,7 @@ export default function App() {
           </div>
         )}
 
-        {currentTab === "vault" && <VaultView />}
+        {currentTab === "vault" && (user ? <VaultView /> : <ProfileView message="Sign up to join the Community Defense and see live scam reports." />)}
         {currentTab === "profile" && <ProfileView />}
       </main>
 
@@ -151,7 +152,10 @@ export default function App() {
           <LayoutGrid size={24} />
           <span className="text-[10px] font-bold uppercase">Audit</span>
         </button>
-        <button onClick={() => setCurrentTab("vault")} className={`flex flex-col items-center gap-1 ${currentTab === "vault" ? 'text-blue-500' : 'text-white/40'}`}>
+        <button 
+          onClick={() => setCurrentTab("vault")}
+          className={`flex flex-col items-center gap-1 transition-colors ${currentTab === "vault" ? 'text-blue-500' : 'text-white/40'}`}
+        >
           <ShieldCheck size={24} />
           <span className="text-[10px] font-bold uppercase">Vault</span>
         </button>
