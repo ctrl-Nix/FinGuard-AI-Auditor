@@ -1,0 +1,486 @@
+/* FinGuard Extension — Popup Styles */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 320px;
+  background: #0a0b0e;
+  color: #e8eaf0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif;
+  font-size: 13px;
+  -webkit-font-smoothing: antialiased;
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+  min-height: 200px;
+}
+
+/* ── Header ──────────────────────────────────────────────────────────────────── */
+
+#header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px 12px;
+  border-bottom: 1px solid #1e2128;
+  background: #0d0f13;
+}
+
+#logo {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+#logo svg {
+  color: #2563eb;
+  flex-shrink: 0;
+}
+
+#logo-name {
+  display: block;
+  font-size: 14px;
+  font-weight: 700;
+  color: #e8eaf0;
+  letter-spacing: -0.3px;
+  line-height: 1.1;
+}
+
+#logo-sub {
+  display: block;
+  font-size: 10px;
+  color: #4a5060;
+  letter-spacing: 0.2px;
+  line-height: 1;
+}
+
+#api-badge {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 9px;
+  border-radius: 99px;
+  background: rgba(74, 80, 96, 0.12);
+  border: 1px solid #1e2128;
+}
+
+.status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #4a5060;
+  transition: background 0.3s ease;
+  flex-shrink: 0;
+}
+
+#api-label {
+  font-size: 11px;
+  color: #4a5060;
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  letter-spacing: 0.3px;
+}
+
+/* ── Banner ──────────────────────────────────────────────────────────────────── */
+
+#page-banner {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 16px;
+  background: rgba(245, 158, 11, 0.1);
+  border-bottom: 1px solid rgba(245, 158, 11, 0.2);
+  font-size: 12px;
+  color: #fbbf24;
+  font-weight: 500;
+}
+
+#banner-icon {
+  font-size: 14px;
+}
+
+/* ── Main ────────────────────────────────────────────────────────────────────── */
+
+#main {
+  padding: 16px;
+  flex: 1;
+}
+
+/* Idle */
+
+#page-info {
+  margin-bottom: 14px;
+}
+
+#page-host {
+  font-size: 12px;
+  color: #4a5060;
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  margin-bottom: 8px;
+  word-break: break-all;
+}
+
+#page-types-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+/* Buttons */
+
+.btn-primary {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  letter-spacing: -0.1px;
+  outline: none;
+  margin-bottom: 12px;
+}
+
+.btn-primary:hover {
+  background: #1d4ed8;
+}
+
+.btn-primary:active {
+  transform: scale(0.98);
+}
+
+.btn-secondary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 14px;
+  background: #1a1d24;
+  color: #9ba3b5;
+  border: 1px solid #1e2128;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  outline: none;
+}
+
+.btn-secondary:hover {
+  background: #20242e;
+  color: #c0c4d0;
+}
+
+.btn-ghost {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 14px;
+  background: none;
+  color: #4a5060;
+  border: 1px solid #1e2128;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  outline: none;
+}
+
+.btn-ghost:hover {
+  color: #9ba3b5;
+  background: #111318;
+}
+
+.hint {
+  font-size: 11px;
+  color: #2e3240;
+  line-height: 1.6;
+}
+
+.hint.center {
+  text-align: center;
+  margin: 6px 0 12px;
+}
+
+/* Scanning */
+
+#state-scanning {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 24px 0;
+}
+
+.spinner {
+  width: 34px;
+  height: 34px;
+  border: 3px solid #1e2128;
+  border-top-color: #2563eb;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.center-msg {
+  color: #9ba3b5;
+  text-align: center;
+  font-size: 13px;
+}
+
+/* Result */
+
+#verdict-pill {
+  margin-bottom: 14px;
+}
+
+.vp-inner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid;
+}
+
+.vp-icon {
+  font-size: 20px;
+  line-height: 1;
+}
+
+.vp-label {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+#stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.stat-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #0d0f13;
+  border: 1px solid #1e2128;
+  border-radius: 8px;
+  padding: 8px 4px;
+  gap: 3px;
+}
+
+.stat-val {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.stat-key {
+  font-size: 10px;
+  color: #4a5060;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+#result-actions {
+  display: flex;
+  gap: 8px;
+}
+
+#result-actions .btn-secondary {
+  flex: 1;
+}
+
+#result-actions .btn-ghost {
+  flex: 1;
+}
+
+/* Error */
+
+#state-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 20px 0;
+  text-align: center;
+}
+
+.error-icon {
+  font-size: 32px;
+}
+
+.error-text {
+  color: #ef4444;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+code {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 11px;
+  background: #0d0f13;
+  padding: 1px 5px;
+  border-radius: 4px;
+  color: #9ba3b5;
+}
+
+/* ── Settings panel ──────────────────────────────────────────────────────────── */
+
+#settings-panel {
+  padding: 14px 16px 16px;
+  border-top: 1px solid #1e2128;
+  background: #0a0b0e;
+}
+
+.setting-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  gap: 12px;
+}
+
+.setting-label {
+  font-size: 12px;
+  color: #9ba3b5;
+  flex-shrink: 0;
+}
+
+.setting-input {
+  flex: 1;
+  background: #0d0f13;
+  border: 1px solid #1e2128;
+  border-radius: 7px;
+  color: #e8eaf0;
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 11px;
+  padding: 6px 9px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.setting-input:focus {
+  border-color: #2563eb;
+}
+
+/* Toggle switch */
+
+.toggle {
+  position: relative;
+  display: inline-block;
+  width: 38px;
+  height: 22px;
+  flex-shrink: 0;
+}
+
+.toggle input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-slider {
+  position: absolute;
+  inset: 0;
+  background: #1e2128;
+  border-radius: 22px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.toggle-slider::before {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  left: 3px;
+  top: 3px;
+  background: #4a5060;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.toggle input:checked + .toggle-slider {
+  background: rgba(37, 99, 235, 0.3);
+}
+
+.toggle input:checked + .toggle-slider::before {
+  background: #2563eb;
+  transform: translateX(16px);
+}
+
+/* ── Footer ──────────────────────────────────────────────────────────────────── */
+
+#footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  border-top: 1px solid #1e2128;
+  background: #0d0f13;
+}
+
+#scan-count-label {
+  font-size: 11px;
+  color: #2e3240;
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+.icon-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #3a3f50;
+  padding: 4px 6px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  transition: all 0.15s ease;
+  outline: none;
+}
+
+.icon-btn:hover {
+  background: #1a1d24;
+  color: #9ba3b5;
+}
+
+/* Chip */
+
+.chip {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 99px;
+  background: rgba(37, 99, 235, 0.12);
+  color: #60a5fa;
+  border: 1px solid rgba(37, 99, 235, 0.25);
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.chip-warn {
+  background: rgba(245, 158, 11, 0.12);
+  color: #fbbf24;
+  border-color: rgba(245, 158, 11, 0.25);
+}

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FinGuard AI Auditor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <style>
+    /* Import Inter via googleapis — allowed by CSP since it's a known CDN */
+  </style>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+  <div id="app">
+
+    <!-- Header -->
+    <header id="header">
+      <div id="logo">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+        </svg>
+        <div>
+          <span id="logo-name">FinGuard</span>
+          <span id="logo-sub">AI Auditor</span>
+        </div>
+      </div>
+      <div id="api-badge">
+        <span class="status-dot" id="api-dot"></span>
+        <span id="api-label">Checking…</span>
+      </div>
+    </header>
+
+    <!-- Page detection banner -->
+    <div id="page-banner" style="display:none">
+      <span id="banner-icon">⚡</span>
+      <span id="banner-text">Risky page detected</span>
+    </div>
+
+    <!-- Main area -->
+    <main id="main">
+
+      <!-- Idle -->
+      <div id="state-idle">
+        <div id="page-info">
+          <div id="page-host"></div>
+          <div id="page-types-list"></div>
+        </div>
+        <button id="scan-btn" class="btn-primary">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+          </svg>
+          Scan this page
+        </button>
+        <p class="hint">Detects hidden fees, auto-renewal traps, manipulative clauses, and more.</p>
+      </div>
+
+      <!-- Scanning -->
+      <div id="state-scanning" style="display:none">
+        <div class="spinner"></div>
+        <p id="scanning-msg" class="center-msg">Analysing page…</p>
+      </div>
+
+      <!-- Result -->
+      <div id="state-result" style="display:none">
+        <div id="verdict-pill"></div>
+        <div id="stats-grid"></div>
+        <p id="highlight-note" class="hint center"></p>
+        <div id="result-actions">
+          <button id="rescan-btn" class="btn-secondary">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/>
+              <path d="M21 3v5h-5"/>
+              <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/>
+              <path d="M8 16H3v5"/>
+            </svg>
+            Re-scan
+          </button>
+          <button id="clear-btn" class="btn-ghost">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/>
+            </svg>
+            Clear
+          </button>
+        </div>
+      </div>
+
+      <!-- Error -->
+      <div id="state-error" style="display:none">
+        <div class="error-icon">⚠</div>
+        <p id="error-msg" class="error-text"></p>
+        <p class="hint center">Make sure the FinGuard backend is running at <code>localhost:8000</code></p>
+        <button id="retry-btn" class="btn-secondary">Retry</button>
+      </div>
+
+    </main>
+
+    <!-- Settings section -->
+    <div id="settings-panel" style="display:none">
+      <div class="setting-row">
+        <label class="setting-label">API URL</label>
+        <input type="text" id="api-url-input" class="setting-input" placeholder="http://localhost:8000" />
+      </div>
+      <div class="setting-row">
+        <label class="setting-label">Auto-scan risky pages</label>
+        <label class="toggle">
+          <input type="checkbox" id="auto-scan-toggle" />
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+      <button id="save-settings-btn" class="btn-primary" style="margin-top:8px">Save settings</button>
+    </div>
+
+    <!-- Footer -->
+    <footer id="footer">
+      <span id="scan-count-label"></span>
+      <button id="settings-toggle-btn" class="icon-btn" title="Settings">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+        </svg>
+      </button>
+    </footer>
+
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+# FinGuard 3.0 — Docker Compose
+# Runs Streamlit UI + FastAPI side by side
+#
+# Usage:
+#   docker compose up            # start both services
+#   docker compose up streamlit  # UI only
+#   docker compose up api        # API only
+
+version: "3.9"
+
+services:
+  streamlit:
+    build: .
+    command: streamlit
+    ports:
+      - "8501:8501"
+    env_file:
+      - .env
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8501/_stcore/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  api:
+    build: .
+    command: api
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    environment:
+      - WORKERS=2
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/v1/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
