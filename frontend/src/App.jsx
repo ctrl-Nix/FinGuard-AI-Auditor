@@ -9,6 +9,8 @@ import DisputePanel     from "./components/DisputePanel.jsx";
 import { FileDown, ShieldCheck } from "lucide-react";
 import { useAnalysis }    from "./hooks/useAnalysis.js";
 import { DEMOS }          from "./engine/analyzer.js";
+import VerdictHeader      from "./components/VerdictHeader.jsx";
+import SummaryCard        from "./components/SummaryCard.jsx";
 
 export default function App() {
   const { result, isRunning, apiResult, apiLoading, runKey, analyze, analyzeFile, exportAudit } = useAnalysis();
@@ -63,6 +65,14 @@ export default function App() {
               <FileDown size={14} />
               Download Legal Bundle (PDF)
             </button>
+          </div>
+        )}
+
+        {/* Result Header - Phase 1 (Visuals) */}
+        {result && (
+          <div className="space-y-4">
+            <VerdictHeader verdict={result.verdict} score={result.score} />
+            <SummaryCard highlights={result.highlights} verdict={result.verdict} />
           </div>
         )}
 

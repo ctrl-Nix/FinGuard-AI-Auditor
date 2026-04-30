@@ -8,10 +8,10 @@
 
 export const SIGNALS = [
   // ── Hidden Fees ──────────────────────────────────────────────────────────
-  { pattern: /\bprocessing\s+fee\b/i,       weight: 8,  type: "hidden_fee",         severity: "medium", reason: "Processing fees are commonly buried in fine print" },
-  { pattern: /\bplatform\s+fee\b/i,         weight: 8,  type: "hidden_fee",         severity: "medium", reason: "Platform fees can be added silently without disclosure" },
-  { pattern: /\bconvenience\s+fee\b/i,      weight: 8,  type: "hidden_fee",         severity: "medium", reason: "Convenience fees penalise standard payment methods" },
-  { pattern: /\bhandling\s+fee\b/i,         weight: 8,  type: "hidden_fee",         severity: "medium", reason: "Handling fees can be inflated beyond actual costs" },
+  { pattern: /\bprocessing\s+fee\b/i,       weight: 8,  type: "hidden_fee",         severity: "medium", reason: "Extra 'Processing Fee' found—ask them to remove this." },
+  { pattern: /\bplatform\s+fee\b/i,         weight: 8,  type: "hidden_fee",         severity: "medium", reason: "Hidden 'Platform Fee' detected—this is an extra charge." },
+  { pattern: /\bconvenience\s+fee\b/i,      weight: 8,  type: "hidden_fee",         severity: "medium", reason: "Convenience Fee alert—they are charging you to pay them." },
+  { pattern: /\bhandling\s+fee\b/i,         weight: 8,  type: "hidden_fee",         severity: "medium", reason: "Handling Fee found—this is often a junk charge." },
   { pattern: /\bservice\s+charge\b/i,       weight: 8,  type: "hidden_fee",         severity: "medium", reason: "Service charges may duplicate costs in the headline price" },
   { pattern: /\bactivation\s+fee\b/i,       weight: 8,  type: "hidden_fee",         severity: "medium", reason: "Activation fees are frequently waived upon request" },
   { pattern: /\bmaintenance\s+fee\b/i,      weight: 8,  type: "hidden_fee",         severity: "medium", reason: "Recurring maintenance fees compound indefinitely" },
@@ -22,10 +22,10 @@ export const SIGNALS = [
   { pattern: /\badministration\s+fee\b/i,   weight: 8,  type: "hidden_fee",         severity: "medium", reason: "Administration fees are often vague and negotiable" },
 
   // ── Misleading Phrases ────────────────────────────────────────────────────
-  { pattern: /\bguaranteed\s+returns?\b/i,  weight: 20, type: "misleading_phrase",  severity: "high",   reason: "No legitimate investment guarantees returns — hallmark of Ponzi schemes" },
-  { pattern: /\b0\s*%\s*interest\b/i,       weight: 20, type: "misleading_phrase",  severity: "high",   reason: "0% offers revert to high APR after a promotional period" },
-  { pattern: /\brisk[\-\s]free\s+investment\b/i, weight: 20, type: "misleading_phrase", severity: "high", reason: "All investments carry risk — this claim is misleading and often illegal" },
-  { pattern: /\bdouble\s+your\s+(?:money|investment)\b/i, weight: 20, type: "misleading_phrase", severity: "high", reason: "Promises to double money are a classic fraud signal" },
+  { pattern: /\bguaranteed\s+returns?\b/i,  weight: 20, type: "misleading_phrase",  severity: "high",   reason: "DANGER: Real investments never 'guarantee' profit. This is likely a scam." },
+  { pattern: /\b0\s*%\s*interest\b/i,       weight: 20, type: "misleading_phrase",  severity: "high",   reason: "Trap Alert: 0% interest will jump to 29%+ after a few months." },
+  { pattern: /\brisk[\-\s]free\s+investment\b/i, weight: 20, type: "misleading_phrase", severity: "high", reason: "False Claim: No investment is 'Risk Free'. This is a major red flag." },
+  { pattern: /\bdouble\s+your\s+(?:money|investment)\b/i, weight: 20, type: "misleading_phrase", severity: "high", reason: "Classic Scam: Anyone promising to 'double your money' is lying." },
   { pattern: /\b(?:100|150|200|300|500)\s*%\s+returns?\b/i, weight: 20, type: "misleading_phrase", severity: "high", reason: "Extreme return promises are unrealistic and indicate likely fraud" },
   { pattern: /\blimited[\-\s]time\s+offer\b/i, weight: 8, type: "misleading_phrase", severity: "medium", reason: "Artificial scarcity — the offer is rarely as time-limited as stated" },
   { pattern: /\bpre[\-\s]?approved\b/i,     weight: 8,  type: "misleading_phrase",  severity: "medium", reason: "'Pre-approved' is often marketing language — actual approval requires review" },
@@ -34,10 +34,10 @@ export const SIGNALS = [
   { pattern: /\bfree\s+trial\b/i,           weight: 3,  type: "misleading_phrase",  severity: "low",    reason: "Free trials commonly convert to paid subscriptions without clear notice" },
 
   // ── Auto-Renewal Traps ─────────────────────────────────────────────────────
-  { pattern: /\bauto[\-\s]?renew(?:al|s|ed|ing)?\b/i,  weight: 8, type: "auto_renewal_trap", severity: "medium", reason: "Automatic renewal without clear opt-out mechanism" },
-  { pattern: /\bunless\s+(?:you\s+)?cancel/i,           weight: 20, type: "auto_renewal_trap", severity: "high",   reason: "Cancellation obligation that is easy to miss — creates accidental renewals" },
-  { pattern: /\buntil\s+cancelled\b/i,                  weight: 8,  type: "auto_renewal_trap", severity: "medium", reason: "Indefinite service continuation unless actively cancelled" },
-  { pattern: /\b(?:30|60|90)[\-\s]day\s+(?:written\s+)?notice\b/i, weight: 20, type: "auto_renewal_trap", severity: "high", reason: "Long notice window creates accidental renewal and unexpected charges" },
+  { pattern: /\bauto[\-\s]?renew(?:al|s|ed|ing)?\b/i,  weight: 8, type: "auto_renewal_trap", severity: "medium", reason: "Subscription Trap: This will keep charging you forever unless you cancel." },
+  { pattern: /\bunless\s+(?:you\s+)?cancel/i,           weight: 20, type: "auto_renewal_trap", severity: "high",   reason: "Easy to miss: They will take your money automatically if you don't act." },
+  { pattern: /\buntil\s+cancelled\b/i,                  weight: 8,  type: "auto_renewal_trap", severity: "medium", reason: "Indefinite Charge: This is a 'Rolling' contract—it won't stop on its own." },
+  { pattern: /\b(?:30|60|90)[\-\s]day\s+(?:written\s+)?notice\b/i, weight: 20, type: "auto_renewal_trap", severity: "high", reason: "Cancellation Trap: You must tell them months in advance or they charge you again." },
   { pattern: /\brecurring\s+(?:charge|billing|payment)\b/i, weight: 8, type: "auto_renewal_trap", severity: "medium", reason: "Recurring charges may escalate without prominent disclosure" },
   { pattern: /\brolling\s+(?:contract|subscription)\b/i, weight: 8, type: "auto_renewal_trap", severity: "medium", reason: "Rolling contracts auto-extend if cancellation is missed" },
   { pattern: /\bevergreen\s+(?:contract|clause|agreement)\b/i, weight: 20, type: "auto_renewal_trap", severity: "high", reason: "Evergreen clauses automatically renew without any reminder" },

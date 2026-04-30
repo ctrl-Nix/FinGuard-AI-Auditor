@@ -102,6 +102,13 @@ export function analyzeText(text) {
   const severityCounts = { high: 0, medium: 0, low: 0 };
   for (const m of matches) severityCounts[m.severity]++;
 
+  // Generate "What's the Catch?" for generic public
+  const highlights = {
+    topRisk:    matches.find(m => m.severity === "high")?.reason || "No critical threats found.",
+    hiddenCost: matches.find(m => m.type === "hidden_fee")?.reason || "No hidden fees detected.",
+    exitPlan:   matches.find(m => m.type === "auto_renewal_trap")?.reason || "Standard cancellation likely applies.",
+  };
+
   return {
     score,
     verdict,
@@ -111,6 +118,7 @@ export function analyzeText(text) {
     severityCounts,
     rawScore: raw,
     isEmpty: false,
+    highlights, // New: Public-friendly summary
   };
 }
 
