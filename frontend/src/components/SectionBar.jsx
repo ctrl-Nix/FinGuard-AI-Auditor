@@ -51,7 +51,7 @@ function FindingCard({ item }) {
           className="font-mono text-[12px] font-medium mb-0.5 truncate"
           style={{ color: sevColor }}
         >
-          "{item.matchedText}"
+          "{item.text}"
         </div>
         <div className="text-[12px] text-ink-muted leading-relaxed">
           {item.reason}

@@ -73,7 +73,7 @@ export function analyzeText(text) {
       matches.push({
         type:        sig.type,
         severity:    sig.severity,
-        matchedText: m[0],
+        text:        m[0],
         index:       m.index,
         reason:      sig.reason,
         pts:         sig.weight,
