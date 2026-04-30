@@ -27,58 +27,69 @@ export default function WelcomeView({ onEnter }) {
   return (
     <div className="min-h-screen bg-white text-[#0F172A] font-['Manrope'] selection:bg-blue-500/10 overflow-x-hidden">
       
-      {/* 0. GRADIENT PROMO BANNER */}
-      <div className="bg-gradient-to-r from-blue-600 to-emerald-500 py-2.5 px-4 text-center relative z-[110]">
-         <p className="text-[11px] font-black uppercase tracking-[0.3em] text-white/90">
-            Secure Forensic Protocol v3.0 — Now Available for Public Audit
-         </p>
-      </div>
+      {/* 0. MASSIVE SPLASH BANNER (50vh) */}
+      <section className="h-[50vh] w-full bg-gradient-to-br from-blue-600 via-blue-700 to-emerald-500 relative flex flex-col items-center justify-center overflow-hidden">
+         {/* Animated Background Elements */}
+         <div className="absolute inset-0 z-0 opacity-20">
+            <div className="absolute top-0 left-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10"></div>
+            <motion.div 
+               animate={{ 
+                 scale: [1, 1.2, 1],
+                 rotate: [0, 90, 0] 
+               }}
+               transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+               className="absolute top-[-20%] right-[-10%] w-[600px] h-[600px] bg-white/20 rounded-full blur-[120px]"
+            />
+         </div>
 
-      {/* 1. HERO SECTION */}
-      <section className="relative min-h-[90vh] flex flex-col items-center justify-center p-10 text-center">
-        {/* Branding top right */}
-        <div className="absolute top-20 right-10 flex items-center gap-4 z-[100]">
-           <span className="text-[20px] font-[800] tracking-tight text-[#0F172A]">FinGuard</span>
-           <div className="w-10 h-10 rounded-[12px] bg-white border border-slate-100 shadow-md flex items-center justify-center">
-              <img src={logo} alt="FinGuard" className="w-6 h-6" />
-           </div>
-        </div>
+         <div className="relative z-10 text-center space-y-6 px-10">
+            <div className="w-24 h-24 rounded-[28px] bg-white/10 backdrop-blur-xl border border-white/20 shadow-2xl flex items-center justify-center mx-auto mb-8">
+               <img src={logo} alt="FinGuard" className="w-14 h-14 brightness-0 invert" />
+            </div>
+            <h1 className="text-[64px] md:text-[90px] font-[900] tracking-[-0.05em] leading-none text-white">
+               FinGuard <span className="text-emerald-300">Audit.</span>
+            </h1>
+            <p className="text-white/70 text-[18px] font-bold uppercase tracking-[0.4em]">
+               Institutional Forensic Protocol v3.0
+            </p>
+         </div>
+         
+         {/* Branding top right (Floating inside banner) */}
+         <div className="absolute top-10 right-10 flex items-center gap-4 z-[100]">
+            <span className="text-[18px] font-[800] tracking-tight text-white/90">FinGuard</span>
+            <div className="w-10 h-10 rounded-[12px] bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center">
+               <img src={logo} alt="FinGuard" className="w-6 h-6 brightness-0 invert" />
+            </div>
+         </div>
+      </section>
 
-        {/* Soft Aura Glows */}
-        <div className="absolute inset-0 z-0 overflow-hidden">
-          <div className="absolute top-[-10%] left-[-5%] w-[60%] h-[60%] bg-blue-50 rounded-full blur-[120px] opacity-40" />
-          <div className="absolute bottom-[-10%] right-[-5%] w-[50%] h-[50%] bg-emerald-50 rounded-full blur-[120px] opacity-40" />
-        </div>
-
+      {/* 1. HERO CONTENT SECTION */}
+      <section className="relative py-32 flex flex-col items-center justify-center p-10 text-center">
         <motion.div 
           initial="hidden"
-          animate="visible"
+          whileInView="visible"
+          viewport={{ once: true }}
           variants={sectionVariants}
           className="max-w-[1200px] relative z-10"
         >
-          <div className="flex flex-col items-center mb-12">
-            <div className="w-24 h-24 rounded-[28px] bg-white border border-slate-100 shadow-2xl flex items-center justify-center mb-8">
-               <img src={logo} alt="FinGuard" className="w-14 h-14" />
-            </div>
-            <div className="inline-flex items-center gap-3 px-6 py-2.5 rounded-full bg-slate-50 border border-slate-100 shadow-sm">
-              <div className="w-2.5 h-2.5 rounded-full bg-blue-500 animate-pulse"></div>
-              <span className="text-[12px] font-[800] uppercase tracking-[0.4em] text-slate-500">Advanced Forensic Protocol</span>
-            </div>
+          <div className="inline-flex items-center gap-3 px-6 py-2.5 rounded-full bg-slate-50 border border-slate-100 shadow-sm mb-12">
+            <div className="w-2.5 h-2.5 rounded-full bg-blue-500 animate-pulse"></div>
+            <span className="text-[12px] font-[800] uppercase tracking-[0.4em] text-slate-500">System Ready for Public Audit</span>
           </div>
           
-          <h1 className="text-[72px] md:text-[120px] font-[800] tracking-[-0.05em] leading-[0.82] mb-12 text-[#0F172A]">
+          <h2 className="text-[64px] md:text-[90px] font-[800] tracking-[-0.05em] leading-[0.9] mb-12 text-[#0F172A]">
             Audit Everything. <br />
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-emerald-600 italic">Trust Nothing.</span>
-          </h1>
+          </h2>
           
-          <p className="text-[20px] md:text-[26px] text-slate-500 font-medium max-w-[800px] mx-auto leading-relaxed mb-16 tracking-tight">
-            Institutional-grade forensics, designed for complete privacy and instant verification.
+          <p className="text-[20px] md:text-[24px] text-slate-500 font-medium max-w-[800px] mx-auto leading-relaxed mb-16 tracking-tight">
+            The world's first decentralized forensic engine designed for complete privacy and instant verification.
           </p>
 
           <div className="flex flex-col md:flex-row items-center justify-center gap-6">
             <button 
               onClick={onEnter}
-              className="!bg-gradient-to-r !from-blue-600 !to-emerald-500 hover:opacity-90 text-white px-14 py-7 rounded-[20px] font-bold text-[20px] flex items-center gap-4 shadow-2xl shadow-blue-200 transition-all active:scale-95"
+              className="!bg-[#0F172A] hover:bg-black text-white px-14 py-7 rounded-[20px] font-bold text-[20px] flex items-center gap-4 shadow-2xl shadow-slate-200 transition-all active:scale-95"
             >
               Start Secure Audit
               <ArrowRight size={26} />
