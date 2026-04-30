@@ -15,6 +15,7 @@ import SummaryCard        from "./components/SummaryCard.jsx";
 import NegotiationPanel   from "./components/NegotiationPanel.jsx";
 import VaultView          from "./components/VaultView.jsx";
 import ProfileView        from "./components/ProfileView.jsx";
+import WelcomeView        from "./components/WelcomeView.jsx";
 import { supabase }       from "./lib/supabase.js";
 
 export default function App() {
@@ -22,6 +23,7 @@ export default function App() {
   const [currentText, setCurrentText] = useState("");
   const [currentTab, setCurrentTab] = useState("audit");
   const [user, setUser] = useState(null);
+  const [showWelcome, setShowWelcome] = useState(true);
 
   useEffect(() => {
     try {
@@ -79,7 +81,9 @@ export default function App() {
     analyzeFile(file);
   };
 
-  const heatmap = useMemo(() => result?.matches || [], [result]);
+  if (showWelcome) {
+    return <WelcomeView onEnter={() => setShowWelcome(false)} />;
+  }
 
   return (
     <div className="min-h-screen bg-[#050608] text-white">
