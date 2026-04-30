@@ -27,11 +27,15 @@ export default function WelcomeView({ onEnter }) {
   return (
     <div className="min-h-screen bg-white text-[#0F172A] font-['Manrope'] selection:bg-blue-500/10 overflow-x-hidden">
       
-      {/* 0. MASSIVE SPLASH BANNER (50vh) */}
-      <section className="h-[50vh] w-full bg-gradient-to-br from-blue-600 via-blue-700 to-emerald-500 relative flex flex-col items-center justify-center overflow-hidden">
+      {/* 0. CINEMATIC INTRO BANNER */}
+      <motion.section 
+         initial={{ height: "100vh" }}
+         animate={{ height: "45vh" }}
+         transition={{ duration: 1.5, delay: 1, ease: [0.16, 1, 0.3, 1] }}
+         className="w-full bg-gradient-to-br from-blue-600 via-blue-700 to-emerald-500 relative flex flex-col items-center justify-center overflow-hidden z-[110]"
+      >
          {/* Animated Background Elements */}
          <div className="absolute inset-0 z-0 opacity-20">
-            <div className="absolute top-0 left-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10"></div>
             <motion.div 
                animate={{ 
                  scale: [1, 1.2, 1],
@@ -43,33 +47,39 @@ export default function WelcomeView({ onEnter }) {
          </div>
 
          <div className="relative z-10 text-center space-y-6 px-10">
-            <div className="w-24 h-24 rounded-[28px] bg-white/10 backdrop-blur-xl border border-white/20 shadow-2xl flex items-center justify-center mx-auto mb-8">
+            <motion.div 
+               initial={{ scale: 0.8, opacity: 0 }}
+               animate={{ scale: 1, opacity: 1 }}
+               transition={{ duration: 0.8 }}
+               className="w-24 h-24 rounded-[28px] bg-white/10 backdrop-blur-xl border border-white/20 shadow-2xl flex items-center justify-center mx-auto mb-8"
+            >
                <img src={logo} alt="FinGuard" className="w-14 h-14 brightness-0 invert" />
-            </div>
-            <h1 className="text-[64px] md:text-[90px] font-[900] tracking-[-0.05em] leading-none text-white">
+            </motion.div>
+            <motion.h1 
+               initial={{ y: 20, opacity: 0 }}
+               animate={{ y: 0, opacity: 1 }}
+               transition={{ delay: 0.3, duration: 0.8 }}
+               className="text-[64px] md:text-[90px] font-[900] tracking-[-0.05em] leading-none text-white"
+            >
                FinGuard <span className="text-emerald-300">Audit.</span>
-            </h1>
-            <p className="text-white/70 text-[18px] font-bold uppercase tracking-[0.4em]">
-               Institutional Forensic Protocol v3.0
-            </p>
+            </motion.h1>
          </div>
          
-         {/* Branding top right (Floating inside banner) */}
-         <div className="absolute top-10 right-10 flex items-center gap-4 z-[100]">
+         {/* Floating Logo (Top Right) */}
+         <div className="absolute top-10 right-10 flex items-center gap-4 z-[120]">
             <span className="text-[18px] font-[800] tracking-tight text-white/90">FinGuard</span>
             <div className="w-10 h-10 rounded-[12px] bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center">
                <img src={logo} alt="FinGuard" className="w-6 h-6 brightness-0 invert" />
             </div>
          </div>
-      </section>
+      </motion.section>
 
-      {/* 1. HERO CONTENT SECTION */}
-      <section className="relative py-32 flex flex-col items-center justify-center p-10 text-center">
+      {/* 1. HERO CONTENT SECTION (Moved up) */}
+      <section className="relative pt-20 pb-32 flex flex-col items-center justify-center p-10 text-center">
         <motion.div 
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={sectionVariants}
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.8, duration: 1, ease: [0.16, 1, 0.3, 1] }}
           className="max-w-[1200px] relative z-10"
         >
           <div className="inline-flex items-center gap-3 px-6 py-2.5 rounded-full bg-slate-50 border border-slate-100 shadow-sm mb-12">
