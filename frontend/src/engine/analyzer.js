@@ -74,6 +74,7 @@ export function analyzeText(text) {
         type:        sig.type,
         severity:    sig.severity,
         matchedText: m[0],
+        index:       m.index,
         reason:      sig.reason,
         pts:         sig.weight,
       });
