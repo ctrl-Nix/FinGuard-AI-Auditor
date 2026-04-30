@@ -1,9 +1,10 @@
-import { useState } from "react";
-import { Play, FileText, MessageSquare, AlertTriangle, CheckCircle } from "lucide-react";
+import { useState, useRef } from "react";
+import { Play, FileText, MessageSquare, AlertTriangle, CheckCircle, Upload, Paperclip } from "lucide-react";
 import { DEMOS } from "../engine/analyzer.js";
 
-export default function InputPanel({ onAnalyze, isAnalyzing }) {
+export default function InputPanel({ onAnalyze, onAnalyzeFile, isAnalyzing }) {
   const [text, setText] = useState(DEMOS.bad_contract.text);
+  const fileInputRef = useRef(null);
 
   const handleDemo = (key) => {
     setText(DEMOS[key].text);
@@ -12,6 +13,13 @@ export default function InputPanel({ onAnalyze, isAnalyzing }) {
 
   const handleRun = () => {
     if (text.trim()) onAnalyze(text);
+  };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      onAnalyzeFile(file);
+    }
   };
 
   const handleKey = (e) => {
@@ -28,8 +36,24 @@ export default function InputPanel({ onAnalyze, isAnalyzing }) {
   return (
     <div className="bg-surface-card border border-surface-border rounded-[16px] p-5">
       {/* Label */}
-      <div className="text-[11px] font-medium tracking-[1.2px] uppercase text-ink-muted mb-3">
-        Document or Message
+      <div className="flex items-center justify-between mb-3">
+        <div className="text-[11px] font-medium tracking-[1.2px] uppercase text-ink-muted">
+          Document or Message
+        </div>
+        <button 
+          onClick={() => fileInputRef.current?.click()}
+          className="flex items-center gap-1.5 text-risk-blue hover:text-blue-400 text-[11px] font-medium transition-colors"
+        >
+          <Paperclip size={12} />
+          Upload PDF/Image
+        </button>
+        <input 
+          type="file" 
+          ref={fileInputRef} 
+          onChange={handleFileChange} 
+          className="hidden" 
+          accept=".pdf,.docx,.png,.jpg,.jpeg,.webp"
+        />
       </div>
 
       {/* Textarea */}
@@ -37,7 +61,7 @@ export default function InputPanel({ onAnalyze, isAnalyzing }) {
         value={text}
         onChange={e => setText(e.target.value)}
         onKeyDown={handleKey}
-        placeholder="Paste a contract, financial message, or suspicious text here…"
+        placeholder="Paste text here or upload a file above..."
         rows={6}
         className="w-full bg-surface-deep border border-surface-border rounded-[10px] text-ink-secondary text-[13px] leading-relaxed p-3.5 resize-y focus:border-risk-blue transition-colors duration-200 placeholder:text-ink-faint font-sans"
       />
@@ -52,6 +76,15 @@ export default function InputPanel({ onAnalyze, isAnalyzing }) {
         >
           <Play size={13} />
           {isAnalyzing ? "Analyzing…" : "Run Analysis"}
+        </button>
+
+        <button
+          onClick={() => fileInputRef.current?.click()}
+          disabled={isAnalyzing}
+          className="flex items-center gap-2 bg-surface-hover hover:bg-[#20242e] text-ink-secondary border border-surface-border text-[13px] font-medium px-4 py-2 rounded-[9px] transition-all duration-150 active:scale-[0.98]"
+        >
+          <Upload size={13} />
+          Upload File
         </button>
 
         {/* Divider */}

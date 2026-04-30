@@ -24,6 +24,20 @@ async function fetchFromAPI(text) {
   return res.json();
 }
 
+async function uploadFileToAPI(file) {
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("use_llm", "true");
+
+  const res = await fetch(`${API_URL}/api/v1/panic/upload`, {
+    method: "POST",
+    body: formData,
+    signal: AbortSignal.timeout(15000), // longer timeout for OCR/Gemini
+  });
+  if (!res.ok) throw new Error(`Upload Failed: ${res.status}`);
+  return res.json();
+}
+
 export function useAnalysis() {
   const [result,      setResult]      = useState(null);
   const [isRunning,   setIsRunning]   = useState(false);
@@ -34,39 +48,66 @@ export function useAnalysis() {
   const abortRef = useRef(null);
 
   const analyze = useCallback(async (text, { useBackend = false } = {}) => {
-    // Cancel any pending API call
     if (abortRef.current) abortRef.current.abort();
-
     setIsRunning(true);
     setApiResult(null);
     setApiError(null);
 
-    // 1. Instant local result
-    await new Promise(r => setTimeout(r, 80)); // brief tick for loading UX
+    await new Promise(r => setTimeout(r, 80));
     const local = analyzeText(text);
     setResult(local);
     setRunKey(k => k + 1);
     setIsRunning(false);
 
-    // 2. Optional server enrichment
     if (useBackend && API_URL) {
       setApiLoading(true);
       const ctrl = new AbortController();
       abortRef.current = ctrl;
       try {
         const serverData = await fetchFromAPI(text);
-        if (!ctrl.signal.aborted) {
-          setApiResult(serverData);
-        }
+        if (!ctrl.signal.aborted) setApiResult(serverData);
       } catch (e) {
-        if (!ctrl.signal.aborted) {
-          setApiError(e.message || "API unreachable");
-        }
+        if (!ctrl.signal.aborted) setApiError(e.message || "API unreachable");
       } finally {
         if (!ctrl.signal.aborted) setApiLoading(false);
       }
     }
   }, []);
 
-  return { result, isRunning, apiResult, apiError, apiLoading, runKey, analyze };
+  const analyzeFile = useCallback(async (file) => {
+    if (abortRef.current) abortRef.current.abort();
+    setIsRunning(true);
+    setApiResult(null);
+    setApiError(null);
+    setApiLoading(true);
+
+    const ctrl = new AbortController();
+    abortRef.current = ctrl;
+
+    try {
+      const serverData = await uploadFileToAPI(file);
+      if (!ctrl.signal.aborted) {
+        // Map server result back to client format if possible, 
+        // or just use server result as the main result
+        setApiResult(serverData);
+        setResult({
+          score: serverData.confidence,
+          verdict: { label: serverData.verdict, color: "#ef4444" }, // simplified
+          matches: [], 
+          byType: {},
+          severityCounts: { high: 0, medium: 0, low: 0 }
+        });
+        setRunKey(k => k + 1);
+      }
+    } catch (e) {
+      if (!ctrl.signal.aborted) setApiError(e.message || "File analysis failed");
+    } finally {
+      if (!ctrl.signal.aborted) {
+        setApiLoading(false);
+        setIsRunning(false);
+      }
+    }
+  }, []);
+
+  return { result, isRunning, apiResult, apiError, apiLoading, runKey, analyze, analyzeFile };
 }

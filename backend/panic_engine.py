@@ -454,3 +454,70 @@ MESSAGE:
     except Exception:
         # LLM failure is silent — return original result
         return result
+
+def analyze_image(image_bytes: bytes, api_key: str) -> PanicResult:
+    """
+    Multimodal analysis for screenshots of scams.
+    Uses Gemini 2.0 Flash to "see" the text and the visual context.
+    """
+    if not api_key:
+        return run_panic_check("Error: No API key provided for image analysis.")
+
+    t0 = time.perf_counter()
+    prompt = """
+    You are a scam detection assistant. Analyze this screenshot of a message, website, or document.
+    1. Extract all text.
+    2. Identify scam signals (urgency, spoofing, hidden fees, phishing).
+    3. Provide a risk score (0-100) and a verdict (SAFE, SUSPICIOUS, SCAM).
+    4. List clear reasons for your verdict.
+    5. List what the user should do next.
+
+    Reply ONLY in this JSON format (no markdown):
+    {
+      "text": "Extracted text here",
+      "verdict": "SCAM",
+      "confidence": 85,
+      "reasons": ["reason 1", "reason 2"],
+      "what_to_do": ["action 1", "action 2"],
+      "extracted_urls": [{"url": "...", "risk": "...", "domain": "..."}],
+      "extracted_phones": ["..."],
+      "sender_flags": ["..."]
+    }
+    """
+
+    try:
+        from google import genai as _genai
+        from google.genai import types as _types
+        client = _genai.Client(api_key=api_key)
+        
+        response = client.models.generate_content(
+            model="gemini-2.0-flash",
+            contents=[
+                prompt,
+                _types.Part.from_bytes(data=image_bytes, mime_type="image/jpeg")
+            ],
+            config=_types.GenerateContentConfig(
+                temperature=0.1,
+                max_output_tokens=1000,
+            ),
+        )
+        
+        import json
+        clean = response.text.strip().lstrip("```json").lstrip("```").rstrip("```").strip()
+        parsed = json.loads(clean)
+
+        latency_ms = round((time.perf_counter() - t0) * 1000)
+
+        return PanicResult(
+            verdict=parsed.get("verdict", "SUSPICIOUS"),
+            confidence=parsed.get("confidence", 50),
+            reasons=parsed.get("reasons", []),
+            what_to_do=parsed.get("what_to_do", []),
+            latency_ms=latency_ms,
+            llm_enriched=True,
+            extracted_urls=parsed.get("extracted_urls", []),
+            extracted_phones=parsed.get("extracted_phones", []),
+            sender_flags=parsed.get("sender_flags", []),
+        )
+    except Exception as e:
+        return run_panic_check(f"Error during image analysis: {str(e)}")

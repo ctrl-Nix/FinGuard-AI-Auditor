@@ -17,7 +17,7 @@ from __future__ import annotations
 import time, os
 from typing import List, Optional
 
-from fastapi import FastAPI, Request, HTTPException, Security
+from fastapi import FastAPI, Request, HTTPException, Security, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from fastapi.security.api_key import APIKeyHeader
@@ -31,7 +31,8 @@ try:
 except ImportError:
     _RL = False
 
-from panic_engine import run_panic_check, enrich_with_llm
+from panic_engine import run_panic_check, enrich_with_llm, analyze_image
+from file_utils import extract_text_from_pdf, extract_text_from_docx, is_image, is_pdf, is_docx
 
 _VERSION = "1.0.0"
 
@@ -209,6 +210,48 @@ def check_batch(req: BatchRequest, request: Request, _=Security(verify_api_key))
         summary={"total": len(items), **counts},
         total_latency_ms=round((time.perf_counter() - t0) * 1000),
     )
+
+
+@app.post("/api/v1/panic/upload", response_model=PanicResponse, tags=["Panic"])
+async def upload_file(
+    request: Request,
+    file: UploadFile = File(...),
+    api_key: Optional[str] = None,
+    use_llm: bool = True,
+    _=Security(verify_api_key)
+):
+    """
+    Upload a file (PDF, DOCX, or Image) for analysis.
+    - Images are analyzed via Multimodal Gemini.
+    - PDF/DOCX are parsed and analyzed via text engine.
+    """
+    content = await file.read()
+    filename = file.filename or "unknown"
+
+    if is_image(filename):
+        key = api_key or os.getenv("GEMINI_API_KEY", "")
+        return _to_response(analyze_image(content, key))
+    
+    # Text extraction for docs
+    text = ""
+    if is_pdf(filename):
+        text = extract_text_from_pdf(content)
+    elif is_docx(filename):
+        text = extract_text_from_docx(content)
+    else:
+        raise HTTPException(status_code=400, detail="Unsupported file format. Use PDF, DOCX, or Image.")
+
+    if not text.strip():
+        raise HTTPException(status_code=400, detail="Could not extract text from the document.")
+
+    # Run normal analysis
+    result = run_panic_check(text)
+    if use_llm:
+        key = api_key or os.getenv("GEMINI_API_KEY", "")
+        if key:
+            result = enrich_with_llm(result, text, key)
+    
+    return _to_response(result)
 
 
 @app.exception_handler(Exception)

@@ -8,7 +8,7 @@ import { useAnalysis }  from "./hooks/useAnalysis.js";
 import { DEMOS }        from "./engine/analyzer.js";
 
 export default function App() {
-  const { result, isRunning, apiResult, apiLoading, runKey, analyze } = useAnalysis();
+  const { result, isRunning, apiResult, apiLoading, runKey, analyze, analyzeFile } = useAnalysis();
 
   // Auto-run on mount with demo text
   useEffect(() => {
@@ -28,7 +28,11 @@ export default function App() {
 
       <div className="max-w-[1100px] mx-auto space-y-4">
         {/* Input */}
-        <InputPanel onAnalyze={(text) => analyze(text)} isAnalyzing={isRunning} />
+        <InputPanel 
+          onAnalyze={(text) => analyze(text)} 
+          onAnalyzeFile={(file) => analyzeFile(file)}
+          isAnalyzing={isRunning} 
+        />
 
         {/* Main dashboard grid */}
         <div className="grid grid-cols-1 lg:grid-cols-[340px_1fr] gap-4 items-start">
