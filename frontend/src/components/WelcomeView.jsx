@@ -27,95 +27,133 @@ export default function WelcomeView({ onEnter }) {
   return (
     <div className="min-h-screen bg-white text-[#0F172A] font-['Manrope'] selection:bg-blue-500/10 overflow-x-hidden">
       
-      {/* 0. CINEMATIC INTRO BANNER */}
+      {/* 0. CINEMATIC INTRO BANNER WITH PARALLAX */}
       <motion.section 
          initial={{ height: "100vh" }}
          animate={{ height: "45vh" }}
-         transition={{ duration: 1.5, delay: 1, ease: [0.16, 1, 0.3, 1] }}
+         transition={{ duration: 1.8, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
          className="w-full bg-gradient-to-br from-blue-600 via-blue-700 to-emerald-500 relative flex flex-col items-center justify-center overflow-hidden z-[110]"
       >
-         {/* Animated Background Elements */}
-         <div className="absolute inset-0 z-0 opacity-20">
+         {/* Parallax Orbs */}
+         <div className="absolute inset-0 z-0">
             <motion.div 
                animate={{ 
-                 scale: [1, 1.2, 1],
-                 rotate: [0, 90, 0] 
+                 x: [0, 100, 0],
+                 y: [0, -50, 0],
+                 scale: [1, 1.2, 1]
                }}
-               transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-               className="absolute top-[-20%] right-[-10%] w-[600px] h-[600px] bg-white/20 rounded-full blur-[120px]"
+               transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
+               className="absolute top-[-20%] left-[-10%] w-[500px] h-[500px] bg-white/20 rounded-full blur-[100px]"
+            />
+            <motion.div 
+               animate={{ 
+                 x: [0, -80, 0],
+                 y: [0, 60, 0],
+                 scale: [1, 1.3, 1]
+               }}
+               transition={{ duration: 20, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+               className="absolute bottom-[-20%] right-[-10%] w-[600px] h-[600px] bg-emerald-300/20 rounded-full blur-[120px]"
             />
          </div>
 
          <div className="relative z-10 text-center space-y-6 px-10">
             <motion.div 
-               initial={{ scale: 0.8, opacity: 0 }}
-               animate={{ scale: 1, opacity: 1 }}
-               transition={{ duration: 0.8 }}
-               className="w-24 h-24 rounded-[28px] bg-white/10 backdrop-blur-xl border border-white/20 shadow-2xl flex items-center justify-center mx-auto mb-8"
+               initial={{ scale: 0.5, opacity: 0, rotate: -15 }}
+               animate={{ scale: 1, opacity: 1, rotate: 0 }}
+               transition={{ duration: 1, ease: "backOut" }}
+               className="w-24 h-24 rounded-[30px] bg-white/10 backdrop-blur-2xl border border-white/30 shadow-2xl flex items-center justify-center mx-auto mb-10"
             >
                <img src={logo} alt="FinGuard" className="w-14 h-14 brightness-0 invert" />
             </motion.div>
-            <motion.h1 
-               initial={{ y: 20, opacity: 0 }}
-               animate={{ y: 0, opacity: 1 }}
-               transition={{ delay: 0.3, duration: 0.8 }}
-               className="text-[64px] md:text-[90px] font-[900] tracking-[-0.05em] leading-none text-white"
-            >
-               FinGuard <span className="text-emerald-300">Audit.</span>
-            </motion.h1>
+            
+            <div className="overflow-hidden">
+              <motion.h1 
+                 initial={{ y: 100, opacity: 0 }}
+                 animate={{ y: 0, opacity: 1 }}
+                 transition={{ delay: 0.8, duration: 1, ease: [0.16, 1, 0.3, 1] }}
+                 className="text-[64px] md:text-[110px] font-[900] tracking-[-0.05em] leading-none text-white"
+              >
+                 FinGuard <span className="text-emerald-300">Audit.</span>
+              </motion.h1>
+            </div>
          </div>
          
-         {/* Floating Logo (Top Right) */}
-         <div className="absolute top-10 right-10 flex items-center gap-4 z-[120]">
+         <motion.div 
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 2 }}
+            className="absolute top-10 right-10 flex items-center gap-4 z-[120]"
+         >
             <span className="text-[18px] font-[800] tracking-tight text-white/90">FinGuard</span>
             <div className="w-10 h-10 rounded-[12px] bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center">
                <img src={logo} alt="FinGuard" className="w-6 h-6 brightness-0 invert" />
             </div>
-         </div>
+         </motion.div>
       </motion.section>
 
-      {/* 1. HERO CONTENT SECTION (Moved up) */}
-      <section className="relative pt-20 pb-32 flex flex-col items-center justify-center p-10 text-center">
-        <motion.div 
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.8, duration: 1, ease: [0.16, 1, 0.3, 1] }}
-          className="max-w-[1200px] relative z-10"
-        >
-          <div className="inline-flex items-center gap-3 px-6 py-2.5 rounded-full bg-slate-50 border border-slate-100 shadow-sm mb-12">
+      {/* 1. HERO CONTENT SECTION */}
+      <section className="relative pt-24 pb-40 flex flex-col items-center justify-center p-10 text-center">
+        <div className="max-w-[1200px] relative z-10">
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 1.8, duration: 0.8 }}
+            className="inline-flex items-center gap-3 px-6 py-2.5 rounded-full bg-slate-50 border border-slate-100 shadow-sm mb-16"
+          >
             <div className="w-2.5 h-2.5 rounded-full bg-blue-500 animate-pulse"></div>
             <span className="text-[12px] font-[800] uppercase tracking-[0.4em] text-slate-500">System Ready for Public Audit</span>
+          </motion.div>
+          
+          <div className="overflow-hidden mb-12">
+            <motion.h2 
+              initial={{ y: 80, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 2, duration: 1, ease: [0.16, 1, 0.3, 1] }}
+              className="text-[64px] md:text-[100px] font-[900] tracking-[-0.05em] leading-[0.85] text-[#0F172A]"
+            >
+              Audit Everything. <br />
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-emerald-600 italic">Trust Nothing.</span>
+            </motion.h2>
           </div>
           
-          <h2 className="text-[64px] md:text-[90px] font-[800] tracking-[-0.05em] leading-[0.9] mb-12 text-[#0F172A]">
-            Audit Everything. <br />
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-emerald-600 italic">Trust Nothing.</span>
-          </h2>
-          
-          <p className="text-[20px] md:text-[24px] text-slate-500 font-medium max-w-[800px] mx-auto leading-relaxed mb-16 tracking-tight">
+          <motion.p 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 2.5, duration: 1 }}
+            className="text-[20px] md:text-[26px] text-slate-400 font-medium max-w-[800px] mx-auto leading-relaxed mb-20 tracking-tight"
+          >
             The world's first decentralized forensic engine designed for complete privacy and instant verification.
-          </p>
+          </motion.p>
 
-          <div className="flex flex-col md:flex-row items-center justify-center gap-6">
-            <button 
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 2.8, duration: 0.8 }}
+            className="flex flex-col md:flex-row items-center justify-center gap-6"
+          >
+            <motion.button 
+              whileHover={{ scale: 1.05, boxShadow: "0 20px 40px rgba(15,23,42,0.2)" }}
+              whileTap={{ scale: 0.95 }}
               onClick={onEnter}
-              className="!bg-[#0F172A] hover:bg-black text-white px-14 py-7 rounded-[20px] font-bold text-[20px] flex items-center gap-4 shadow-2xl shadow-slate-200 transition-all active:scale-95"
+              className="!bg-[#0F172A] hover:bg-black text-white px-14 py-7 rounded-[22px] font-bold text-[20px] flex items-center gap-4 transition-all"
             >
               Start Secure Audit
               <ArrowRight size={26} />
-            </button>
-            <button 
+            </motion.button>
+            <motion.button 
+              whileHover={{ scale: 1.05, bg: "#F8FAFC" }}
+              whileTap={{ scale: 0.95 }}
               onClick={() => document.getElementById('features').scrollIntoView({ behavior: 'smooth' })}
               className="finvera-btn-secondary !px-14 !py-7 !text-[20px] border border-slate-200 shadow-sm"
             >
               View Capabilities
-            </button>
-          </div>
-        </motion.div>
+            </motion.button>
+          </motion.div>
+        </div>
       </section>
 
-      {/* 2. HORIZONTAL TICKER LOOP */}
-      <div className="py-12 border-y border-slate-100 bg-slate-50/50 relative z-10 overflow-hidden whitespace-nowrap">
+      {/* 2. TICKER */}
+      <div className="py-14 border-y border-slate-100 bg-slate-50/50 relative z-10 overflow-hidden whitespace-nowrap">
         <motion.div 
           initial={{ x: 0 }}
           animate={{ x: "-50%" }}
@@ -124,103 +162,19 @@ export default function WelcomeView({ onEnter }) {
         >
           {[...tickerWords, ...tickerWords].map((word, i) => (
             <span key={i} className="inline-flex items-center gap-6 mx-12">
-              <span className="text-[14px] font-[800] tracking-[0.4em] text-slate-400 uppercase">{word}</span>
-              <div className="w-2 h-2 rounded-full bg-emerald-500"></div>
+              <span className="text-[15px] font-[900] tracking-[0.4em] text-slate-300 uppercase">{word}</span>
+              <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-sm"></div>
             </span>
           ))}
         </motion.div>
       </div>
 
-      {/* 3. VALUE PROPOSITION */}
+      {/* 3. BENTO FEATURES WITH STAGGERED REVEAL */}
       <motion.section 
         id="features"
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, margin: "-100px" }}
-        variants={sectionVariants}
-        className="py-40 relative z-10"
+        className="py-48 bg-slate-50/20 relative z-10"
       >
-        <div className="max-w-[1400px] mx-auto px-10">
-          <div className="flex flex-col lg:flex-row gap-24 items-center">
-            <div className="flex-1 space-y-10">
-              <span className="text-[12px] font-black text-emerald-600 uppercase tracking-[0.5em]">Risk Management</span>
-              <h2 className="text-[54px] md:text-[72px] font-[800] tracking-tighter leading-[0.9] text-[#0F172A]">
-                Zero-Knowledge <br/>
-                Digital Auditing.
-              </h2>
-              <p className="text-[20px] text-slate-500 leading-relaxed font-medium">
-                We've built a high-velocity forensic engine that operates entirely within your browser. No data uploads. No security gaps. Just pure, on-device intelligence.
-              </p>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-8">
-                 {[
-                   { icon: <CheckCircle2 className="text-emerald-600" />, title: "Data Sovereignty", text: "Analyses never leave your perimeter." },
-                   { icon: <CheckCircle2 className="text-emerald-600" />, title: "Pattern Shield", text: "Evolving scam signal detection." },
-                   { icon: <CheckCircle2 className="text-emerald-600" />, title: "Heuristic Audit", text: "Multi-layered risk assessment." },
-                   { icon: <CheckCircle2 className="text-emerald-600" />, title: "Optical Forensics", text: "Precision OCR contract scanning." }
-                 ].map((item, i) => (
-                   <div key={i} className="flex gap-4 p-4 rounded-2xl hover:bg-slate-50 transition-colors">
-                     <div className="shrink-0 mt-1">{item.icon}</div>
-                     <div>
-                       <div className="font-bold text-[17px] text-[#0F172A]">{item.title}</div>
-                       <div className="text-[14px] text-slate-500">{item.text}</div>
-                     </div>
-                   </div>
-                 ))}
-              </div>
-            </div>
-            
-            <div className="flex-1 w-full max-w-[600px]">
-              <div className="finvera-card !p-1 bg-slate-100 shadow-2xl shadow-slate-200">
-                <div className="bg-white rounded-[32px] p-10 space-y-8">
-                  <div className="flex justify-between items-center">
-                     <div className="flex gap-2">
-                        <div className="w-3 h-3 rounded-full bg-slate-200"></div>
-                        <div className="w-3 h-3 rounded-full bg-slate-200"></div>
-                        <div className="w-3 h-3 rounded-full bg-slate-200"></div>
-                     </div>
-                     <span className="text-[10px] mono-data text-emerald-600 font-bold uppercase tracking-widest">Protocol_Active</span>
-                  </div>
-                  <div className="space-y-4 font-mono text-[13px] text-slate-400 leading-relaxed">
-                    <p>&gt; Initializing audit parameters...</p>
-                    <p>&gt; Mapping structural dependencies...</p>
-                    <p className="text-emerald-600 font-bold">&gt; Integrity check: 100% verified</p>
-                    <p>&gt; Generating forensic report...</p>
-                    <p className="text-[#0F172A] font-bold">&gt; SYSTEM READY</p>
-                  </div>
-                  <div className="h-1.5 w-full bg-slate-50 rounded-full overflow-hidden">
-                     <motion.div 
-                        initial={{ width: 0 }}
-                        whileInView={{ width: "100%" }}
-                        transition={{ duration: 2, ease: "easeInOut" }}
-                        className="h-full bg-emerald-600"
-                     />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </motion.section>
-
-      {/* 4. BENTO FEATURES */}
-      <section className="py-40 bg-slate-50/50 border-y border-slate-100 relative z-10">
-        <motion.div 
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={sectionVariants}
-          className="max-w-[1400px] mx-auto px-10 text-center mb-24"
-        >
-          <h2 className="text-[54px] md:text-[84px] font-[800] tracking-tighter leading-none mb-8 text-[#0F172A]">
-            Technical <br/> 
-            Superiority.
-          </h2>
-          <p className="text-[20px] text-slate-500 max-w-[700px] mx-auto leading-relaxed font-medium">
-            We've abstracted the world's most complex forensic models into a seamless, high-velocity interface.
-          </p>
-        </motion.div>
-
-        <div className="max-w-[1400px] mx-auto px-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+        <div className="max-w-[1400px] mx-auto px-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
           {[
             { icon: <Cpu />, title: "Neural Logic", desc: "Optimized heuristic models for sub-millisecond execution on standard edge devices." },
             { icon: <Lock />, title: "Data Sovereignty", desc: "Zero-knowledge processing ensures your proprietary documents never leave your browser." },
@@ -231,52 +185,47 @@ export default function WelcomeView({ onEnter }) {
           ].map((feature, i) => (
             <motion.div 
               key={i} 
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1, duration: 0.5 }}
-              className="finvera-card group hover:border-emerald-200 shadow-lg shadow-slate-100"
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ delay: i * 0.1, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              whileHover={{ y: -15, scale: 1.02 }}
+              className="finvera-card group border-slate-100 shadow-xl shadow-slate-200/40 bg-white"
             >
-              <div className="w-16 h-16 rounded-2xl bg-emerald-50 flex items-center justify-center mb-10 border border-emerald-100 text-emerald-600 group-hover:bg-emerald-600 group-hover:text-white transition-all">
+              <div className="w-16 h-16 rounded-[20px] bg-gradient-to-br from-blue-600 to-emerald-500 flex items-center justify-center mb-10 text-white shadow-lg shadow-blue-200 group-hover:rotate-12 transition-transform">
                 {feature.icon}
               </div>
-              <h3 className="text-[26px] font-[800] mb-4 tracking-tighter text-[#0F172A] uppercase">{feature.title}</h3>
-              <p className="text-[16px] text-slate-500 leading-relaxed font-medium">
+              <h3 className="text-[28px] font-[900] mb-6 tracking-tighter text-[#0F172A] uppercase leading-tight">{feature.title}</h3>
+              <p className="text-[17px] text-slate-400 leading-relaxed font-medium">
                 {feature.desc}
               </p>
             </motion.div>
           ))}
         </div>
-      </section>
+      </motion.section>
 
-      {/* 5. CTA */}
+      {/* 4. FOOTER CTA */}
       <section className="py-60 relative z-10 text-center">
         <motion.div 
-          initial="hidden"
-          whileInView="visible"
+          initial={{ opacity: 0, scale: 0.9 }}
+          whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
-          variants={sectionVariants}
           className="max-w-[1000px] mx-auto px-10 space-y-16"
         >
-          <h2 className="text-[64px] md:text-[110px] font-[800] tracking-tighter leading-[0.85] text-[#0F172A]">
+          <h2 className="text-[64px] md:text-[110px] font-[900] tracking-[-0.05em] leading-[0.85] text-[#0F172A]">
             Audit with <br/>
             Precision.
           </h2>
-          <button 
+          <motion.button 
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
             onClick={onEnter}
-            className="finvera-btn-primary !px-20 !py-8 !text-[24px] shadow-2xl shadow-emerald-200"
+            className="!bg-[#0F172A] text-white px-20 py-8 rounded-[24px] font-bold text-[24px] shadow-2xl shadow-slate-300"
           >
-            Launch Studio Protocol
-          </button>
-          
-          <div className="pt-24 flex items-center justify-center gap-16 text-[11px] font-bold text-slate-400 uppercase tracking-[0.5em]">
-            <span>Privacy First</span>
-            <span>Local Processing</span>
-            <span>Standard Audit</span>
-          </div>
+            Launch Studio
+          </motion.button>
         </motion.div>
       </section>
-
     </div>
   );
 }
