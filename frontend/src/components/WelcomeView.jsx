@@ -68,7 +68,5 @@ export default function WelcomeView({ onEnter }) {
         <span>Zero-Trust Protocol</span>
       </div>
     </div>
-    </div>
-    </div >
   );
 }
