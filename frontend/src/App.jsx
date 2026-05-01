@@ -308,10 +308,11 @@ export default function App() {
           <span className="text-[10px] font-extrabold uppercase tracking-widest">Vault</span>
         </button>
       </div>
-    </div>
-      
+
       <KeySettingsModal 
         isOpen={isKeyModalOpen} 
         onClose={() => setIsKeyModalOpen(false)} 
       />
     </div>
+  );
+}

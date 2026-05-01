@@ -13,21 +13,26 @@ import { analyzeText, verdictFromScore, generateNegotiation } from "../engine/an
 
 const API_URL = import.meta.env.VITE_API_URL || "";
 
-async function fetchFromAPI(text) {
+async function fetchFromAPI(text, apiKey = null) {
   const res = await fetch(`${API_URL}/api/v1/panic/check-full`, {
     method:  "POST",
     headers: { "Content-Type": "application/json" },
-    body:    JSON.stringify({ text, use_llm: false }),
+    body:    JSON.stringify({ 
+      text, 
+      use_llm: !!apiKey, 
+      api_key: apiKey 
+    }),
     signal:  AbortSignal.timeout(5000),
   });
   if (!res.ok) throw new Error(`API ${res.status}`);
   return res.json();
 }
 
-async function uploadFileToAPI(file) {
+async function uploadFileToAPI(file, apiKey = null) {
   const formData = new FormData();
   formData.append("file", file);
   formData.append("use_llm", "true");
+  if (apiKey) formData.append("api_key", apiKey);
 
   const res = await fetch(`${API_URL}/api/v1/panic/upload`, {
     method: "POST",
@@ -59,12 +64,14 @@ export function useAnalysis() {
     setRunKey(k => k + 1);
     setIsRunning(false);
 
-    if (useBackend && API_URL) {
+    const apiKey = localStorage.getItem("FINGUARD_API_KEY");
+    
+    if ((useBackend || apiKey) && API_URL) {
       setApiLoading(true);
       const ctrl = new AbortController();
       abortRef.current = ctrl;
       try {
-        const serverData = await fetchFromAPI(text);
+        const serverData = await fetchFromAPI(text, apiKey);
         if (!ctrl.signal.aborted) setApiResult(serverData);
       } catch (e) {
         if (!ctrl.signal.aborted) setApiError(e.message || "API unreachable");
@@ -85,7 +92,8 @@ export function useAnalysis() {
     abortRef.current = ctrl;
 
     try {
-      const serverData = await uploadFileToAPI(file);
+      const apiKey = localStorage.getItem("FINGUARD_API_KEY");
+      const serverData = await uploadFileToAPI(file, apiKey);
       if (!ctrl.signal.aborted) {
         // Map server result back to client format if possible, 
         // or just use server result as the main result
