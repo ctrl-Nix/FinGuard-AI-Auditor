@@ -30,65 +30,63 @@ export default function WelcomeView({ onEnter }) {
       {/* 0. CINEMATIC INTRO BANNER WITH PARALLAX */}
       <motion.section 
          initial={{ height: "100vh" }}
-         animate={{ height: "45vh" }}
+         animate={{ height: "55vh" }}
          transition={{ duration: 1.8, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
-         className="w-full bg-gradient-to-br from-blue-600 via-blue-700 to-emerald-500 relative flex flex-col items-center justify-center overflow-hidden z-[110]"
+         className="w-full bg-[#0F172A] relative flex flex-col items-center justify-center overflow-hidden z-[110]"
       >
-         {/* Parallax Orbs */}
+         {/* Deep Space / Neural Background */}
          <div className="absolute inset-0 z-0">
             <motion.div 
                animate={{ 
-                 x: [0, 100, 0],
-                 y: [0, -50, 0],
-                 scale: [1, 1.2, 1]
+                 scale: [1, 1.1, 1],
+                 opacity: [0.3, 0.5, 0.3]
                }}
-               transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
-               className="absolute top-[-20%] left-[-10%] w-[500px] h-[500px] bg-white/20 rounded-full blur-[100px]"
+               transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+               className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(37,99,235,0.15)_0%,transparent_70%)]"
             />
-            <motion.div 
-               animate={{ 
-                 x: [0, -80, 0],
-                 y: [0, 60, 0],
-                 scale: [1, 1.3, 1]
-               }}
-               transition={{ duration: 20, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-               className="absolute bottom-[-20%] right-[-10%] w-[600px] h-[600px] bg-emerald-300/20 rounded-full blur-[120px]"
-            />
+            <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-[0.03]"></div>
          </div>
 
-         <div className="relative z-10 text-center space-y-6 px-10">
+         <div className="relative z-10 text-center space-y-8 px-10">
             <motion.div 
-               initial={{ scale: 0.5, opacity: 0, rotate: -15 }}
-               animate={{ scale: 1, opacity: 1, rotate: 0 }}
-               transition={{ duration: 1, ease: "backOut" }}
-               className="w-24 h-24 rounded-[30px] bg-white/10 backdrop-blur-2xl border border-white/30 shadow-2xl flex items-center justify-center mx-auto mb-10"
+               initial={{ scale: 0.8, opacity: 0, y: 50 }}
+               animate={{ scale: 1, opacity: 1, y: 0 }}
+               transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+               className="flex flex-col items-center gap-6"
             >
-               <img src={logo} alt="FinGuard" className="w-14 h-14 brightness-0 invert" />
+               <div className="w-24 h-24 rounded-[32px] bg-white flex items-center justify-center shadow-[0_0_50px_rgba(255,255,255,0.1)] border border-white/10 group overflow-hidden relative">
+                  <motion.div 
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                    className="absolute inset-0 bg-gradient-to-tr from-blue-500/10 via-transparent to-emerald-500/10"
+                  />
+                  <img src={logo} alt="FinGuard" className="w-14 h-14 relative z-10" />
+               </div>
+               
+               <div className="overflow-hidden">
+                  <motion.div
+                    initial={{ y: "100%" }}
+                    animate={{ y: 0 }}
+                    transition={{ delay: 0.8, duration: 1, ease: [0.16, 1, 0.3, 1] }}
+                  >
+                    <h1 className="text-[72px] md:text-[130px] font-[900] tracking-[-0.06em] leading-none text-white">
+                      FinGuard <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-emerald-400">AI</span>
+                    </h1>
+                  </motion.div>
+               </div>
             </motion.div>
-            
-            <div className="overflow-hidden">
-              <motion.h1 
-                 initial={{ y: 100, opacity: 0 }}
-                 animate={{ y: 0, opacity: 1 }}
-                 transition={{ delay: 0.8, duration: 1, ease: [0.16, 1, 0.3, 1] }}
-                 className="text-[64px] md:text-[110px] font-[900] tracking-[-0.05em] leading-none text-white"
-              >
-                 FinGuard <span className="text-emerald-300">Audit.</span>
-              </motion.h1>
-            </div>
          </div>
          
+         {/* Floating Badge */}
          <motion.div 
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 2 }}
-            className="absolute top-10 right-10 flex items-center gap-4 z-[120]"
-         >
-            <span className="text-[18px] font-[800] tracking-tight text-white/90">FinGuard</span>
-            <div className="w-10 h-10 rounded-[12px] bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center">
-               <img src={logo} alt="FinGuard" className="w-6 h-6 brightness-0 invert" />
-            </div>
-         </motion.div>
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.5, duration: 1 }}
+            className="absolute bottom-12 flex flex-col items-center gap-3"
+          >
+            <div className="w-px h-12 bg-gradient-to-b from-white/0 to-white/40"></div>
+            <span className="text-[10px] font-black text-white/40 uppercase tracking-[0.5em]">Scroll to Audit</span>
+          </motion.div>
       </motion.section>
 
       {/* 1. HERO CONTENT SECTION */}

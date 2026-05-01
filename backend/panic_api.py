@@ -56,6 +56,8 @@ def verify_api_key(key: str = Security(_api_key_header)):
 class PanicRequest(BaseModel):
     text: str = Field(..., min_length=1, max_length=5000)
     api_key: Optional[str] = Field(None)
+    provider: Optional[str] = Field("gemini")
+    model: Optional[str] = Field(None)
     use_llm: bool = Field(False)
 
     @field_validator("text")
@@ -185,7 +187,7 @@ def check_full(req: PanicRequest, request: Request, _=Security(verify_api_key)):
     if req.use_llm:
         key = req.api_key or os.getenv("GEMINI_API_KEY", "")
         if key:
-            result = enrich_with_llm(result, req.text, key)
+            result = enrich_with_llm(result, req.text, key, provider=req.provider, model=req.model)
     return _to_response(result)
 
 
@@ -217,6 +219,8 @@ async def upload_file(
     request: Request,
     file: UploadFile = File(...),
     api_key: Optional[str] = None,
+    provider: Optional[str] = "gemini",
+    model: Optional[str] = None,
     use_llm: bool = True,
     _=Security(verify_api_key)
 ):
@@ -230,7 +234,7 @@ async def upload_file(
 
     if is_image(filename):
         key = api_key or os.getenv("GEMINI_API_KEY", "")
-        return _to_response(analyze_image(content, key))
+        return _to_response(analyze_image(content, key, provider=provider, model=model))
     
     # Text extraction for docs
     text = ""
@@ -249,7 +253,7 @@ async def upload_file(
     if use_llm:
         key = api_key or os.getenv("GEMINI_API_KEY", "")
         if key:
-            result = enrich_with_llm(result, text, key)
+            result = enrich_with_llm(result, text, key, provider=provider, model=model)
     
     return _to_response(result)
 

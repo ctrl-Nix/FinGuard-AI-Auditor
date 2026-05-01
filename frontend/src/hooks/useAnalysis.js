@@ -52,6 +52,18 @@ export function useAnalysis() {
   const [runKey,      setRunKey]      = useState(0);
   const abortRef = useRef(null);
 
+  const getActiveConfig = () => {
+    const activeProvider = localStorage.getItem("FINGUARD_ACTIVE_PROVIDER") || "gemini";
+    const keys = JSON.parse(localStorage.getItem("FINGUARD_KEYS") || "{}");
+    const models = JSON.parse(localStorage.getItem("FINGUARD_MODELS") || "{}");
+    
+    return {
+      provider: activeProvider,
+      apiKey: keys[activeProvider] || localStorage.getItem("FINGUARD_API_KEY") || null,
+      model: models[activeProvider] || null
+    };
+  };
+
   const analyze = useCallback(async (text, { useBackend = false } = {}) => {
     if (abortRef.current) abortRef.current.abort();
     setIsRunning(true);
@@ -64,14 +76,26 @@ export function useAnalysis() {
     setRunKey(k => k + 1);
     setIsRunning(false);
 
-    const apiKey = localStorage.getItem("FINGUARD_API_KEY");
+    const { provider, apiKey, model } = getActiveConfig();
     
     if ((useBackend || apiKey) && API_URL) {
       setApiLoading(true);
       const ctrl = new AbortController();
       abortRef.current = ctrl;
       try {
-        const serverData = await fetchFromAPI(text, apiKey);
+        const serverData = await fetch(`${API_URL}/api/v1/panic/check-full`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ 
+            text, 
+            use_llm: !!apiKey, 
+            api_key: apiKey,
+            provider,
+            model
+          }),
+          signal: ctrl.signal,
+        }).then(r => r.ok ? r.json() : Promise.reject(`API ${r.status}`));
+        
         if (!ctrl.signal.aborted) setApiResult(serverData);
       } catch (e) {
         if (!ctrl.signal.aborted) setApiError(e.message || "API unreachable");
@@ -92,11 +116,25 @@ export function useAnalysis() {
     abortRef.current = ctrl;
 
     try {
-      const apiKey = localStorage.getItem("FINGUARD_API_KEY");
-      const serverData = await uploadFileToAPI(file, apiKey);
+      const { provider, apiKey, model } = getActiveConfig();
+      
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("use_llm", "true");
+      if (apiKey) {
+        formData.append("api_key", apiKey);
+        formData.append("provider", provider);
+        if (model) formData.append("model", model);
+      }
+
+      const serverData = await fetch(`${API_URL}/api/v1/panic/upload`, {
+        method: "POST",
+        body: formData,
+        signal: ctrl.signal,
+      }).then(r => r.ok ? r.json() : Promise.reject(`Upload Failed: ${r.status}`));
+
       if (!ctrl.signal.aborted) {
-        // Map server result back to client format if possible, 
-        // or just use server result as the main result
+        // Map server result back to client format
         const serverMatches = (serverData.heatmap || []).map((h, i) => ({
           ...h,
           id: `svr-${i}`,

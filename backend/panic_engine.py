@@ -384,15 +384,20 @@ def run_panic_check(text: str) -> PanicResult:
     )
 
 
-def enrich_with_llm(result: PanicResult, text: str, api_key: str) -> PanicResult:
+def enrich_with_llm(result: PanicResult, text: str, api_key: str, provider: str = "gemini", model: str = None) -> PanicResult:
     """
     Stage 3 (optional): Lightweight LLM call for edge cases.
-    Only called when verdict is SUSPICIOUS or confidence 40–75.
-    Skipped for clear SCAM (already certain) or SAFE (no need).
-    Target: ≤1.5s added latency.
+    Now supports multiple providers (Gemini, OpenAI, Anthropic).
     """
     if not api_key:
         return result
+    
+    # Default models if none provided
+    if not model:
+        if provider == "gemini": model = "gemini-2.0-flash"
+        elif provider == "openai": model = "gpt-4o"
+        elif provider == "anthropic": model = "claude-3-5-sonnet-latest"
+
     # Skip LLM if already high confidence or clearly safe
     if result.confidence >= 80 or result.confidence < 15:
         return result
@@ -400,41 +405,68 @@ def enrich_with_llm(result: PanicResult, text: str, api_key: str) -> PanicResult
     t0 = time.perf_counter()
 
     prompt = f"""You are a global scam detection assistant. 
-    Analyze this message in any language (Hindi, Spanish, Arabic, etc.).
-    Translate key suspicious phrases if needed and determine the risk.
-    Reply ONLY in this JSON (no markdown):
-    {{"extra_reason": "<one new insight or translation summary>", "confidence_adjustment": <integer -15 to +15>}}
+    Analyze this message in any language. Determine risk and provide a JSON response.
+    Reply ONLY in this JSON format (no markdown):
+    {{"extra_reason": "<one new insight>", "confidence_adjustment": <integer -15 to +15>}}
 
-    Already detected signals: {result.reasons}
-    Current verdict: {result.verdict} ({result.confidence}% confidence)
+    Detected: {result.reasons}
+    Verdict: {result.verdict} ({result.confidence}%)
 
     MESSAGE:
     \"\"\"{text[:800]}\"\"\"
     """
 
+    raw = ""
     try:
-        # Try new SDK first
-        try:
-            from google import genai as _genai
-            from google.genai import types as _types
-            client = _genai.Client(api_key=api_key)
-            response = client.models.generate_content(
-                model="gemini-2.0-flash",
-                contents=prompt,
-                config=_types.GenerateContentConfig(
-                    temperature=0.1,
-                    max_output_tokens=120,
-                ),
+        if provider == "gemini":
+            try:
+                from google import genai as _genai
+                from google.genai import types as _types
+                client = _genai.Client(api_key=api_key)
+                response = client.models.generate_content(
+                    model=model,
+                    contents=prompt,
+                    config=_types.GenerateContentConfig(temperature=0.1, max_output_tokens=150),
+                )
+                raw = response.text
+            except ImportError:
+                import google.generativeai as _old
+                _old.configure(api_key=api_key)
+                m = _old.GenerativeModel(model)
+                raw = m.generate_content(prompt).text
+        
+        elif provider == "openai":
+            import requests
+            res = requests.post(
+                "https://api.openai.com/v1/chat/completions",
+                headers={"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"},
+                json={
+                    "model": model,
+                    "messages": [{"role": "user", "content": prompt}],
+                    "temperature": 0.1,
+                    "max_tokens": 150
+                },
+                timeout=5
             )
-            raw = response.text
-        except ImportError:
-            import google.generativeai as _old  # type: ignore
-            _old.configure(api_key=api_key)
-            m = _old.GenerativeModel(
-                "gemini-2.0-flash",
-                generation_config=_old.GenerationConfig(temperature=0.1, max_output_tokens=120),
+            raw = res.json()["choices"][0]["message"]["content"]
+
+        elif provider == "anthropic":
+            import requests
+            res = requests.post(
+                "https://api.anthropic.com/v1/messages",
+                headers={
+                    "x-api-key": api_key,
+                    "anthropic-version": "2023-06-01",
+                    "content-type": "application/json"
+                },
+                json={
+                    "model": model,
+                    "max_tokens": 150,
+                    "messages": [{"role": "user", "content": prompt}]
+                },
+                timeout=5
             )
-            raw = m.generate_content(prompt).text
+            raw = res.json()["content"][0]["text"]
 
         import json
         clean = raw.strip().lstrip("```json").lstrip("```").rstrip("```").strip()
@@ -471,7 +503,6 @@ def enrich_with_llm(result: PanicResult, text: str, api_key: str) -> PanicResult
         )
 
     except Exception:
-        # LLM failure is silent — return original result
         return result
 
 def enrich_urls_with_reputation(urls: List[dict], api_key: str) -> List[dict]:
@@ -517,13 +548,19 @@ def enrich_urls_with_reputation(urls: List[dict], api_key: str) -> List[dict]:
     except Exception:
         return urls
 
-def analyze_image(image_bytes: bytes, api_key: str) -> PanicResult:
+def analyze_image(image_bytes: bytes, api_key: str, provider: str = "gemini", model: str = None) -> PanicResult:
     """
     Multimodal analysis for screenshots of scams.
-    Uses Gemini 2.0 Flash to "see" the text and the visual context.
+    Currently optimized for Gemini 2.0 Flash.
     """
     if not api_key:
         return run_panic_check("Error: No API key provided for image analysis.")
+    
+    if provider != "gemini":
+        return run_panic_check("Error: Multimodal image analysis currently requires a Google Gemini key.")
+
+    if not model:
+        model = "gemini-2.0-flash"
 
     t0 = time.perf_counter()
     prompt = """
