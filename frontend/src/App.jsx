@@ -158,17 +158,13 @@ export default function App() {
           </div>
 
           <motion.div 
-            whileHover={{ scale: 1.05 }}
-            className="flex items-center gap-4 cursor-pointer group"
+            whileHover={{ scale: 1.1 }}
+            className="cursor-pointer group flex items-center justify-center"
             onClick={() => setShowWelcome(true)}
           >
-            <div>
-              <h1 className="text-[26px] font-[800] tracking-tight leading-none text-[#0F172A] text-right">FinGuard</h1>
-              <div className="text-[10px] font-[800] bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-emerald-600 uppercase tracking-[0.2em] mt-1 text-right">Audit Protocol</div>
-            </div>
-            <div className="w-12 h-12 rounded-[14px] bg-blue-50/40 backdrop-blur-md flex items-center justify-center shadow-xl shadow-blue-100/20 transition-all group-hover:scale-110 border border-white/60 relative overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-tr from-blue-400/10 to-transparent" />
-              <img src={logo} alt="FinGuard" className="w-8 h-8 relative z-10" />
+            <div className="w-14 h-14 rounded-[18px] bg-sky-400/20 backdrop-blur-xl flex items-center justify-center shadow-2xl shadow-sky-200/30 transition-all group-hover:rotate-3 border border-white/40 relative overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-tr from-sky-300/20 to-transparent" />
+              <img src={logo} alt="FinGuard" className="w-9 h-9 relative z-10" />
             </div>
           </motion.div>
         </div>
