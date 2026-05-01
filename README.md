@@ -1,61 +1,27 @@
-# 🛡️ FinGuard AI Auditor 3.0
+# FinGuard AI Auditor
 
-> **Professional-grade forensic financial auditor powered by AI.** Detect hidden fees, manipulation tactics, legal risks, and fraud signals instantly.
+FinGuard is an enterprise-grade AI auditing platform designed for instant forensic analysis of financial documentation and contracts. It utilizes a neural engine to identify risks, scam signatures, and legal vulnerabilities through a private, client-side architecture.
 
----
+## Key Features
 
-## 🚀 Overview
+- Universal BYOK Protocol: Support for Google Gemini, OpenAI, and Anthropic.
+- Neural Forensic Engine: Heuristic models for identifying hidden risks in documentation.
+- Optical Signal Mapping: Real-time visualization of risk patterns on documents.
+- Data Sovereignty: Zero-knowledge processing keeps data and keys in the local browser environment.
+- Multimodal Analysis: Support for physical document scans and screenshots.
+- Responsive Interface: Cinematic, mobile-optimized UI with high-performance animations.
 
-FinGuard is a high-performance, multi-layered security platform designed to audit contracts, messages, and financial documents. It uses a hybrid approach:
-1. **Layer 1: Local Regex Engine** (<5ms) — High-speed pattern matching.
-2. **Layer 2: Scoring Engine** — Advanced risk weighting and heuristics.
-3. **Layer 3: LLM Enrichment** — Deep semantic analysis using Google Gemini.
+## Technology Stack
 
-## 🏗️ Project Structure
+- Frontend: React, Tailwind CSS, Framer Motion
+- Backend: FastAPI, Google Generative AI SDK
+- Auth/Storage: Supabase
 
-- **`/frontend`**: Vite + React SPA. Ultra-modern "Cyber-Glass" UI.
-- **`/backend`**: FastAPI (Python) high-performance audit engine.
-- **`/extension`**: Chrome extension for real-time protection (experimental).
+## Getting Started
 
-## 🌍 Deployment
+1. Clone the repository.
+2. Navigate to the frontend directory and run `npm install`.
+3. Start the development server with `npm run dev`.
+4. Configure API keys in the BYOK settings modal within the application.
 
-### Frontend (Vercel)
-The frontend is optimized for Vercel. 
-- **Build Command**: `npm run build` (from root)
-- **Output Directory**: `frontend/dist`
-- **Environment Variables**:
-  - `VITE_API_URL`: Your backend URL.
-  - `VITE_SUPABASE_URL`: Your Supabase project URL.
-  - `VITE_SUPABASE_ANON_KEY`: Your Supabase public key.
-
-### Backend (Render)
-The backend is designed to run as a Docker container or a Web Service on Render.
-- **Environment Variables**:
-  - `GEMINI_API_KEY`: Required for Layer 3 analysis.
-  - `CORS_ORIGINS`: (Optional) Already set to `*` for easy setup.
-
-## 🛠️ Local Development
-
-1. **Install dependencies**:
-   ```bash
-   # Root
-   npm install
-   # Frontend
-   cd frontend && npm install
-   # Backend
-   cd backend && pip install -r requirements.txt
-   ```
-
-2. **Run Dev Servers**:
-   ```bash
-   # Frontend
-   npm --prefix frontend run dev
-   # Backend
-   cd backend && uvicorn app:app --reload
-   ```
-
----
-
-## 🔒 Security & Privacy
-
-FinGuard is built with privacy-first principles. The local JS engine analyzes documents instantly without sending data to any server unless "Full Audit" is requested.
+Developed by ctrl-Nix.
