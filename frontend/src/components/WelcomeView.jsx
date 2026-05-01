@@ -38,33 +38,24 @@ export default function WelcomeView({ onEnter }) {
          <div className="absolute inset-0 z-0">
             <motion.div 
                animate={{ 
-                 x: [0, 100, 0],
-                 y: [0, -50, 0],
-                 scale: [1, 1.2, 1]
+                 x: [0, 50, 0],
+                 y: [0, -30, 0],
+                 scale: [1, 1.1, 1]
                }}
                transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
-               className="absolute top-[-20%] left-[-10%] w-[500px] h-[500px] bg-white/20 rounded-full blur-[100px]"
-            />
-            <motion.div 
-               animate={{ 
-                 x: [0, -80, 0],
-                 y: [0, 60, 0],
-                 scale: [1, 1.3, 1]
-               }}
-               transition={{ duration: 20, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-               className="absolute bottom-[-20%] right-[-10%] w-[600px] h-[600px] bg-emerald-300/20 rounded-full blur-[120px]"
+               className="absolute top-[-20%] left-[-10%] w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-white/20 rounded-full blur-[60px] md:blur-[100px]"
             />
          </div>
 
-         <div className="relative z-10 text-center space-y-6 px-10">
+         <div className="relative z-10 text-center space-y-4 md:space-y-6 px-6 md:px-10">
             <motion.div 
                initial={{ scale: 0.5, opacity: 0, rotate: -15 }}
                animate={{ scale: 1, opacity: 1, rotate: 0 }}
                transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-               className="w-32 h-32 rounded-[40px] bg-sky-400/20 backdrop-blur-3xl border border-white/50 shadow-[0_25px_60px_rgba(56,189,248,0.25)] flex items-center justify-center mx-auto mb-12 relative overflow-hidden"
+               className="w-20 h-20 md:w-32 md:h-32 rounded-[24px] md:rounded-[40px] bg-sky-400/20 backdrop-blur-3xl border border-white/50 shadow-[0_15px_40px_rgba(56,189,248,0.2)] flex items-center justify-center mx-auto mb-6 md:mb-12 relative overflow-hidden"
             >
                <div className="absolute inset-0 bg-gradient-to-br from-white/30 to-transparent pointer-events-none" />
-               <img src={logo} alt="FinGuard" className="w-18 h-18 relative z-10" />
+               <img src={logo} alt="FinGuard" className="w-12 h-12 md:w-18 md:h-18 relative z-10" />
             </motion.div>
             
             <div className="overflow-hidden">
@@ -72,7 +63,7 @@ export default function WelcomeView({ onEnter }) {
                  initial={{ y: 100, opacity: 0 }}
                  animate={{ y: 0, opacity: 1 }}
                  transition={{ delay: 0.8, duration: 1, ease: [0.16, 1, 0.3, 1] }}
-                 className="text-[64px] md:text-[110px] font-[900] tracking-[-0.05em] leading-none text-white"
+                 className="text-[40px] md:text-[80px] lg:text-[110px] font-[900] tracking-[-0.05em] leading-none text-white"
               >
                  FinGuard <span className="text-emerald-300">Audit.</span>
               </motion.h1>
@@ -83,40 +74,36 @@ export default function WelcomeView({ onEnter }) {
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 2 }}
-            className="absolute top-10 right-10 flex items-center gap-4 z-[120]"
+            className="absolute top-6 right-6 md:top-10 md:right-10 flex items-center gap-2 md:gap-4 z-[120]"
          >
-            <span className="text-[18px] font-[800] tracking-tight text-white/90">FinGuard</span>
-            <div className="w-10 h-10 rounded-[12px] bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center">
-               <img src={logo} alt="FinGuard" className="w-6 h-6" />
+            <span className="text-[14px] md:text-[18px] font-[800] tracking-tight text-white/90">FinGuard</span>
+            <div className="w-8 h-8 md:w-10 md:h-10 rounded-[8px] md:rounded-[12px] bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center">
+               <img src={logo} alt="FinGuard" className="w-5 h-5 md:w-6 md:h-6" />
             </div>
          </motion.div>
       </motion.section>
 
       {/* 1. HERO CONTENT SECTION */}
-      <section className="relative pt-24 pb-40 flex flex-col items-center justify-center p-10 text-center">
+      <section className="relative pt-16 md:pt-24 pb-24 md:pb-40 flex flex-col items-center justify-center px-6 md:px-10 text-center">
         <div className="max-w-[1200px] relative z-10">
           <motion.div 
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 1.8, duration: 0.8 }}
-            className="inline-flex flex-wrap items-center justify-center gap-4 mb-16"
+            className="inline-flex flex-wrap items-center justify-center gap-3 md:gap-4 mb-10 md:mb-16"
           >
-            <div className="inline-flex items-center gap-3 px-6 py-2.5 rounded-full bg-slate-50 border border-slate-100 shadow-sm">
-              <div className="w-2.5 h-2.5 rounded-full bg-blue-500 animate-pulse"></div>
-              <span className="text-[12px] font-[800] uppercase tracking-[0.4em] text-slate-500">System Ready for Public Audit</span>
-            </div>
-            <div className="inline-flex items-center gap-3 px-6 py-2.5 rounded-full bg-blue-50/50 border border-blue-100 shadow-sm">
-              <KeyIcon size={14} className="text-blue-600" />
-              <span className="text-[12px] font-[800] uppercase tracking-[0.4em] text-blue-700">BYOK Protocol Supported</span>
+            <div className="inline-flex items-center gap-2 md:gap-3 px-4 md:px-6 py-2 md:py-2.5 rounded-full bg-slate-50 border border-slate-100 shadow-sm">
+              <div className="w-2 h-2 md:w-2.5 md:h-2.5 rounded-full bg-blue-500 animate-pulse"></div>
+              <span className="text-[10px] md:text-[12px] font-[800] uppercase tracking-[0.2em] md:tracking-[0.4em] text-slate-500 whitespace-nowrap">System Ready</span>
             </div>
           </motion.div>
           
-          <div className="overflow-hidden mb-12">
+          <div className="overflow-hidden mb-8 md:mb-12">
             <motion.h2 
               initial={{ y: 80, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 2, duration: 1, ease: [0.16, 1, 0.3, 1] }}
-              className="text-[64px] md:text-[100px] font-[900] tracking-[-0.05em] leading-[0.85] text-[#0F172A]"
+              className="text-[42px] md:text-[80px] lg:text-[100px] font-[900] tracking-[-0.05em] leading-[0.9] text-[#0F172A]"
             >
               Audit Everything. <br />
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-emerald-600 italic">Trust Nothing.</span>
@@ -127,7 +114,7 @@ export default function WelcomeView({ onEnter }) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 2.5, duration: 1 }}
-            className="text-[20px] md:text-[26px] text-slate-400 font-medium max-w-[800px] mx-auto leading-relaxed mb-20 tracking-tight"
+            className="text-[18px] md:text-[22px] lg:text-[26px] text-slate-400 font-medium max-w-[800px] mx-auto leading-relaxed mb-12 md:mb-20 tracking-tight"
           >
             The world's first decentralized forensic engine designed for complete privacy and instant verification.
           </motion.p>
@@ -136,24 +123,16 @@ export default function WelcomeView({ onEnter }) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 2.8, duration: 0.8 }}
-            className="flex flex-col md:flex-row items-center justify-center gap-6"
+            className="flex flex-col sm:flex-row items-center justify-center gap-4 md:gap-6"
           >
             <motion.button 
-              whileHover={{ scale: 1.05, boxShadow: "0 20px 40px rgba(15,23,42,0.2)" }}
+              whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={onEnter}
-              className="!bg-[#0F172A] hover:bg-black text-white px-14 py-7 rounded-[22px] font-bold text-[20px] flex items-center gap-4 transition-all"
+              className="w-full sm:w-auto !bg-[#0F172A] hover:bg-black text-white px-10 md:px-14 py-5 md:py-7 rounded-[18px] md:rounded-[22px] font-bold text-[18px] md:text-[20px] flex items-center justify-center gap-4 transition-all"
             >
               Start Secure Audit
-              <ArrowRight size={26} />
-            </motion.button>
-            <motion.button 
-              whileHover={{ scale: 1.05, bg: "#F8FAFC" }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => document.getElementById('features').scrollIntoView({ behavior: 'smooth' })}
-              className="finvera-btn-secondary !px-14 !py-7 !text-[20px] border border-slate-200 shadow-sm"
-            >
-              View Capabilities
+              <ArrowRight size={22} md:size={26} />
             </motion.button>
           </motion.div>
         </div>

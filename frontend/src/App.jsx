@@ -134,7 +134,7 @@ export default function App() {
   return (
     <div className="min-h-screen bg-[#FFFFFF] text-[#0F172A] selection:bg-emerald-500/10 font-['Manrope'] overflow-x-hidden">
       {/* Finvera Light Header */}
-      <nav className="sticky top-0 z-[100] bg-white/80 backdrop-blur-xl border-b border-slate-100 px-8 py-5 transition-all duration-500">
+      <nav className="sticky top-0 z-[100] bg-white/80 backdrop-blur-xl border-b border-slate-100 px-4 md:px-8 py-4 md:py-5 transition-all duration-500">
         <div className="max-w-[1400px] mx-auto flex items-center justify-between">
           <div className="hidden md:flex items-center gap-10">
             <button 
@@ -159,18 +159,25 @@ export default function App() {
 
           <motion.div 
             whileHover={{ scale: 1.1 }}
-            className="cursor-pointer group flex items-center justify-center"
+            className="cursor-pointer group flex items-center justify-center mx-auto md:mx-0"
             onClick={() => setShowWelcome(true)}
           >
-            <div className="w-14 h-14 rounded-[18px] bg-sky-400/20 backdrop-blur-xl flex items-center justify-center shadow-2xl shadow-sky-200/30 transition-all group-hover:rotate-3 border border-white/40 relative overflow-hidden">
+            <div className="w-12 h-12 md:w-14 md:h-14 rounded-[14px] md:rounded-[18px] bg-sky-400/20 backdrop-blur-xl flex items-center justify-center shadow-2xl shadow-sky-200/30 transition-all group-hover:rotate-3 border border-white/40 relative overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-tr from-sky-300/20 to-transparent" />
-              <img src={logo} alt="FinGuard" className="w-9 h-9 relative z-10" />
+              <img src={logo} alt="FinGuard" className="w-7 h-7 md:w-9 md:h-9 relative z-10" />
             </div>
           </motion.div>
+          
+          {/* Mobile BYOK Trigger */}
+          <div className="md:hidden">
+            <button onClick={() => setIsKeyModalOpen(true)} className="p-2 text-blue-600">
+              <KeyIcon size={20} />
+            </button>
+          </div>
         </div>
       </nav>
 
-      <main className="max-w-[1400px] mx-auto px-8 py-20 relative z-10">
+      <main className="max-w-[1400px] mx-auto px-4 md:px-8 py-12 md:py-20 relative z-10 pb-32">
         <AnimatePresence mode="wait">
           {currentTab === "audit" && (
             <motion.div 
@@ -179,22 +186,22 @@ export default function App() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-              className="space-y-20"
+              className="space-y-12 md:space-y-20"
             >
               {/* Finvera Hero */}
-              <div className="max-w-[900px] space-y-8">
-                 <div className="inline-flex items-center gap-3 px-5 py-2 rounded-full bg-blue-50 text-blue-700 border border-blue-100 text-[11px] font-black uppercase tracking-widest">
+              <div className="max-w-[900px] space-y-6 md:space-y-8">
+                 <div className="inline-flex items-center gap-3 px-4 md:px-5 py-2 rounded-full bg-blue-50 text-blue-700 border border-blue-100 text-[10px] md:text-[11px] font-black uppercase tracking-widest">
                    <Zap size={14} fill="currentColor" /> Neural Forensic Engine
                  </div>
-                 <h2 className="text-[64px] lg:text-[84px] font-[800] tracking-[-0.04em] leading-[0.9] text-[#0F172A]">
+                 <h2 className="text-[40px] md:text-[64px] lg:text-[84px] font-[800] tracking-[-0.04em] leading-[0.95] md:leading-[0.9] text-[#0F172A]">
                    Protecting your <br/>
                    <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-emerald-600">Financial Future.</span>
                  </h2>
-                 <p className="text-[20px] text-slate-500 max-w-[600px] leading-relaxed font-medium">
+                 <p className="text-[16px] md:text-[20px] text-slate-500 max-w-[600px] leading-relaxed font-medium">
                    Professional-grade AI auditing for everyone. Clean, precise, and entirely private.
                  </p>
                  
-                 <div className="pt-8">
+                 <div className="pt-4 md:pt-8">
                    <InputPanel 
                      onAnalyze={handleAnalyze} 
                      onAnalyzeFile={user ? handleAnalyzeFile : () => setCurrentTab("profile")}
@@ -208,71 +215,71 @@ export default function App() {
                 <motion.div 
                   initial={{ opacity: 0, y: 40 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="space-y-12"
+                  className="space-y-10 md:space-y-12"
                 >
                   {/* Result Summary Bar */}
-                  <div className="finvera-card !py-12 !px-12 flex flex-col md:flex-row items-center gap-10 shadow-xl shadow-slate-200/50">
+                  <div className="finvera-card !py-8 !px-6 md:!py-12 md:!px-12 flex flex-col md:flex-row items-center gap-6 md:gap-10 shadow-xl shadow-slate-200/50">
                      <motion.div 
                        initial={{ scale: 0 }}
                        animate={{ scale: 1 }}
                        transition={{ type: "spring", damping: 12 }}
-                       className="w-24 h-24 rounded-[32px] flex items-center justify-center shrink-0 shadow-2xl"
+                       className="w-20 h-20 md:w-24 md:h-24 rounded-[28px] md:rounded-[32px] flex items-center justify-center shrink-0 shadow-2xl"
                        style={{ background: `linear-gradient(135deg, ${result.verdict.color}, ${result.verdict.color}cc)` }}
                      >
-                       <ShieldCheck size={48} className="text-white" />
+                       <ShieldCheck size={40} md:size={48} className="text-white" />
                      </motion.div>
                      <div className="flex-1 text-center md:text-left">
-                        <span className="text-[11px] font-bold text-slate-400 uppercase tracking-[0.3em] mb-2 block">Audit Result</span>
-                        <h3 className="text-[42px] font-black tracking-tighter leading-none" style={{ color: result.verdict.color }}>
+                        <span className="text-[10px] md:text-[11px] font-bold text-slate-400 uppercase tracking-[0.3em] mb-1 md:mb-2 block">Audit Result</span>
+                        <h3 className="text-[32px] md:text-[42px] font-black tracking-tighter leading-none" style={{ color: result.verdict.color }}>
                           {result.verdict.label.toUpperCase()}
                         </h3>
                      </div>
-                     <div className="h-16 w-px bg-slate-100 hidden md:block" />
+                     <div className="h-12 md:h-16 w-px bg-slate-100 hidden md:block" />
                      <div className="text-center md:text-right">
-                        <span className="text-[11px] font-bold text-slate-400 uppercase tracking-[0.3em] mb-2 block">Safety Confidence</span>
-                        <div className="text-[56px] font-black tracking-tighter leading-none text-[#0F172A]">
-                          {result.score}<span className="text-[24px] opacity-20 ml-1">%</span>
+                        <span className="text-[10px] md:text-[11px] font-bold text-slate-400 uppercase tracking-[0.3em] mb-1 md:mb-2 block">Safety Confidence</span>
+                        <div className="text-[48px] md:text-[56px] font-black tracking-tighter leading-none text-[#0F172A]">
+                          {result.score}<span className="text-[20px] md:text-[24px] opacity-20 ml-1">%</span>
                         </div>
                      </div>
                   </div>
 
                   {/* Bento Grid Results */}
-                  <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                     <div className="lg:col-span-2 space-y-8">
-                        <div className="finvera-card relative overflow-hidden">
-                           <div className="absolute top-0 right-0 p-10 opacity-[0.03] text-slate-900 pointer-events-none">
-                              <ShieldCheck size={200} />
+                  <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
+                     <div className="lg:col-span-2 space-y-6 md:space-y-8">
+                        <div className="finvera-card relative overflow-hidden p-6 md:p-10">
+                           <div className="absolute top-0 right-0 p-6 md:p-10 opacity-[0.03] text-slate-900 pointer-events-none">
+                              <ShieldCheck size={140} md:size={200} />
                            </div>
-                           <span className="text-[11px] font-bold text-slate-400 uppercase tracking-[0.3em] mb-8 block">Forensic Insights</span>
+                           <span className="text-[10px] md:text-[11px] font-bold text-slate-400 uppercase tracking-[0.3em] mb-6 md:mb-8 block">Forensic Insights</span>
                            <SummaryCard highlights={result.highlights} verdict={result.verdict} />
                         </div>
                         
-                        <div className="finvera-card">
-                           <span className="text-[11px] font-bold text-slate-400 uppercase tracking-[0.3em] mb-8 block">Analysis Breakdown</span>
+                        <div className="finvera-card p-6 md:p-10">
+                           <span className="text-[10px] md:text-[11px] font-bold text-slate-400 uppercase tracking-[0.3em] mb-6 md:mb-8 block">Analysis Breakdown</span>
                            <BreakdownPanel result={result} />
                         </div>
                      </div>
 
-                     <div className="space-y-8">
+                     <div className="space-y-6 md:space-y-8">
                         <div className="finvera-card !p-0 overflow-hidden">
-                           <div className="p-10 border-b border-slate-100">
-                              <span className="text-[11px] font-bold text-slate-400 uppercase tracking-[0.3em] block">Risk Scorecard</span>
+                           <div className="p-6 md:p-10 border-b border-slate-100">
+                              <span className="text-[10px] md:text-[11px] font-bold text-slate-400 uppercase tracking-[0.3em] block">Risk Scorecard</span>
                            </div>
-                           <div className="p-10 bg-slate-50/50">
+                           <div className="p-6 md:p-10 bg-slate-50/50">
                               <ScorePanel result={result} />
                            </div>
                         </div>
 
-                        <div className="finvera-card">
-                           <span className="text-[11px] font-bold text-slate-400 uppercase tracking-[0.3em] mb-8 block">Negotiation Strategy</span>
+                        <div className="finvera-card p-6 md:p-10">
+                           <span className="text-[10px] md:text-[11px] font-bold text-slate-400 uppercase tracking-[0.3em] mb-6 md:mb-8 block">Negotiation Strategy</span>
                            <NegotiationPanel negotiation={result.negotiation} />
                         </div>
                      </div>
                   </div>
 
                   {heatmap.length > 0 && (
-                    <div className="finvera-card">
-                      <span className="text-[11px] font-bold text-slate-400 uppercase tracking-[0.3em] mb-8 block">Signal Mapping</span>
+                    <div className="finvera-card p-6 md:p-10">
+                      <span className="text-[10px] md:text-[11px] font-bold text-slate-400 uppercase tracking-[0.3em] mb-6 md:mb-8 block">Signal Mapping</span>
                       <ForensicHeatmap text={apiResult?.text || currentText} matches={heatmap} />
                     </div>
                   )}
@@ -308,21 +315,21 @@ export default function App() {
       </main>
 
       {/* Finvera Light Bottom Nav */}
-      <div className="fixed bottom-10 left-1/2 -translate-x-1/2 z-[100] bg-white/80 backdrop-blur-3xl px-10 py-5 rounded-[32px] border border-slate-200 flex items-center gap-16 shadow-2xl shadow-slate-200/50">
+      <div className="fixed bottom-6 md:bottom-10 left-1/2 -translate-x-1/2 z-[100] bg-white/90 backdrop-blur-3xl px-6 md:px-10 py-4 md:py-5 rounded-[24px] md:rounded-[32px] border border-slate-200 flex items-center gap-8 md:gap-16 shadow-2xl shadow-slate-200/50 w-[90%] md:w-auto justify-around md:justify-center">
         <button onClick={() => setShowWelcome(true)} className="flex flex-col items-center gap-1.5 text-slate-400 hover:text-emerald-600 transition-all">
-          <Globe size={24} />
-          <span className="text-[10px] font-extrabold uppercase tracking-widest">Home</span>
+          <Globe size={20} md:size={24} />
+          <span className="text-[8px] md:text-[10px] font-extrabold uppercase tracking-widest">Home</span>
         </button>
         <button onClick={() => setCurrentTab("audit")} className={`flex flex-col items-center gap-1.5 transition-all ${currentTab === "audit" ? 'text-emerald-600 scale-110' : 'text-slate-400 hover:text-slate-600'}`}>
-          <LayoutGrid size={24} strokeWidth={currentTab === "audit" ? 3 : 2} />
-          <span className="text-[10px] font-extrabold uppercase tracking-widest">Audit</span>
+          <LayoutGrid size={20} md:size={24} strokeWidth={currentTab === "audit" ? 3 : 2} />
+          <span className="text-[8px] md:text-[10px] font-extrabold uppercase tracking-widest">Audit</span>
         </button>
         <button 
           onClick={() => setCurrentTab("vault")}
           className={`flex flex-col items-center gap-1.5 transition-all ${currentTab === "vault" ? 'text-emerald-600 scale-110' : 'text-slate-400 hover:text-slate-600'}`}
         >
-          <ShieldCheck size={24} strokeWidth={currentTab === "vault" ? 3 : 2} />
-          <span className="text-[10px] font-extrabold uppercase tracking-widest">Vault</span>
+          <ShieldCheck size={20} md:size={24} strokeWidth={currentTab === "vault" ? 3 : 2} />
+          <span className="text-[8px] md:text-[10px] font-extrabold uppercase tracking-widest">Vault</span>
         </button>
       </div>
 
