@@ -40,10 +40,24 @@ export default function App() {
   const { result, isRunning, apiResult, apiLoading, runKey, analyze, analyzeFile } = useAnalysis();
   const heatmap = result?.matches || [];
   const [currentText, setCurrentText] = useState("");
-  const [currentTab, setCurrentTab] = useState("audit");
+  
+  // Persistent State
+  const [currentTab, setCurrentTab] = useState(() => localStorage.getItem("FINGUARD_TAB") || "audit");
+  const [showWelcome, setShowWelcome] = useState(() => {
+    const saved = localStorage.getItem("FINGUARD_WELCOME");
+    return saved === null ? true : saved === "true";
+  });
+  
   const [user, setUser] = useState(null);
-  const [showWelcome, setShowWelcome] = useState(true);
   const [isKeyModalOpen, setIsKeyModalOpen] = useState(false);
+
+  useEffect(() => {
+    localStorage.setItem("FINGUARD_TAB", currentTab);
+  }, [currentTab]);
+
+  useEffect(() => {
+    localStorage.setItem("FINGUARD_WELCOME", showWelcome);
+  }, [showWelcome]);
 
   useEffect(() => {
     try {
@@ -152,8 +166,9 @@ export default function App() {
               <h1 className="text-[26px] font-[800] tracking-tight leading-none text-[#0F172A] text-right">FinGuard</h1>
               <div className="text-[10px] font-[800] bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-emerald-600 uppercase tracking-[0.2em] mt-1 text-right">Audit Protocol</div>
             </div>
-            <div className="w-12 h-12 rounded-[14px] bg-white flex items-center justify-center shadow-lg shadow-slate-200 transition-transform group-hover:scale-105 border border-slate-100">
-              <img src={logo} alt="FinGuard" className="w-8 h-8" />
+            <div className="w-12 h-12 rounded-[14px] bg-blue-50/40 backdrop-blur-md flex items-center justify-center shadow-xl shadow-blue-100/20 transition-all group-hover:scale-110 border border-white/60 relative overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-tr from-blue-400/10 to-transparent" />
+              <img src={logo} alt="FinGuard" className="w-8 h-8 relative z-10" />
             </div>
           </motion.div>
         </div>

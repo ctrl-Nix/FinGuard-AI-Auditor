@@ -60,10 +60,11 @@ export default function WelcomeView({ onEnter }) {
             <motion.div 
                initial={{ scale: 0.5, opacity: 0, rotate: -15 }}
                animate={{ scale: 1, opacity: 1, rotate: 0 }}
-               transition={{ duration: 1, ease: "backOut" }}
-               className="w-24 h-24 rounded-[30px] bg-white/10 backdrop-blur-2xl border border-white/30 shadow-2xl flex items-center justify-center mx-auto mb-10"
+               transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+               className="w-28 h-28 rounded-[36px] bg-blue-100/20 backdrop-blur-2xl border border-white/40 shadow-[0_20px_50px_rgba(37,99,235,0.15)] flex items-center justify-center mx-auto mb-12 relative overflow-hidden"
             >
-               <img src={logo} alt="FinGuard" className="w-14 h-14" />
+               <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent pointer-events-none" />
+               <img src={logo} alt="FinGuard" className="w-16 h-16 relative z-10" />
             </motion.div>
             
             <div className="overflow-hidden">
