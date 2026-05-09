@@ -10,8 +10,8 @@ const URL_RISK_CONFIG = {
 function UrlCard({ url, risk, domain, reputation }) {
   const cfg = URL_RISK_CONFIG[risk] || URL_RISK_CONFIG.suspicious;
   return (
-    <div className="bg-white/[0.03] border border-white/[0.05] rounded-[20px] p-4 hover:border-white/[0.1] transition-all">
-      <div className="flex items-start gap-3">
+    <div className="bg-white/[0.03] border border-slate-100 rounded-[20px] p-4 hover:border-slate-200 transition-all">
+      <div className="flex flex-col sm:flex-row sm:items-start gap-3">
         <div 
           className="w-10 h-10 rounded-[12px] flex items-center justify-center shrink-0"
           style={{ backgroundColor: `${cfg.color}15` }}
@@ -23,7 +23,7 @@ function UrlCard({ url, risk, domain, reputation }) {
           <div className="font-mono text-[12px] truncate text-ink-primary mt-1">{url}</div>
         </div>
         <span
-          className="shrink-0 text-[10px] font-black uppercase px-3 py-1 rounded-full border"
+          className="self-start shrink-0 text-[10px] font-black uppercase px-3 py-1 rounded-full border"
           style={{ borderColor: `${cfg.color}33`, color: cfg.color, backgroundColor: `${cfg.color}11` }}
         >
           {cfg.label}
@@ -31,7 +31,7 @@ function UrlCard({ url, risk, domain, reputation }) {
       </div>
       
       {reputation && (
-        <div className="mt-4 pt-4 border-t border-white/[0.05] grid grid-cols-2 gap-4">
+        <div className="mt-4 pt-4 border-t border-slate-100 grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div className="flex flex-col">
             <span className="text-[10px] font-bold text-ink-muted uppercase tracking-tight">Trust Score</span>
             <span className="text-[15px] font-black" style={{ color: reputation.score < 50 ? "#ff3b30" : "#34c759" }}>
@@ -84,9 +84,9 @@ export default function ForensicsPanel({ urls = [], phones = [], senderFlags = [
                 </div>
                 <div className="flex flex-wrap gap-2">
                   {phones.map((p, i) => (
-                    <div key={i} className="bg-white/[0.04] border border-white/[0.05] rounded-[14px] px-4 py-2 flex items-center gap-2">
+                    <div key={i} className="bg-white/[0.04] border border-slate-100 rounded-[14px] px-4 py-2 flex items-center gap-2 max-w-full">
                       <Phone size={12} className="text-risk-red" />
-                      <span className="font-mono text-[14px] font-bold text-ink-primary">{p}</span>
+                      <span className="font-mono text-[14px] font-bold text-ink-primary break-all">{p}</span>
                     </div>
                   ))}
                 </div>

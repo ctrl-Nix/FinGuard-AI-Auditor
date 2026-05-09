@@ -11,8 +11,8 @@ export default function SectionBar({ item }) {
 
   return (
     <div className="group relative pl-4 border-l-2 transition-all hover:border-white/40" style={{ borderLeftColor: sevColor }}>
-      <div className="flex items-start justify-between gap-4">
-        <div>
+      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 sm:gap-4">
+        <div className="min-w-0">
           <div className="font-mono text-[13px] font-bold mb-1" style={{ color: sevColor }}>
             "{item.text}"
           </div>

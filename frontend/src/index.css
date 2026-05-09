@@ -36,25 +36,49 @@ body {
   min-height: 100vh;
 }
 
+* {
+  min-width: 0;
+}
+
+html {
+  overflow-x: hidden;
+}
+
 @layer components {
   .finvera-card {
-    @apply bg-white border border-slate-200 rounded-[32px] p-10 transition-all duration-300 hover:shadow-xl hover:shadow-emerald-900/5;
+    @apply bg-white border border-slate-200 rounded-[22px] md:rounded-[32px] p-5 md:p-10 transition-all duration-300 hover:shadow-xl hover:shadow-emerald-900/5;
   }
 
   .finvera-btn-primary {
-    @apply bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-4 rounded-[16px] font-bold text-[15px] transition-all active:scale-95 shadow-lg shadow-emerald-600/20;
+    @apply bg-emerald-600 hover:bg-emerald-700 text-white px-5 md:px-8 py-3.5 md:py-4 rounded-[14px] md:rounded-[16px] font-bold text-[14px] md:text-[15px] transition-all active:scale-95 shadow-lg shadow-emerald-600/20;
   }
 
   .finvera-btn-secondary {
-    @apply bg-slate-100 hover:bg-slate-200 text-slate-900 px-8 py-4 rounded-[16px] font-bold text-[15px] transition-all active:scale-95;
+    @apply bg-slate-100 hover:bg-slate-200 text-slate-900 px-5 md:px-8 py-3.5 md:py-4 rounded-[14px] md:rounded-[16px] font-bold text-[14px] md:text-[15px] transition-all active:scale-95;
   }
 
   .finvera-input {
-    @apply bg-slate-50 border border-slate-200 rounded-[24px] px-8 py-6 text-[17px] font-medium focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/50 transition-all placeholder:text-slate-400;
+    @apply bg-slate-50 border border-slate-200 rounded-[18px] md:rounded-[24px] px-5 md:px-8 py-4 md:py-6 text-[16px] md:text-[17px] font-medium focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/50 transition-all placeholder:text-slate-400;
   }
 
   .finvera-badge {
     @apply px-4 py-1.5 rounded-full text-[11px] font-bold uppercase tracking-widest border border-slate-200 bg-white text-slate-600;
+  }
+
+  .glass-card {
+    @apply bg-white border border-slate-200 rounded-[20px] md:rounded-[24px] shadow-sm shadow-slate-200/50 overflow-hidden;
+  }
+
+  .bento-inner {
+    @apply flex flex-col p-5 md:p-6;
+  }
+
+  .ios-label {
+    @apply block mb-4 text-[10px] md:text-[11px] font-black uppercase tracking-[0.22em] text-slate-400;
+  }
+
+  .iphone-btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-[14px] px-5 py-3 font-bold transition-all active:scale-95;
   }
 }
 
@@ -71,6 +95,14 @@ body {
 .custom-scrollbar::-webkit-scrollbar-thumb {
   background: rgba(0, 0, 0, 0.05);
   border-radius: 10px;
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
 }
 
 @keyframes fade-in-up {

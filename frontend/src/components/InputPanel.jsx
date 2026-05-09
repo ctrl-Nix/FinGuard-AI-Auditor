@@ -25,7 +25,7 @@ export default function InputPanel({ onAnalyze, onAnalyzeFile, isAnalyzing }) {
     <div className="finvera-card !p-0 overflow-hidden group shadow-xl shadow-slate-200/40">
       <div className="relative">
         {/* Finvera Light Toolbar */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between px-6 md:px-10 py-6 md:py-8 border-b border-slate-100 relative z-10 bg-slate-50/50 gap-6">
+        <div className="flex flex-col md:flex-row md:items-center justify-between px-5 md:px-10 py-5 md:py-8 border-b border-slate-100 relative z-10 bg-slate-50/50 gap-5 md:gap-6">
           <div className="flex items-center gap-4">
             <div className="w-10 h-10 rounded-2xl bg-emerald-600/10 flex items-center justify-center border border-emerald-600/20 shrink-0">
               <Zap size={18} className="text-emerald-600" fill="currentColor" />
@@ -36,12 +36,12 @@ export default function InputPanel({ onAnalyze, onAnalyzeFile, isAnalyzing }) {
             </div>
           </div>
 
-          <div className="flex items-center gap-2 md:gap-3 overflow-x-auto pb-2 md:pb-0 no-scrollbar">
+          <div className="flex items-center gap-2 md:gap-3 overflow-x-auto pb-2 md:pb-0 no-scrollbar -mx-5 px-5 md:mx-0 md:px-0 max-w-full">
             {Object.keys(DEMOS).map((key) => (
               <button 
                 key={key}
                 onClick={() => handleDemo(key)}
-                className="text-[9px] md:text-[10px] font-bold px-4 md:px-5 py-2 md:py-2.5 rounded-xl bg-white hover:bg-slate-50 border border-slate-200 transition-all uppercase tracking-widest text-slate-600 shadow-sm shrink-0"
+                className="text-[9px] md:text-[10px] font-bold px-3.5 md:px-5 py-2 md:py-2.5 rounded-xl bg-white hover:bg-slate-50 border border-slate-200 transition-all uppercase tracking-[0.14em] md:tracking-widest text-slate-600 shadow-sm shrink-0"
               >
                 {key.replace("_", " ")}
               </button>
@@ -50,7 +50,7 @@ export default function InputPanel({ onAnalyze, onAnalyzeFile, isAnalyzing }) {
         </div>
 
         {/* Editor Area */}
-        <div className="relative p-6 md:p-10 bg-white">
+        <div className="relative p-5 md:p-10 bg-white">
           <textarea 
             value={text}
             onChange={(e) => setText(e.target.value)}
@@ -60,21 +60,21 @@ export default function InputPanel({ onAnalyze, onAnalyzeFile, isAnalyzing }) {
         </div>
 
         {/* Controls */}
-        <div className="px-6 md:px-10 py-6 md:py-8 border-t border-slate-100 bg-slate-50/30 flex flex-col md:flex-row md:items-center justify-between relative z-10 gap-8">
-          <div className="flex items-center gap-6 md:gap-8">
+        <div className="px-5 md:px-10 py-5 md:py-8 border-t border-slate-100 bg-slate-50/30 flex flex-col md:flex-row md:items-center justify-between relative z-10 gap-6 md:gap-8">
+          <div className="grid grid-cols-2 md:flex md:items-center gap-3 md:gap-8">
             <button 
               onClick={() => setIsCameraOpen(true)}
-              className="flex items-center gap-3 text-emerald-600 hover:text-emerald-700 transition-colors group/btn"
+              className="flex items-center justify-center md:justify-start gap-2 md:gap-3 rounded-2xl bg-white md:bg-transparent border border-slate-200 md:border-transparent px-3 py-3 md:p-0 text-emerald-600 hover:text-emerald-700 transition-colors group/btn"
             >
-              <Camera size={20} md:size={22} />
-              <span className="text-[11px] md:text-[13px] font-bold uppercase tracking-widest">Optical Scan</span>
+              <Camera size={20} />
+              <span className="text-[10px] md:text-[13px] font-bold uppercase tracking-[0.14em] md:tracking-widest">Optical Scan</span>
             </button>
             <button 
               onClick={() => fileInputRef.current?.click()}
-              className="flex items-center gap-3 text-slate-400 hover:text-slate-600 transition-colors group/btn"
+              className="flex items-center justify-center md:justify-start gap-2 md:gap-3 rounded-2xl bg-white md:bg-transparent border border-slate-200 md:border-transparent px-3 py-3 md:p-0 text-slate-500 hover:text-slate-600 transition-colors group/btn"
             >
-              <Paperclip size={18} md:size={20} />
-              <span className="text-[11px] md:text-[13px] font-bold uppercase tracking-widest">Evidence</span>
+              <Paperclip size={18} />
+              <span className="text-[10px] md:text-[13px] font-bold uppercase tracking-[0.14em] md:tracking-widest">Evidence</span>
             </button>
           </div>
 

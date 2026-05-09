@@ -69,7 +69,7 @@ export default function KeySettingsModal({ isOpen, onClose }) {
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-[200] flex items-center justify-center p-6">
+      <div className="fixed inset-0 z-[200] flex items-center justify-center p-3 sm:p-6">
         <motion.div 
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -82,17 +82,17 @@ export default function KeySettingsModal({ isOpen, onClose }) {
           initial={{ opacity: 0, scale: 0.9, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.9, y: 20 }}
-          className="relative w-full max-w-[600px] bg-white rounded-[32px] shadow-2xl border border-slate-100 overflow-hidden"
+          className="relative w-full max-w-[600px] max-h-[calc(100vh-1.5rem)] bg-white rounded-[24px] md:rounded-[32px] shadow-2xl border border-slate-100 overflow-hidden"
         >
           {/* Header */}
-          <div className="bg-slate-50 px-10 py-8 border-b border-slate-100 flex justify-between items-center">
-            <div className="flex items-center gap-4">
+          <div className="bg-slate-50 px-5 md:px-10 py-5 md:py-8 border-b border-slate-100 flex justify-between items-center gap-3">
+            <div className="flex items-center gap-3 md:gap-4 min-w-0">
               <div className="w-10 h-10 rounded-xl bg-[#0F172A] flex items-center justify-center text-white shadow-lg shadow-slate-200">
                 <Key size={20} />
               </div>
-              <div>
-                <h3 className="text-[20px] font-black text-[#0F172A] tracking-tight leading-none">Universal BYOK</h3>
-                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Multi-Provider Protocol</p>
+              <div className="min-w-0">
+                <h3 className="text-[18px] md:text-[20px] font-black text-[#0F172A] tracking-tight leading-none">Universal BYOK</h3>
+                <p className="text-[9px] md:text-[10px] font-bold text-slate-400 uppercase tracking-[0.16em] md:tracking-widest mt-1">Multi-Provider Protocol</p>
               </div>
             </div>
             <button onClick={onClose} className="p-2 hover:bg-slate-200 rounded-full transition-colors text-slate-400">
@@ -100,14 +100,14 @@ export default function KeySettingsModal({ isOpen, onClose }) {
             </button>
           </div>
 
-          <div className="p-10 space-y-8 max-h-[70vh] overflow-y-auto">
+          <div className="p-5 md:p-10 space-y-6 md:space-y-8 max-h-[calc(100vh-8rem)] md:max-h-[70vh] overflow-y-auto">
             {/* Provider Selector */}
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-4">
               {PROVIDERS.map((provider) => (
                 <button
                   key={provider.id}
                   onClick={() => setActiveProvider(provider.id)}
-                  className={`flex flex-col items-center gap-3 p-4 rounded-2xl border transition-all ${
+                  className={`flex sm:flex-col items-center justify-center gap-3 p-4 rounded-2xl border transition-all ${
                     activeProvider === provider.id 
                       ? `border-${provider.color}-500 bg-${provider.color}-50 text-${provider.color}-700 shadow-md` 
                       : 'border-slate-100 bg-slate-50 text-slate-400 hover:border-slate-200'

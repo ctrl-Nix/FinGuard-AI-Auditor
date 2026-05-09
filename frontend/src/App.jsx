@@ -134,8 +134,8 @@ export default function App() {
   return (
     <div className="min-h-screen bg-[#FFFFFF] text-[#0F172A] selection:bg-emerald-500/10 font-['Manrope'] overflow-x-hidden">
       {/* Finvera Light Header */}
-      <nav className="sticky top-0 z-[100] bg-white/80 backdrop-blur-xl border-b border-slate-100 px-4 md:px-8 py-4 md:py-5 transition-all duration-500">
-        <div className="max-w-[1400px] mx-auto flex items-center justify-between">
+      <nav className="sticky top-0 z-[100] bg-white/80 backdrop-blur-xl border-b border-slate-100 px-4 md:px-8 py-3 md:py-5 transition-all duration-500">
+        <div className="max-w-[1400px] mx-auto grid grid-cols-[1fr_auto_1fr] md:flex md:items-center md:justify-between items-center">
           <div className="hidden md:flex items-center gap-10">
             <button 
               onClick={() => setShowWelcome(true)}
@@ -148,7 +148,7 @@ export default function App() {
               onClick={() => setIsKeyModalOpen(true)}
               className="flex items-center gap-2 text-[12px] font-bold text-blue-600 hover:text-blue-700 uppercase tracking-widest transition-colors"
             >
-              <KeyIcon size={14} /> BYOK Configuration
+              <KeyIcon size={14} /> BYOK
             </button>
             <div className="h-4 w-px bg-slate-200" />
             <div className="flex items-center gap-3">
@@ -169,15 +169,15 @@ export default function App() {
           </motion.div>
           
           {/* Mobile BYOK Trigger */}
-          <div className="md:hidden">
-            <button onClick={() => setIsKeyModalOpen(true)} className="p-2 text-blue-600">
+          <div className="md:hidden flex justify-end">
+            <button onClick={() => setIsKeyModalOpen(true)} className="p-2 text-blue-600" aria-label="Open key settings">
               <KeyIcon size={20} />
             </button>
           </div>
         </div>
       </nav>
 
-      <main className="max-w-[1400px] mx-auto px-4 md:px-8 py-12 md:py-20 relative z-10 pb-32">
+      <main className="max-w-[1400px] mx-auto px-4 sm:px-6 md:px-8 py-9 md:py-20 relative z-10 pb-28 md:pb-32">
         <AnimatePresence mode="wait">
           {currentTab === "audit" && (
             <motion.div 
@@ -186,14 +186,14 @@ export default function App() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-              className="space-y-12 md:space-y-20"
+              className="space-y-10 md:space-y-20"
             >
               {/* Finvera Hero */}
-              <div className="max-w-[900px] space-y-6 md:space-y-8">
-                 <div className="inline-flex items-center gap-3 px-4 md:px-5 py-2 rounded-full bg-blue-50 text-blue-700 border border-blue-100 text-[10px] md:text-[11px] font-black uppercase tracking-widest">
+              <div className="max-w-[900px] space-y-5 md:space-y-8">
+                 <div className="inline-flex items-center gap-2 md:gap-3 px-4 md:px-5 py-2 rounded-full bg-blue-50 text-blue-700 border border-blue-100 text-[10px] md:text-[11px] font-black uppercase tracking-[0.16em] md:tracking-widest">
                    <Zap size={14} fill="currentColor" /> Neural Forensic Engine
                  </div>
-                 <h2 className="text-[40px] md:text-[64px] lg:text-[84px] font-[800] tracking-[-0.04em] leading-[0.95] md:leading-[0.9] text-[#0F172A]">
+                 <h2 className="text-[clamp(2.6rem,13vw,4.2rem)] md:text-[64px] lg:text-[84px] font-[800] tracking-tight md:tracking-[-0.04em] leading-[0.95] md:leading-[0.9] text-[#0F172A]">
                    Protecting your <br/>
                    <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-emerald-600">Financial Future.</span>
                  </h2>
@@ -226,11 +226,11 @@ export default function App() {
                        className="w-20 h-20 md:w-24 md:h-24 rounded-[28px] md:rounded-[32px] flex items-center justify-center shrink-0 shadow-2xl"
                        style={{ background: `linear-gradient(135deg, ${result.verdict.color}, ${result.verdict.color}cc)` }}
                      >
-                       <ShieldCheck size={40} md:size={48} className="text-white" />
+                       <ShieldCheck className="w-10 h-10 md:w-12 md:h-12 text-white" />
                      </motion.div>
-                     <div className="flex-1 text-center md:text-left">
+                     <div className="flex-1 min-w-0 text-center md:text-left">
                         <span className="text-[10px] md:text-[11px] font-bold text-slate-400 uppercase tracking-[0.3em] mb-1 md:mb-2 block">Audit Result</span>
-                        <h3 className="text-[32px] md:text-[42px] font-black tracking-tighter leading-none" style={{ color: result.verdict.color }}>
+                        <h3 className="text-[clamp(1.8rem,9vw,2.6rem)] md:text-[42px] font-black tracking-tight md:tracking-tighter leading-none break-words" style={{ color: result.verdict.color }}>
                           {result.verdict.label.toUpperCase()}
                         </h3>
                      </div>
@@ -248,7 +248,7 @@ export default function App() {
                      <div className="lg:col-span-2 space-y-6 md:space-y-8">
                         <div className="finvera-card relative overflow-hidden p-6 md:p-10">
                            <div className="absolute top-0 right-0 p-6 md:p-10 opacity-[0.03] text-slate-900 pointer-events-none">
-                              <ShieldCheck size={140} md:size={200} />
+                              <ShieldCheck className="w-[140px] h-[140px] md:w-[200px] md:h-[200px]" />
                            </div>
                            <span className="text-[10px] md:text-[11px] font-bold text-slate-400 uppercase tracking-[0.3em] mb-6 md:mb-8 block">Forensic Insights</span>
                            <SummaryCard highlights={result.highlights} verdict={result.verdict} />
@@ -315,20 +315,20 @@ export default function App() {
       </main>
 
       {/* Finvera Light Bottom Nav */}
-      <div className="fixed bottom-6 md:bottom-10 left-1/2 -translate-x-1/2 z-[100] bg-white/90 backdrop-blur-3xl px-6 md:px-10 py-4 md:py-5 rounded-[24px] md:rounded-[32px] border border-slate-200 flex items-center gap-8 md:gap-16 shadow-2xl shadow-slate-200/50 w-[90%] md:w-auto justify-around md:justify-center">
+      <div className="fixed bottom-3 sm:bottom-5 md:bottom-10 left-1/2 -translate-x-1/2 z-[100] bg-white/90 backdrop-blur-3xl px-4 md:px-10 py-3 md:py-5 rounded-[20px] md:rounded-[32px] border border-slate-200 flex items-center gap-3 sm:gap-8 md:gap-16 shadow-2xl shadow-slate-200/50 w-[calc(100%-1.5rem)] sm:w-[90%] md:w-auto justify-around md:justify-center">
         <button onClick={() => setShowWelcome(true)} className="flex flex-col items-center gap-1.5 text-slate-400 hover:text-emerald-600 transition-all">
-          <Globe size={20} md:size={24} />
+          <Globe className="w-5 h-5 md:w-6 md:h-6" />
           <span className="text-[8px] md:text-[10px] font-extrabold uppercase tracking-widest">Home</span>
         </button>
         <button onClick={() => setCurrentTab("audit")} className={`flex flex-col items-center gap-1.5 transition-all ${currentTab === "audit" ? 'text-emerald-600 scale-110' : 'text-slate-400 hover:text-slate-600'}`}>
-          <LayoutGrid size={20} md:size={24} strokeWidth={currentTab === "audit" ? 3 : 2} />
+          <LayoutGrid className="w-5 h-5 md:w-6 md:h-6" strokeWidth={currentTab === "audit" ? 3 : 2} />
           <span className="text-[8px] md:text-[10px] font-extrabold uppercase tracking-widest">Audit</span>
         </button>
         <button 
           onClick={() => setCurrentTab("vault")}
           className={`flex flex-col items-center gap-1.5 transition-all ${currentTab === "vault" ? 'text-emerald-600 scale-110' : 'text-slate-400 hover:text-slate-600'}`}
         >
-          <ShieldCheck size={20} md:size={24} strokeWidth={currentTab === "vault" ? 3 : 2} />
+          <ShieldCheck className="w-5 h-5 md:w-6 md:h-6" strokeWidth={currentTab === "vault" ? 3 : 2} />
           <span className="text-[8px] md:text-[10px] font-extrabold uppercase tracking-widest">Vault</span>
         </button>
       </div>

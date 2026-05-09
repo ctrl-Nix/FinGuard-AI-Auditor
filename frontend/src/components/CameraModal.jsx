@@ -64,8 +64,8 @@ export default function CameraModal({ isOpen, onClose, onCapture }) {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fade-in">
-      <div className="relative w-full max-w-[500px] bg-surface-card border border-surface-border rounded-[24px] overflow-hidden shadow-2xl">
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-sm animate-fade-in">
+      <div className="relative w-full max-w-[500px] max-h-[calc(100vh-1.5rem)] bg-surface-card border border-surface-border rounded-[20px] md:rounded-[24px] overflow-hidden shadow-2xl">
         {/* Header */}
         <div className="p-4 border-b border-surface-border flex items-center justify-between bg-surface">
           <div className="flex items-center gap-2">
@@ -83,7 +83,7 @@ export default function CameraModal({ isOpen, onClose, onCapture }) {
         </div>
 
         {/* Viewport */}
-        <div className="relative aspect-[3/4] bg-black overflow-hidden">
+        <div className="relative aspect-[3/4] max-h-[62vh] bg-black overflow-hidden">
           {error ? (
             <div className="absolute inset-0 flex flex-col items-center justify-center p-8 text-center">
               <Camera size={48} className="text-ink-faint mb-4" />
@@ -127,7 +127,7 @@ export default function CameraModal({ isOpen, onClose, onCapture }) {
         </div>
 
         {/* Controls */}
-        <div className="p-6 flex items-center justify-center gap-6 bg-surface">
+        <div className="p-4 md:p-6 flex items-center justify-center gap-6 bg-surface">
           <button 
             disabled={!stream || isCapturing}
             onClick={handleCapture}

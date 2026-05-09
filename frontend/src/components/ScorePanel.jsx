@@ -18,12 +18,12 @@ export default function ScorePanel({ result }) {
 
   return (
     <div className="glass-card animate-bento">
-      <div className="bento-inner items-center justify-center py-10">
-        <span className="ios-label mb-8">Security Index</span>
+      <div className="bento-inner items-center justify-center py-7 md:py-10">
+        <span className="ios-label mb-6 md:mb-8">Security Index</span>
         
         <div className="relative flex items-center justify-center">
           {/* Background Ring */}
-          <svg className="w-48 h-48 transform -rotate-90">
+          <svg className="w-40 h-40 md:w-48 md:h-48 transform -rotate-90" viewBox="0 0 192 192">
             <circle
               cx="96"
               cy="96"
@@ -51,7 +51,7 @@ export default function ScorePanel({ result }) {
 
           {/* Center Content */}
           <div className="absolute flex flex-col items-center">
-            <span className="text-[48px] font-black tracking-tighter leading-none mb-1">
+            <span className="text-[40px] md:text-[48px] font-black tracking-tighter leading-none mb-1">
               {score}
             </span>
             <span className="text-[12px] font-bold text-ink-muted uppercase tracking-widest">
@@ -60,7 +60,7 @@ export default function ScorePanel({ result }) {
           </div>
         </div>
 
-        <div className="mt-10 flex items-center gap-3 bg-white/[0.04] px-4 py-2 rounded-full border border-white/[0.05]">
+        <div className="mt-8 md:mt-10 flex items-center gap-3 bg-white/[0.04] px-4 py-2 rounded-full border border-slate-100 text-center">
           {score < 30 ? (
             <ShieldCheck size={16} className="text-risk-green" />
           ) : score < 70 ? (

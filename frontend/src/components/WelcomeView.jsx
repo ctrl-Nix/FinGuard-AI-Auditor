@@ -32,7 +32,7 @@ export default function WelcomeView({ onEnter }) {
          initial={{ height: "100vh" }}
          animate={{ height: "45vh" }}
          transition={{ duration: 1.8, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
-         className="w-full bg-gradient-to-br from-blue-600 via-blue-700 to-emerald-500 relative flex flex-col items-center justify-center overflow-hidden z-[110]"
+         className="w-full min-h-[360px] bg-gradient-to-br from-blue-600 via-blue-700 to-emerald-500 relative flex flex-col items-center justify-center overflow-hidden z-[110]"
       >
          {/* Parallax Orbs */}
          <div className="absolute inset-0 z-0">
@@ -63,7 +63,7 @@ export default function WelcomeView({ onEnter }) {
                  initial={{ y: 100, opacity: 0 }}
                  animate={{ y: 0, opacity: 1 }}
                  transition={{ delay: 0.8, duration: 1, ease: [0.16, 1, 0.3, 1] }}
-                 className="text-[40px] md:text-[80px] lg:text-[110px] font-[900] tracking-[-0.05em] leading-none text-white"
+                 className="text-[clamp(2.5rem,15vw,5rem)] lg:text-[110px] font-[900] tracking-tight md:tracking-[-0.05em] leading-none text-white"
               >
                  FinGuard <span className="text-emerald-300">Audit.</span>
               </motion.h1>
@@ -84,7 +84,7 @@ export default function WelcomeView({ onEnter }) {
       </motion.section>
 
       {/* 1. HERO CONTENT SECTION */}
-      <section className="relative pt-16 md:pt-24 pb-24 md:pb-40 flex flex-col items-center justify-center px-6 md:px-10 text-center">
+      <section className="relative pt-14 md:pt-24 pb-20 md:pb-40 flex flex-col items-center justify-center px-4 sm:px-6 md:px-10 text-center">
         <div className="max-w-[1200px] relative z-10">
           <motion.div 
             initial={{ opacity: 0, scale: 0.9 }}
@@ -103,7 +103,7 @@ export default function WelcomeView({ onEnter }) {
               initial={{ y: 80, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 2, duration: 1, ease: [0.16, 1, 0.3, 1] }}
-              className="text-[42px] md:text-[80px] lg:text-[100px] font-[900] tracking-[-0.05em] leading-[0.9] text-[#0F172A]"
+              className="text-[clamp(2.7rem,13vw,5rem)] lg:text-[100px] font-[900] tracking-tight md:tracking-[-0.05em] leading-[0.92] md:leading-[0.9] text-[#0F172A]"
             >
               Audit Everything. <br />
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-emerald-600 italic">Trust Nothing.</span>
@@ -114,7 +114,7 @@ export default function WelcomeView({ onEnter }) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 2.5, duration: 1 }}
-            className="text-[18px] md:text-[22px] lg:text-[26px] text-slate-400 font-medium max-w-[800px] mx-auto leading-relaxed mb-12 md:mb-20 tracking-tight"
+            className="text-[16px] md:text-[22px] lg:text-[26px] text-slate-500 md:text-slate-400 font-medium max-w-[800px] mx-auto leading-relaxed mb-10 md:mb-20 tracking-tight"
           >
             The world's first decentralized forensic engine designed for complete privacy and instant verification.
           </motion.p>
@@ -129,17 +129,17 @@ export default function WelcomeView({ onEnter }) {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={onEnter}
-              className="w-full sm:w-auto !bg-[#0F172A] hover:bg-black text-white px-10 md:px-14 py-5 md:py-7 rounded-[18px] md:rounded-[22px] font-bold text-[18px] md:text-[20px] flex items-center justify-center gap-4 transition-all"
+              className="w-full sm:w-auto !bg-[#0F172A] hover:bg-black text-white px-7 md:px-14 py-4 md:py-7 rounded-[18px] md:rounded-[22px] font-bold text-[16px] md:text-[20px] flex items-center justify-center gap-3 md:gap-4 transition-all"
             >
               Start Secure Audit
-              <ArrowRight size={22} md:size={26} />
+              <ArrowRight className="w-[22px] h-[22px] md:w-[26px] md:h-[26px]" />
             </motion.button>
           </motion.div>
         </div>
       </section>
 
       {/* 2. TICKER */}
-      <div className="py-14 border-y border-slate-100 bg-slate-50/50 relative z-10 overflow-hidden whitespace-nowrap">
+      <div className="py-8 md:py-14 border-y border-slate-100 bg-slate-50/50 relative z-10 overflow-hidden whitespace-nowrap">
         <motion.div 
           initial={{ x: 0 }}
           animate={{ x: "-50%" }}
@@ -147,8 +147,8 @@ export default function WelcomeView({ onEnter }) {
           className="inline-block"
         >
           {[...tickerWords, ...tickerWords].map((word, i) => (
-            <span key={i} className="inline-flex items-center gap-6 mx-12">
-              <span className="text-[15px] font-[900] tracking-[0.4em] text-slate-300 uppercase">{word}</span>
+            <span key={i} className="inline-flex items-center gap-4 md:gap-6 mx-6 md:mx-12">
+              <span className="text-[12px] md:text-[15px] font-[900] tracking-[0.25em] md:tracking-[0.4em] text-slate-300 uppercase">{word}</span>
               <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-sm"></div>
             </span>
           ))}
@@ -158,9 +158,9 @@ export default function WelcomeView({ onEnter }) {
       {/* 3. BENTO FEATURES WITH STAGGERED REVEAL */}
       <motion.section 
         id="features"
-        className="py-48 bg-slate-50/20 relative z-10"
+        className="py-20 md:py-48 bg-slate-50/20 relative z-10"
       >
-        <div className="max-w-[1400px] mx-auto px-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 md:px-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-8 lg:gap-12">
           {[
             { icon: <Cpu />, title: "Neural Logic", desc: "Optimized heuristic models for sub-millisecond execution on standard edge devices." },
             { icon: <Lock />, title: "Data Sovereignty", desc: "Zero-knowledge processing ensures your proprietary documents never leave your browser." },
@@ -178,11 +178,11 @@ export default function WelcomeView({ onEnter }) {
               whileHover={{ y: -15, scale: 1.02 }}
               className="finvera-card group border-slate-100 shadow-xl shadow-slate-200/40 bg-white"
             >
-              <div className="w-16 h-16 rounded-[20px] bg-gradient-to-br from-blue-600 to-emerald-500 flex items-center justify-center mb-10 text-white shadow-lg shadow-blue-200 group-hover:rotate-12 transition-transform">
+              <div className="w-12 h-12 md:w-16 md:h-16 rounded-[16px] md:rounded-[20px] bg-gradient-to-br from-blue-600 to-emerald-500 flex items-center justify-center mb-6 md:mb-10 text-white shadow-lg shadow-blue-200 group-hover:rotate-12 transition-transform">
                 {feature.icon}
               </div>
-              <h3 className="text-[28px] font-[900] mb-6 tracking-tighter text-[#0F172A] uppercase leading-tight">{feature.title}</h3>
-              <p className="text-[17px] text-slate-400 leading-relaxed font-medium">
+              <h3 className="text-[22px] md:text-[28px] font-[900] mb-3 md:mb-6 tracking-tight md:tracking-tighter text-[#0F172A] uppercase leading-tight">{feature.title}</h3>
+              <p className="text-[15px] md:text-[17px] text-slate-500 md:text-slate-400 leading-relaxed font-medium">
                 {feature.desc}
               </p>
             </motion.div>
@@ -191,7 +191,7 @@ export default function WelcomeView({ onEnter }) {
       </motion.section>
 
       {/* 4. FOOTER CTA — IMMERSIVE 3D EXPERIENCE */}
-      <section className="py-60 relative z-10 text-center overflow-hidden">
+      <section className="py-24 md:py-60 relative z-10 text-center overflow-hidden">
         {/* Holographic Network Background */}
         <div className="absolute inset-0 z-0 pointer-events-none opacity-40">
            <motion.div 
@@ -238,10 +238,10 @@ export default function WelcomeView({ onEnter }) {
           initial={{ opacity: 0, scale: 0.9 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
-          className="max-w-[1000px] mx-auto px-10 space-y-16 relative z-10"
+          className="max-w-[1000px] mx-auto px-4 sm:px-6 md:px-10 space-y-10 md:space-y-16 relative z-10"
         >
           <div className="relative inline-block">
-             <h2 className="text-[64px] md:text-[120px] font-[900] tracking-[-0.06em] leading-[0.8] text-[#0F172A] relative">
+             <h2 className="text-[clamp(3rem,14vw,7.5rem)] font-[900] tracking-tight md:tracking-[-0.06em] leading-[0.85] md:leading-[0.8] text-[#0F172A] relative">
                Audit with <br/>
                <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 via-emerald-600 to-blue-500 animate-gradient-x">Precision.</span>
              </h2>
@@ -260,7 +260,7 @@ export default function WelcomeView({ onEnter }) {
               }}
               whileTap={{ scale: 0.95 }}
               onClick={onEnter}
-              className="!bg-[#0F172A] text-white px-24 py-10 rounded-[28px] font-bold text-[28px] shadow-2xl relative overflow-hidden transition-all duration-300"
+              className="!bg-[#0F172A] text-white w-full sm:w-auto px-9 md:px-24 py-5 md:py-10 rounded-[20px] md:rounded-[28px] font-bold text-[18px] md:text-[28px] shadow-2xl relative overflow-hidden transition-all duration-300"
             >
               <span className="relative z-10">Launch Studio</span>
               {/* Shimmer effect */}
@@ -276,7 +276,7 @@ export default function WelcomeView({ onEnter }) {
             <div className="absolute inset-[-80px] border border-dashed border-slate-100 rounded-full pointer-events-none opacity-40 animate-spin-slow" />
           </div>
           
-          <div className="pt-24 flex items-center justify-center gap-12 text-[11px] font-black text-slate-400 uppercase tracking-[0.6em]">
+          <div className="pt-12 md:pt-24 flex flex-col sm:flex-row items-center justify-center gap-4 md:gap-12 text-[10px] md:text-[11px] font-black text-slate-400 uppercase tracking-[0.28em] md:tracking-[0.6em]">
             <span className="flex items-center gap-2"><div className="w-1.5 h-1.5 bg-emerald-500 rounded-full"></div> SOURCED PRIVACY</span>
             <span className="flex items-center gap-2"><div className="w-1.5 h-1.5 bg-blue-500 rounded-full"></div> SECURE DEPLOY</span>
             <span className="flex items-center gap-2"><div className="w-1.5 h-1.5 bg-slate-300 rounded-full"></div> v3.0</span>

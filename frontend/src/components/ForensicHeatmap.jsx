@@ -37,7 +37,7 @@ export default function ForensicHeatmap({ text, matches = [] }) {
         {text.slice(match.start, match.end)}
         
         {/* iOS Style Tooltip */}
-        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-[200px] p-3 glass-card bg-[#1c1c1e] text-[12px] font-medium leading-snug opacity-0 group-hover:opacity-100 pointer-events-none transition-all z-[60] shadow-2xl">
+        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-[min(220px,80vw)] p-3 glass-card bg-[#1c1c1e] text-[12px] font-medium leading-snug opacity-0 group-hover:opacity-100 pointer-events-none transition-all z-[60] shadow-2xl">
           <div className="ios-label !mb-1 !text-white/40">Risk Signal</div>
           {match.reason}
           <div className="absolute top-full left-1/2 -translate-x-1/2 border-[6px] border-transparent border-t-[#1c1c1e]" />
@@ -54,7 +54,7 @@ export default function ForensicHeatmap({ text, matches = [] }) {
   }
 
   return (
-    <div className="bg-white/[0.02] border border-white/[0.05] rounded-[22px] p-6 font-serif text-[18px] leading-[1.8] text-ink-secondary/90 whitespace-pre-wrap select-text max-h-[500px] overflow-auto custom-scrollbar">
+    <div className="bg-white/[0.02] border border-slate-100 rounded-[18px] md:rounded-[22px] p-4 md:p-6 font-serif text-[16px] md:text-[18px] leading-[1.7] md:leading-[1.8] text-ink-secondary/90 whitespace-pre-wrap break-words select-text max-h-[500px] overflow-auto custom-scrollbar">
       {elements}
     </div>
   );

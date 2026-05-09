@@ -19,7 +19,7 @@ export default function DisputePanel({ letter }) {
   return (
     <div className="glass-card animate-bento">
       <div className="bento-inner">
-        <div className="flex items-center justify-between mb-6">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-[10px] bg-risk-red/20 flex items-center justify-center">
               <ShieldAlert size={16} className="text-risk-red" />
@@ -36,7 +36,7 @@ export default function DisputePanel({ letter }) {
           </button>
         </div>
 
-        <div className="bg-white/[0.02] border border-white/[0.05] rounded-[22px] p-6 font-serif text-[15px] leading-relaxed text-ink-secondary/90 max-h-[300px] overflow-auto custom-scrollbar whitespace-pre-wrap select-text italic">
+        <div className="bg-white/[0.02] border border-slate-100 rounded-[18px] md:rounded-[22px] p-4 md:p-6 font-serif text-[14px] md:text-[15px] leading-relaxed text-ink-secondary/90 max-h-[300px] overflow-auto custom-scrollbar whitespace-pre-wrap break-words select-text italic">
           {letter}
         </div>
 
